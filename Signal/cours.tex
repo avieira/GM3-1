@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{verbatim}
+\usepackage{moreverb}
+\usepackage[top=3cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{soul}
+
+\hypersetup{colorlinks=true, urlcolor=bleu, linkcolor=red}
+
+\newtheoremstyle{mes_theoremes}{}{}{}{}{\bfseries}{~:\newline}{\parindent}{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{mes_theoremes}
+
+\newtheorem*{Def}{Définition}
+\newtheorem*{Prop}{Proposition}
+\newtheorem*{dem}{Demonstration}
+\newtheorem*{theo}{Théorème}
+
+\begin{document}
+\include{chapitre1}
+\include{chapitre2}
+\include{chapitre3}
+
+\end{document}

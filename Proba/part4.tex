@@ -1,0 +1,293 @@
+\section{Convergence d'une variable aléatoire}
+\subsection{Convergence en probabilité et presque sûr}
+\begin{Def}
+Soit $(Y_n)_{n\geq 1}$ une suite de v.a.r. et soit Y une v.a.r.
+\begin{enumerate}
+\item On dit que $(Y_n)_{n\geq1}$ converge en probabilité vers Y si : \[\forall \varepsilon>0, \mathbb{P}(|Y_n-Y|\geq \epsilon) \xrightarrow[n \to +\infty]{} 0\]
+On note \[Y_n\xrightarrow[n \to +\infty]{\mathbb{P}}Y\]
+\item On dit que $(Y_n)_{n\geq1}$ converge presque-sûrement vers Y si : \[\mathbb{P}(\{\omega\in\Omega|\lim_{n\to+\infty}Y_n(\omega)=Y(\omega)\})=1\]
+On note \[Y_n\xrightarrow[n \to +\infty]{p.s.}Y\]
+\end{enumerate}
+\end{Def}
+
+\begin{Prop}
+La convergence p.s. entraîne la convergence en probabilité.
+\end{Prop}
+
+\begin{dem}
+A reprendre
+\end{dem}
+
+\begin{Prop}
+Soient Y et $(Y_n)_{n\geq 1}$ des v.a.r. telles que \[\forall \varepsilon>0, \sum_{n\geq 1} \mathbb{P}(|Y_n-Y|>\varepsilon)<+\infty\]
+alors \[Y_n \xrightarrow[n\to +\infty]{p.s.} Y\]
+\end{Prop}
+
+\begin{dem}
+Posons $B_{n,\varepsilon}=\{|Y_n-Y|>\varepsilon\}$ et $A_{\varepsilon}=\overline{\lim}_{n\to +\infty}B_{n,\varepsilon}$ \\
+D'après le lemme de Borel-Cantelli : \[\mathbb{P}(A_{\varepsilon})=0\ \forall\varepsilon>0\]
+Or, $A_{\varepsilon}=\bigcap_{k\geq 1} \bigcup_{k\geq n} B_{k,\varepsilon}$ et $\overline{A_{\varepsilon}}=\bigcup_{k\geq 1} \bigcap_{k\geq n} \overline{B_{k,\varepsilon}}$ \\
+On a $\mathbb{P}(\overline{A_{\varepsilon}})=1$ $\forall \varepsilon>0$. Posons $E=\bigcap_{s\in\mathbb{N}^*} \overline{A_{\frac{1}{s}}}$ 
+\[\mathbb{P}(\overline{E})=\mathbb{P}(\bigcap_{s\in\mathbb{N}^*} A_{\frac{1}{s}}) \leq \sum_{s\in\mathbb{N}^*} \mathbb{P}(A_{\frac{1}{s}})=0\]
+D'où $\mathbb{P}(E)=1$
+\begin{eqnarray*}
+\omega\in E &\Leftrightarrow& \forall s\in \mathbb{N}^*, \omega \in \overline{A_{\frac{1}{s}}} \\
+&\Leftrightarrow& \forall s\in \mathbb{N}^*, \exists n>1, \forall k\geq n, \omega \in B_{k,\frac{1}{s}} \\
+&\Leftrightarrow& \forall s\in \mathbb{N}^*, \exists n>1, \forall k\geq n, |Y_k(\omega)-Y(\omega)|\leq \frac{1}{s} \\
+&\Leftrightarrow& \forall \varepsilon>0, \exists n>1, \forall k\geq n, |Y_k(\omega)-Y(\omega)|\leq \varepsilon \\
+&\Leftrightarrow& Y_k \xrightarrow[k\to +\infty]{} Y
+\end{eqnarray*}
+\end{dem}
+
+\subsection{Covariance de deux variables aléatoires réelles}
+\begin{Def}
+Soient X et Y deux v.a.r. \\
+La covariance de X et Y, notée cov(X,Y) est définie par : \begin{eqnarray*}
+\text{cov(X,Y)}&=&E((X-E(X)(Y-E(Y)) \\
+&=& E(XY)-E(X)E(Y)
+\end{eqnarray*}
+Si cov(X,Y)=0, on dit que X et Y sont non corrélées. 
+\end{Def}
+
+\begin{theo}[Inégalité de Cauchy-Schwarz]
+Soient X et Y deux v.a.r. On a : \[|\text{cov(X,Y)}|\leq \sqrt{V(X)}\sqrt{V(Y)}\]
+et \[\text{cov}(X,Y)^2=V(X)V(Y) \Leftrightarrow \exists(\alpha,\beta,\gamma)\neq(0,0,0); \alpha X+\beta Y= \gamma\ p.s.\]
+\end{theo}
+
+\begin{dem}
+Considérons le prolynôme P défini pour tout $\lambda\in \mathbb{R}$ par : \[P(\lambda)=V(X+\lambda Y)=V(X)+\lambda^2V(Y)+2\lambda \text{cov}(X,Y) \geq 0\]
+Par conséquent : \begin{eqnarray*}
+\Delta &=& 4 \text{cov}^2(X,Y) - 4V(X)V(Y) \leq 0 \\
+&\Leftrightarrow& \text{cov}^2(X,Y)\leq V(X)V(Y) \\
+&\Leftrightarrow& |\text{cov}(X,Y)|\leq \sqrt{V(X)}\sqrt{V(Y)}
+\end{eqnarray*}
+
+Supposons : $\exists(\alpha,\beta,\gamma)\neq(0,0,0); \alpha X+\beta Y= \gamma$ p.s. On peut supposer $\alpha\neq 0$
+\begin{eqnarray*} 
+X&=&\frac{\gamma}{\alpha} - \frac{\beta}{\alpha}Y \\
+\text{Cov}(X,Y)&=& \text{Cov}(\frac{\gamma}{\alpha},Y) - \frac{\beta}{\alpha} \text{cov}(Y,Y) \\
+&=& 0-\frac{\beta}{\alpha} V(Y) \\
+\\
+\Rightarrow \text{Cov}^2(X,Y)&=& \frac{\beta^2}{\alpha^2} V(Y) = V\left(\frac{\beta}{\alpha}Y \right)V(Y) \\
+&=& V\left(\frac{\gamma}{\alpha} - \frac{\beta}{\alpha}Y\right)V(Y) \\
+&=& V(X)V(Y)
+\end{eqnarray*}
+
+Réciproquement, si $\text{cov}(X,Y)^2=V(X)V(Y)$ alors $\Delta=0$ et P admet une racine réelle (double) $\lambda_0$
+
+\begin{eqnarray*}
+&&P(\lambda_0)=V(X+\lambda_0Y)=0 \\
+&\Leftrightarrow& E\left(((X+\lambda_0Y)-E((X+\lambda_0Y))^2\right)=0 \\
+&\Leftrightarrow& X+\lambda_0Y=E((X+\lambda_0Y)
+\end{eqnarray*}
+Autrement dit, $X+\lambda_0Y = c$ p.s.
+\end{dem}
+
+\begin{lem}
+Si $X\geq 0$ p.s. tel que E(X)=0 alors X=0 p.s.
+\end{lem}
+
+\begin{dem}
+D'après l'inégalité de Markov : 
+\begin{eqnarray*}
+& &\forall\varepsilon>0, 0\leq\mathbb{P}(X\geq \varepsilon) \leq \frac{E(X)}{\varepsilon}=0 \\
+&\Rightarrow& \forall n\in \mathbb{N}^*, \mathbb{P}\left(X\geq \frac{1}{n}\right)=0 \\
+&\Rightarrow& \mathbb{P}\left(\bigcup_{n\in \mathbb{N}^*} \left\{X\geq \frac{1}{n}\right\}\right)\leq \sum_{n\geq 1} \mathbb{P}\left(X\geq \frac{1}{n}\right)=0 \\
+&\Rightarrow& \mathbb{P}\left(\bigcap_{n\in \mathbb{N}^*} \left\{X\leq \frac{1}{n}\right\}\right)=1=\mathbb{P}(X=0) \\
+&\Rightarrow& X=0 \ p.s.
+\end{eqnarray*}
+\end{dem}
+
+\begin{Prop}
+\begin{enumerate}
+\item cov(X,Y)=cov(Y,X)
+\item cov(aX+bY,Z)=a cov(X,Z)+b cov(Y,Z), $\forall(a,b)\in \mathbb{R}^2$
+\item cov(X,X)=V(X)
+\item V(X+Y)=V(X)+V(Y)+2cov(X,Y)
+\item X$\Inde$Y $\Rightarrow$ cov(X,Y)=0 (Réciproque fausse)
+\end{enumerate}
+\end{Prop}
+
+\subsection{Les différentes lois des grands nombres}
+\begin{theo}[Loi faible des grands nombres]
+Soit $(X_k)_{k\geq 1}$ une suite de v.a.r. de même loi tel que $E(X_1^2)<+\infty$ et deux à deux non corrélées. Alors \[\frac{1}{n}\sum_{k=1}^n X_k \xrightarrow[n\to +\infty]{\mathbb{P}} E(X_1)\]
+\end{theo}
+
+\begin{dem}
+Posons $S_n=\sum_{k=1}^n X_k$. 
+\[\frac{S_n}{n} \xrightarrow[n\to +\infty]{\mathbb{P}} E(X_1) \Leftrightarrow \forall \varepsilon>0, \mathbb{P}\left(\left|\frac{S_n}{n}-E(X_1) \right|>\varepsilon\right)\xrightarrow[n\to +\infty]{}0\]
+Soit $\varepsilon>0$ fixé. On a \[E(S_n)=\sum_{k=1}^n E(X_k)=nE(X_1)\]
+\begin{eqnarray*}
+\mathbb{P}\left(\left|\frac{S_n}{n}-E(X_1) \right|>\varepsilon\right) &=& \mathbb{P}\left(\left|S_n-nE(X_1) \right|>n\varepsilon\right) \\
+&\leq& \frac{V(S_n)}{(n\varepsilon)^2}
+\end{eqnarray*}
+Or, \begin{eqnarray*}
+V(S_n)&=&V(\sum_{k=1}^n X_k) \\
+&=& \sum_{k=1}^n V(X_k)\ (car\ X_k\ 2\ à\ 2\ non\ correlées) \\
+&=& nV(X_1)\ (car\ X_k\ identiquement\ distribuées)
+\end{eqnarray*}
+\[\Rightarrow \mathbb{P}\left(\left|\frac{S_n}{n}-E(X_1) \right|>\varepsilon\right) \leq \frac{V(X_1)}{n\varepsilon^2}\xrightarrow[n\to +\infty]{}0\]
+avec $V(X_1)$ fini car $E(X_1^2)<+\infty$. D'où \[\frac{1}{n}\sum_{k=1}^n X_k \xrightarrow[n\to +\infty]{\mathbb{P}} E(X_1)\]
+\end{dem}
+
+\begin{theo}[loi forte des grands nombres - admis]
+Soit $(X_k)_{k\geq 1}$ une suite de v.a.r. i.i.d.
+\[E(|X_1|)<+\infty \Rightarrow \frac{1}{n}\sum_{k=1}^n X_k \xrightarrow[n\to +\infty]{p.s.} E(X_1)\]
+\end{theo}
+
+\subsection{Convergence en loi}
+\begin{Def}
+Soient Y et $(Y_n)_{n\geq 1}$ des v.a.r. \\
+On dit que la suite $(Y_n)_{n\geq 1}$ converge en loi vers la v.a. Y si : \[F_{Y_n}(x)\xrightarrow[n\to +\infty]{}F_Y(x)\]
+pour tout point de continuité $x$ de $F_Y$ (avec $F_X$ f.d.r. de la v.a. X) \\
+On note alors : \[Y_n \xrightarrow[n\to +\infty]{\mathcal{L}}Y\]
+\end{Def}
+
+\begin{rmq}
+\begin{itemize}
+\item Convergence p.s. $\Rightarrow$ Convergence en proba $\Rightarrow$ Convergence en loi
+\item La convergence en loi n'est pas stable pour la somme des variables aléatoires : 
+\[Y_n \xrightarrow[n\to +\infty]{\mathcal{L}}Y\ et\ Z_n \xrightarrow[n\to +\infty]{\mathcal{L}}Z \not\Rightarrow Y_n +Z_n \xrightarrow[n\to +\infty]{\mathcal{L}}Y +Z\]
+\end{itemize}
+\end{rmq}
+
+\begin{theo}[Central limit]
+Soit $(X_k)_{k\geq 1}$ une suie de v.a.r., iid et de carré intégrable (ie $E(X_1^2)<+\infty$). On a alors :
+\[W_n \frac{1}{\sigma \sqrt{n}} \sum_{k=1}^n (X_k-\mu) \xrightarrow[n\to +\infty]{\mathcal{L}} N\]
+où $\mu = E(X_1)$, $\sigma^2=V(X_1)>0$ et $N \hookrightarrow \mathcal{N}(0,1)$
+\end{theo}
+
+On a donc : \[\forall x\in \mathbb{R}, \mathbb{P}(W_n\leq x) \xrightarrow[n\to +\infty]{} \mathbb{P}(N\leq x)=F_N(x)\]
+avec \[F_n(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^x e^{\frac{-t^2}{2}} dt\]
+Ce qui équivaut à : \[\forall a<b, \mathbb{P}(a\leq W_n \leq b) \xrightarrow[n\to +\infty]{} \sqrt{2\pi}\int_a^b e^{\frac{-t^2}{2}} dt\]
+
+\section{Vecteurs aléatoires}
+\begin{Def}
+Soit X=$^t(X_1,...,X_d)$ un vecteur aléatoire de dimension $d\in\mathbb{N}$. On appelle espérance de X le vecteur \[E(X)=^t(E(X_1),...,E(X_d)\]
+\end{Def}
+
+\begin{Prop}
+\begin{itemize}
+\item Si X=$^t(X_1,...,X_d)$ et Y=$(Y_1,...,Y_d)$ sont deux vecteurs aléatoires de dimension d, alors \[E(X+Y)=E(X)+E(Y)\]
+\item Si M est une matrice de nombres réels et si X est un vecteur aléatoire tel que MX soit bien défini, alors $E(MX)=M\times E(X)$
+\item Si $\phi:\mathbb{R}^d \rightarrow \mathbb{R}$ est convexe alors $\phi(E(X))\leq E(\phi(X))$ (Inégalité de Jensen)
+\end{itemize}
+\end{Prop}
+
+\begin{Def}
+Soit X=$^t(X_1,...,X_d)$ tel que $X_i$ soit de carré intégrable pour tout $1\leq i\leq d$. On appelle matrice de covariance (ou matrice de dispersion) du vecteur aléatoire X, la matrice : 
+\begin{eqnarray*}
+V(X)&=&E((X-E(X)) ^t(X-E(X)) \\
+&=& \left(cov(X_i,X_j) \right)_{1\leq i,j\leq d}
+\end{eqnarray*}
+\end{Def}
+
+\begin{Prop}
+\begin{enumerate}
+\item Si b=$(b_1,...,b_d)$ est un vecteur constant et si X=$(X_1,...,X_d)$ est un vecteur aléatoire alors $V(X+b)=V(X)$
+\item Si M est une matrices de nombres réels tel que MX soit bien défini, alors 
+\begin{eqnarray*}
+V(MX)&=& E((MX-E(MX)) ^t(MX-E(MX))) \\
+&=&E(M(X-E(X)) ^t(M(X-E(X)))) \\
+&=&E(M(X-E(X)) ^t(X-E(X)) ^tM) \\
+&=& M V(X) ^tM 
+\end{eqnarray*}
+\item V(X) est une matrice symétrique semi-définie positive. \\
+Autrement dit, pour tout vecteur Y non nul, on a $^tYV(X)Y \geq 0$, ou encore, toutes les valeurs propres de V(X) sont positives ou nulles.
+\end{enumerate}
+\end{Prop}
+
+\begin{Def}[Vecteurs alétoires gaussiens]
+On dit que le vecteur alétoire X=$^t(X_1,...,X_d)$ de $\mathbb{R}^d$ est gaussien si pour toute application linéaire $u:\mathbb{R}^d \rightarrow \mathbb{R}$, la variable aléatoire u(X) est une v.a. réelle gaussienne.
+\end{Def}
+
+\begin{rmq}
+$\forall 1\leq i\leq d$, considérons l'application linéaire 
+\begin{eqnarray*}
+u_i : \mathbb{R}^d &\rightarrow& \mathbb{R}\\
+(x_1,...,x_d) &\mapsto& x_i
+\end{eqnarray*}
+Ainsi, $X_i=u_i(X)$, avec X vecteur aléatoire gaussien. Donc, par définition, $X_i$ est une v.a. gaussienne sur $\mathbb{R}$. \\
+La réciproque est fausse.
+\end{rmq}
+
+\begin{Prop}
+La loi d'un vecteur aléatoire gaussien X=$^t(X_1,..,X_d)$ est caractérisée par son vecteur espérance \[m=^t(E(X_1),...,E(X_d))\] et sa matrice de dispersion 
+\[\Gamma=(cov(X_i, X_j)_{1\leq i,j\leq d}\]
+La loi de X est notée $\mathcal{N}_j(m,\Gamma)$
+\end{Prop}
+
+\begin{Prop}
+Soient X et Y deux v.a. réelles indépendantes dont les lois admettent des densités de probabilité $f_X$ et $f_Y$ respectivement. \\
+Alors la loi de Z=X+Y admet également une densité de probabilité $f_Z$ définie pour tout $x\in \mathbb{R}$ par 
+\[f_Z(x)=(f_X*f_Y)(x) = \int_{\mathbb{R}} f_X(t) f_Y(x-t)dt\]
+\end{Prop}
+
+\begin{dem}
+$X\Inde Y$, Z=X+Y. \\
+Montrons que la loi de Z admet une densité de probabilité $f_Z$ définie pour tout $x\in \mathbb{R}$ par \[f_Z(x)=(f_X * f_Y)(x)\]
+Tout d'abord, comme X et Y sont indépendantes, la loi du couple (X,Y) admet une densité de probabilité $f_{(X,Y)}$ définie pour tout $(x,y)\in \mathbb{R}^2$ par \[f_{(X,Y)}(x,y)=f_X(x) f_Y(y)\]
+Soit $h:\mathbb{R} \rightarrow \mathbb{R}$ mesurable.
+
+\begin{eqnarray*}
+E(h(Z))&=&E(h(\phi(X,Y)))\ ou\ \phi(X,Y)=X+Y \\
+&=& E(\tilde{h}(X,Y))\ ou\ \tilde{h}=h\circ \phi \\
+&=& \int \int_{\mathbb{R}^2} \tilde{h}(x,y) f_{(X,Y)}(x,y) dx dy \\
+&=& \int \int_{\mathbb{R}^2} h(x+y) f_X(x) f_Y(y) dx dy \\
+&=& \int_{\mathbb{R}} \left(\int_{\mathbb{R}} h(x+y) f_X(x) dx \right) f_Y(y) dy
+\end{eqnarray*}
+Posons $u=x+y \Rightarrow du=dx$.
+\begin{eqnarray*}
+E(h(Z))&=& \int\int_{\mathbb{R}^2} h(u)f_X(u-y) f_Y(y) du dy \\
+&=& \int_{\mathbb{R}} h(u) \left(\int_{\mathbb{R}} f_X(u-y) f_Y(y) dy  \right) du
+\end{eqnarray*}
+On a donc : \begin{eqnarray*}
+f_Z(u)&=& \int_{\mathbb{R}} f_X(u-y)f_Y(y) dy \\
+&=& (f_X*f_Y)(u)
+\end{eqnarray*}
+\end{dem}
+
+\begin{coro}
+La somme de deux v.a. gaussiennes indépendantes est encore une v.a; gaussienne.
+\end{coro}
+
+\begin{dem}
+Soient $X\hookrightarrow \mathcal{N}(0,1)$ et $Y\hookrightarrow \mathcal{N}(0,1)$ tel que $X\Inde Y$ \\
+Montrons que $Z=X+Y \hookrightarrow \mathcal{N}(0,2)$
+
+\begin{eqnarray*}
+f_Z(x) &=& \int_{\mathbb{R}} f_X(t) f_Y(x-t) dt \\
+&=& \int_{\mathbb{R}} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} \times \frac{1}{\sqrt{2\pi}} e^{-\frac{(x-t)^2}{2}} dt \\
+&=& \frac{1}{2\pi} \int_{\mathbb{R}} e^{-\frac{t^2}{2}} e^{-\frac{1}{2}(x^2-2xt+t^2)} dt \\
+&=& \frac{1}{2\pi} \int_{\mathbb{R}} e^{-(\frac{x^2}{2} -xt+t^2)} dt \\
+&=& \frac{1}{2\pi} e^{-\frac{x^2}{4}} \int_{\mathbb{R}} e^{-(\frac{x^2}{4} -xt+t^2)}dt \\
+&=& \frac{1}{2\pi} e^{-\frac{x^2}{4}} \int_{\mathbb{R}} e^{-(\frac{x}{2} -t)^2}dt \\
+&=& \frac{1}{2\pi} e^{-\frac{x^2}{4}} \underbrace{\int_{\mathbb{R}} e^{-\frac{(t-\mu)^2}{2\sigma^2}}}_{=\sqrt{2\pi}\times \sigma}dt \qquad ou\ \mu=\frac{x}{2},\ \sigma^2=\frac{1}{2} \\
+&=& \frac{1}{2\pi} e^{-\frac{x^2}{4}}\times \sqrt{2\pi}\frac{1}{\sqrt{2}} \\
+&=& \frac{1}{2\sqrt{\pi}} e^{-\frac{x^2}{4}}
+\end{eqnarray*}
+D'où $Z\hookrightarrow \mathcal{N}(0,2)$
+\end{dem}
+
+\begin{theo}[admis]
+Soit $X=(X_1,...,X_d)$ i, vecteur aléatoire gaussien de moyenne $m=(m_1,...,m_d)$ et de matrice de covariance $\Gamma$ (on note $X\hookrightarrow \mathcal{N}_d(m,\Gamma)$) \\
+Si $\Gamma$ est inversible alors la loi de X admet une densité de probabilité $f_X$ définie pour tout $x=(x_1,...,x_d) \in \mathbb{R}^d$ par : 
+\[f_X(x)=\frac{1}{(2\pi)^{\frac{d}{2}} \sqrt{|det(\Gamma)|}} \exp\left(-\frac{1}{2} <x-m,\Gamma^{-1} (x-m)> \right)\]
+\end{theo}
+
+\begin{rmq}
+Si d=1, on retourve la densité de la loi $\mathcal{N}(m,\sigma^2)$ 
+\end{rmq}
+
+\section{Fonctions caractéristiques}
+\begin{Def}
+\begin{itemize}
+	\item On appelle fonction caractéristique d'une v.a.r. X l'application $\phi_X$ définie sur $\mathbb{R}$ et à valeur dans le disque unité fermé du plan complexe par : 
+\[\forall t\in \mathbb{R}, \phi_X(t)=E(e^{itX})=E(\cos(tX))+iE(\sin(tX))\]
+	\item Si la v.a. est à valeur dans $\mathbb{R}^d$ ($d\in \mathbb{N}^*$), la fonction caractéristique (de la loi) de X, notée encore $\phi_X$, est l'application définie
+sur $\mathbb{R}^d$ et à valeurs dans le disque unité fermé du plan complexe par :
+\[\forall t\in \mathbb{R}, \phi_X(t)=E(e^{i<t,X>})=E(\cos(<t,X>)) +iE(\sin(<t,X>))\]
+\end{itemize}
+\end{Def}
+
+

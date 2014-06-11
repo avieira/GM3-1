@@ -1,0 +1,603 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{soul}
+\usepackage[top=4cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+\usepackage{hyperref}
+
+\newtheoremstyle{mes_theoremes}{}{}{}{}{\bfseries}{~:\newline}{\parindent}{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{mes_theoremes}
+
+\newtheorem{coro}{Corollaire}[section]
+\newtheorem{theo}{Théorème}[section]
+\newtheorem*{Def}{Définition}
+\newtheorem{prop}{Propriété}[section]
+\newtheorem*{dem}{Démonstration}
+\newtheorem*{rap}{Rappel}
+\newtheorem*{lemme}{Lemme}
+
+\hypersetup{colorlinks=true, urlcolor=bleu, linkcolor=red}
+
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
+
+\begin{document}
+\part{Mesures}
+\section{Définitions générales}
+\begin{Def}
+Soit E un ensemble. On appelle tribu de parties de E toute famille B de parties de E vérifiant :
+\begin{enumerate}
+\item $\emptyset$ et E $\in$ B
+\item B est stable par union dénombrable : $\forall (A_n)_n \subset B,\ suite\ de\ parties\ de\ B, \bigcup_n A_n \in B$
+\item B est stable par complémentaire : $A\in B \Rightarrow A^c \in B$
+\end{enumerate}
+\end{Def}
+
+\bigskip
+\begin{Def}
+Soit $\varepsilon$ une famille des parties de E.
+On note $\sigma(\varepsilon)$ plus petite tribu des parties de E qui contient $\varepsilon$, ie
+\begin{enumerate}
+\item $\sigma(\varepsilon)$ est une tribu
+\item $\varepsilon \subset \sigma(\varepsilon); \forall A \in \varepsilon, A\in \sigma(\varepsilon)$
+\item $\forall \mathcal{B}$, tribu des parties de E, $\varepsilon \subset \mathcal{B} \Rightarrow \sigma(\varepsilon) \subset \mathcal{B}$
+\end{enumerate}
+\end{Def}
+
+On dit que $\sigma(\varepsilon)$ est la tribu engendrée par $\varepsilon$
+On démontre par ailleurs que $\mathcal{B}_{\mathbb{R}} \neq P(\mathbb{R})$ (l'ensemble des parties de $\mathbb{R}$).
+
+\bigskip
+\begin{prop}
+Une tribu est stable par intersection dénombrable
+\end{prop}
+
+\begin{dem}
+Soit $(A_n)_n \in B$.
+\[\bigcap_n A_n = \left( \bigcup_n A_n^c \right)^c\]
+Et comme une tribu est stable par union et complémentaire, on a le résultat attendu.
+\end{dem}
+
+\bigskip
+\begin{theo}
+\[\sigma(\varepsilon)=\sigma(F) \Leftrightarrow \begin{array}{l} \varepsilon \subset \sigma(F) \\ F \subset \sigma(\varepsilon) \end{array}\]
+\end{theo}
+
+
+\begin{Def}
+On appelle tribu borelienne de E (notée $\mathcal{B}_E$) la tribu engendrée par la famille des ouverts de E.
+\end{Def}
+$\mathcal{B}_{\mathbb{R}}$ est la tribu engendrée par la famille des ouverts de $\mathbb{R}$.
+
+\bigskip
+\begin{prop}
+On suppose que $\mathcal{B}=\sigma(\varepsilon)$ et que $\varepsilon$ vérifie :
+\begin{itemize}
+\item $\varepsilon$ est stable par intersection finie
+\item $\exists (\varepsilon_n)_n \subset \varepsilon; \varepsilon=\bigcup_n \varepsilon_n$
+\end{itemize}
+On a alors : si $\forall A \in \varepsilon, \mu(A)=\nu(A)<+\infty$ alors $\mu=\nu$
+\end{prop}
+
+\bigskip
+\begin{Def}
+On appelle espace mesurable tout couple (E,B) où E est un ensemble et B une tribu des parties de E. Les éléments de B s'appellent les parties mesurables de E.
+\end{Def}
+
+\newpage
+
+\section{Mesure et proriétés}
+\begin{Def}
+Soit (E,B) un espace mesurable. On appelle mesure sur (E,B) toute application $\mu : B\rightarrow[0,+\infty]$ vérifiant :
+\begin{enumerate}
+\item $\mu(\emptyset)=0$
+\item La $\sigma$-additivité : $\forall (A_n)_n$, famille dénombrable $\subset B$ tel que $\forall n \neq m, A_n \cap A_m = \emptyset$, on a \[\mu(\bigcup_n A_n)=\sum_n \mu(A_n)\]
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+On appelle espace mesuré tout triplet (E,B,$\mu$) où (E,B) est un espace mesurable et $\mu$ une mesure sur (E,B)
+\end{Def}
+
+\begin{Def}
+On appelle mesure de Lebesgue : \[\lambda_n \left([a_1,b_1] \times ... \times [a_n,b_n]\right) = \prod_{k=1}^n \left(b_k - a_k\right)\]
+\end{Def}
+
+\begin{theo}
+Soit F : $\mathbb{R} \rightarrow \mathbb{R}$ croissante et continue à droite. \[\exists! \mu_F; \mu_F([a,b])=F(b)-F(a)\]
+F est la fonction de répartition de $\mu$
+\end{theo}
+
+\begin{prop}
+Il existe plusieurs propriétés pour les mesures. Entre autres :
+\begin{enumerate}
+\item Si $\mu(A\cap B)<+\infty$, alors $\mu(A\cup B)=\mu(A) + \mu(A) - \mu(A\cap B)$
+\item Si $A\subset B$, alors $\mu(A) \leq \mu(B)$
+\item De plus, si $\mu(A) < +\infty$, alors $\mu(B\textbackslash{}A)=\mu(B) - \mu(A)$
+\item Si $(A_n)_n$ suite croissante, alors $\mu(\bigcup_n A_n) = \lim_{n\rightarrow +\infty} \mu(A_n) = \sup_n \mu(A_n)$
+\item Si $(A_n)_n$ suite décroissante et $\exists n; \mu(B_n)<+\infty$, alors $\mu(\bigcap_n A_n) = \lim_{n\rightarrow +\infty} \mu(A_n) = \inf_n \mu(A_n)$
+\end{enumerate}
+\end{prop}
+
+\newpage
+
+\section{Applications mesurables}
+Soient (E,$\mathcal{B}$) et (F,$\mathcal{C}$) deux espaces mesurables et f:E$\rightarrow$F une application.
+
+\begin{Def}
+On dit que f est mesurable ssi $\forall C\in \mathcal{C}, f^{-1}(C)\in \mathcal{B}$
+\end{Def}
+
+\begin{theo}
+Supposons que $\mathcal{C} = \sigma(\varepsilon)$ ($\varepsilon$ famille quelconque des parties de F). On a équivalence entre :
+\begin{itemize}
+\item f est mesurable
+\item $\forall C\in \varepsilon$, $f^{-1}(C)\in B$
+\end{itemize}
+\end{theo}
+
+\begin{coro}
+E et F sont des espaces métriques munis de leur tribu bolérienne. \\
+Si f continue, alors f mesurable.
+\end{coro}
+
+\begin{dem}
+$\varepsilon=O_F$ \\
+f continu $\Leftrightarrow \forall C\in O_F, f^{-1}(C)\in \mathcal{B}_E$
+\end{dem}
+
+\begin{prop}
+La composée de 2 applications mesurables est mesurable.
+\end{prop}
+
+
+\section{Cas des applications à valeurs réelles}
+On entend par là les applications à valeur dans $\bar{\mathbb{R}}$
+\begin{coro}
+Soit f:(E,$\mathcal{B}$) $\rightarrow$ ($\bar{\mathbb{R}}, B_{\bar{\mathbb{R}}}$). f est mesurable ssi $\forall [c,d[, f^{-1}([c,d[)\in\mathcal{B}$
+\end{coro}
+
+\begin{coro}
+\begin{eqnarray*}
+f\ est\ mesurable &\Leftrightarrow& \forall a\in\mathbb{R}, \{x|f(x)\leq a\}\in \mathcal{B} \\
+&\Leftrightarrow& \forall a\in\mathbb{R}, \{x|f(x)\geq a\}\in \mathcal{B} \\
+&\Leftrightarrow& \forall a\leq b, \{x|a<f(x)\leq b\}\in \mathcal{B}
+\end{eqnarray*}
+\end{coro}
+
+\section*{Théorème fondamental :}
+Soit $(f_n)_n$ une suite d'application mesurables à valeurs réelles.
+\begin{itemize}
+\item $\sup_n f_n$ et $\inf_n f_n$ sont mesurables
+\item Si $f_n \xrightarrow{CS} f$ alors f est mesurable
+\end{itemize}
+
+$\overline{\lim x_n} = \lim_k (\sup_{n \geq k} x_n) = \inf_k (\sup_{n \geq k} x_n) \\
+\underline{\lim x_n} = \lim_k (\inf_{n \geq k} x_n) = \sup_k (\inf_{n \geq k} x_n)$
+
+\section*{Fonctions simples :}
+Soit (E,$\mathcal{B}$) un espace mesurable. On appelle fonction simple (sous-entendu mesurable) tout application mesurable à valeurs réelles ne prenant qu'un nombre fini de valeurs. \\
+\subsection*{Fonction indicatrice}
+Elles ne prennent que 2 valeurs : 0 ou 1 \\
+Si $A=\{x|f(x)=1\}$, $f(x)=\left\{ \begin{array}{l} 1\ si\ x\in A\\ 0\ sinon \end{array} \right.$
+
+$1_A$ mesurable $\Leftrightarrow$ A mesurable.
+
+\subsection*{Ecriture canonique d'une fonction simple}
+Soit f une fonction simple.
+Soient $x_1,...,x_n$ les valeurs qu'elle peut prendre. Soit \\ $A_i=\{x|f(x)=x_i\}$ qu'on note $\{f=x_i\}$
+\begin{itemize}
+\item $A_i = f^{-1}(\{x_i\}) \in \mathcal{B} $
+\item Les $(A_i)_{i=1..n}$ forment une partition de E
+\item $f=\sum_{i=1}^n x_i 1_{\{f=x_i\}}$ s'appelle l'écriture canonique
+\end{itemize}
+
+\begin{theo}
+Tout fonction mesurable (à valeur dans $[0,+\infty]$) est limite simple d'une suite croissante de fonctions simples positives.
+\end{theo}
+
+\newpage
+\part{Intégration}
+\section{Intégrations de fonctions simples positives}
+\begin{rap}
+Soit $\phi$ une telle fonction. $\phi : E \rightarrow [0,+\infty]$. \\
+Soient $X_1,...,X_n$ les valeurs distinctes qu'elle peut prendre. \[\phi=\sum_{k=1}^n X_k 1_{\{\phi=X_k\}}\]
+Sachant que $\{\phi = X_k\}=\{x\in E | \phi(x)=X_k\}=\phi^{-1}(X_k)$
+\end{rap}
+
+\begin{Def}
+On appelle intégrale de $\phi$ par rapport à $\mu$ le nombre positif (fini ou non) noté $\int \phi d\mu$ égal à \[\int \phi d\mu = \sum_{k=1}^n X_k \mu(\{\phi=X_k\})\]
+\end{Def}
+
+\begin{prop} \ 
+\begin{enumerate}
+\item $\int \phi d\mu \geq 0$
+\item $\int \alpha \phi d\mu = \alpha \int \phi d\mu$
+\item $\int (\phi + \psi) d\mu = \int \phi d\mu + \int \psi d\mu$
+\item $\phi \leq \psi \Rightarrow \int \phi d\mu \leq \int \psi d\mu$
+\end{enumerate}
+\end{prop}
+
+\begin{dem}[du 3 et du 4]
+3) Si $\psi$ prend les valeurs $y_1,...,y_m$, alors $\phi + \psi$ prend les valeurs $(X_k + y_l)_{\stackrel{k=1..n}{l=1..m}}$
+\[\phi + \psi = \sum_{k,l} (X_k + y_l) 1_{\{\phi=X_k, \psi = y_l\}}\]
+\begin{eqnarray*}
+\int (\phi + \psi) d\mu &=& \sum_{k,l} (X_k + y_l) \mu(\phi=X_k, \psi = y_l) \\
+&=& \sum_{k=1}^n X_k \left( \sum_{l=1}^m \mu(\phi=X_k, \psi=y_l) \right) + \sum_{l=1}^m y_l \left( \sum_{k=1}^n \mu(\phi=X_k, \psi=y_l) \right) \\
+&=& \sum_{k=1}^n X_k \mu(\phi=X_k) + \sum_{l=1}^m y_l \mu(\psi=y_l) \\
+&=& \int \phi d\mu + \int \psi d\mu
+\end{eqnarray*}
+
+Remarque : Cela permet de donner une autre définition de l'intégrale : \\
+Si $\phi = \sum_{i=1}^n X_i 1_{A_i}$ $(A_i \in \mathcal{B})$ alors $\int \phi d\mu = \sum_{i=1}^n X_i \mu(A_i)$
+\[\int \phi d\mu = \sum_{i=1}^n X_i \int 1_{A_i} d\mu = \sum_{i=1}^n X_i \mu(A_i)\]
+
+4) $\psi = \phi + (\psi - \phi)$ \\
+\[\int \psi d\mu = \int \psi d\mu + \int (\psi - \phi) d\mu \geq \int \psi d\mu\]
+\end{dem}
+
+\begin{Def}
+Si $B \in \mathcal{B}$ on pose \[\int_B \phi d\mu = \int \phi 1_B d\mu\] 
+\end{Def}
+
+\begin{theo}
+L'application $\nu : B\in \mathcal{B} \rightarrow \nu(B)\in [0,+\infty]$ définie par $\nu(B)=\int_B \phi d\mu$ est une mesure.
+\end{theo}
+
+\section{Intégrations des fonctions mesurables positives}
+Soit $f : E \rightarrow [0,+\infty]$ mesurable.
+\begin{Def}
+On pose \[\int f d\mu = \sup_{\stackrel{\phi\ simple\ positive}{\phi \leq f}} \int \phi d\mu\]
+\end{Def}
+
+\begin{prop}
+\begin{itemize}
+\item $0 \leq f \leq g \Rightarrow \int fd\mu \leq \int g d\mu$
+\item $\forall c \geq 0,\ \int c\ fd\mu = c\int f d\mu$
+\end{itemize}
+\end{prop}
+
+\paragraph{Théorème fondamental, ou théorème de la convergence monotone de Lebesgue, ou de Beppo-Levi \\}
+Soit $(f_n)_n$ une suite croissante de fonctions mesurables positives et f sa limite. Alors f est mesurable et \[\int f_n d\mu \xrightarrow[n\rightarrow +\infty]{} \int f d\mu\]
+
+\paragraph{Corollaire de B-L \\}
+Si $(f_n)_n$ est une suite de fonctions mesurables positives, alors : \[\int \sum_n f_n d\mu = \sum_n \int f_n d\mu\]
+
+\begin{coro}
+Soit f mesurable positive. L'application \begin{eqnarray*} \nu : \mathcal{B} &\rightarrow& [0,+\infty] \\ B &\mapsto& \int_B fd\mu = \int f 1_B d\mu \end{eqnarray*} est une mesure. On l'appelle la mesure de densité f par rapport à $\mu$
+\end{coro}
+
+\begin{dem}
+$\nu(B) \geq 0$ \\
+$\nu(\emptyset)=\int f 1_{\emptyset} d\mu = 0$ \\
+Si $B = \bigcup_n B_n$ avec $\forall n, B_n \in \mathcal{B}$ et $\forall n\neq m, B_n\cap B_m = \emptyset$, alors $1_B = \sum_n 1_{B_n}$. \\
+Donc \begin{eqnarray*} \nu(B) &=& \int f(\sum_n 1_{B_n}) d\mu \\
+&=& \int \sum_n f 1_{B_n} d\mu \\
+&=& \sum_n \int f 1_{B_n} d\mu \\
+&=& \sum_n \nu(B_n)
+\end{eqnarray*}
+\end{dem}
+
+\paragraph{Théorème de Fatou \\}
+Soit $(f_n)_n$ une suite (quelconque) de fonctions mesurables positives. Alors : \[\int \underset{n}{\lim\ \inf} f_n d\mu \leq \underset{n}{\lim\ \inf} \int f_n d\mu \]
+
+\paragraph{Propriété vraie $\mu$-preque partout \\}
+Soit P(x) une propriété relative aux éléments $x\in E$. On dit qu'elle est vraie $\mu$-pp ssi \[\mu(\{x\in E / P(x)\ est\ fausse\})=0\]
+
+\begin{theo}
+S $\mu$(B)=0, alors $\forall f$ mesurable, \[\int_B f d\mu = 0\]
+\end{theo}
+
+\paragraph{Conséquence :} On peut remplacer le théorème de B-L par : \\
+Si $0 \leq f_n \nearrow f\ \mu$-pp alors \[\int f_n d\mu \nearrow \int f d\mu\]
+
+\section{Extension aux fonctions à valeurs réelles ou complexes : \\}
+\begin{Def}
+Soit f une fonction mesurable à valeurs réelles ou complexes. On dit que f est $\mu$-intégrable si \[\int |f| d\mu < +\infty\]
+On note $\mathcal{L}^1(\mu)$ l'ensemble des fonctions $\mu$-mesurable. C'est un espace vectoriel sur $\mathbb{C}$.
+
+Si f,g $\in \mathcal{L}^1(\mu)$, \[\int |f+g| d\mu \leq \int |f| + |g| d\mu < +\infty\]
+\[\forall \lambda \in \mathbb{C},\ \int |\lambda f| d\mu = |\lambda| \int |f| d\mu <+\infty\]
+\end{Def}
+
+\subsection*{Intégration de fonctions intégrables : \\}
+Soit $f\in \mathcal{L}^1(\mu)$. Si f réelle, on a f=$f^+ - f^-$ avec $f^+ = \sup (f,0)$ et $f^- = -\inf (f,0)$. |f| = $f^+ + f^-$. \\
+On pose \[\int f d\mu = \int f^+ d\mu - \int f^- d\mu\]
+De même, si f complexe, f=Re(f) +i Im(f), on a |Re(f)|$\leq$ |f| et |Im(f)| $\leq$ |f| et \[\int f d\mu = \int Re(f) d\mu + i\int Im(f) d\mu\]
+
+On voit facilement que l'application \begin{eqnarray*} \mathcal{L}^1(\mu) &\rightarrow& \mathbb{C} \\ f &\mapsto& \int f d\mu \end{eqnarray*} est linéaire.
+
+\begin{theo}
+Si $f\in \mathcal{L}^1(\mu)$, \[\left| \int f d\mu \right| \leq \int |f| d\mu\]
+\end{theo}
+
+\begin{dem}
+\[\int f d\mu = e^{i\theta} \left| \int f d\mu \right|\]
+\begin{eqnarray*}
+\left| \int f d\mu \right| &=& e^{-i\theta} \int f d\mu \\
+&=& \int e^{-i\theta} f d\mu \in \mathbb{R}^+ \\
+&=& \int Re(e^{-i\theta} f) d\mu + i \int \underbrace{Im(e^{-i\theta} f)}_{=0} d\mu \\
+&\leq& \int |e^{-i\theta} f| d\mu \\
+&\leq& \int |f| d\mu
+\end{eqnarray*}
+\end{dem}
+
+\begin{theo}[de la convergence dominée de Lebesgue]
+Soit $(f_n)_n$ une suite de fonctions mesurables à valeurs réelles ou complexes. Si \begin{itemize} \item $f_n \xrightarrow{\mu pp} f$ \item $\exists g\in \mathcal{L}^1(\mu); \forall n, |f_n|\leq g\ \mu pp$ \end{itemize} alors $f_n$ et f $\in \mathcal{L}^1(\mu)$ et \[\int f_n d\mu \xrightarrow[n \rightarrow +\infty]{} \int f d\mu\]
+\end{theo}
+
+\begin{coro}[pour les séries]
+Soit $(f_n)_n$ une suite de fonctions mesurables à valeurs réelles ou complexes, tel que $\sum_n f_n(x)$ converge pour $\mu$-presque tout $x$. \\
+S'il existe $g\in \mathcal{L}^1(\mu)$ tel que $\forall n, |\sum_{k\leq n} f_n| \leq g$ $\mu pp$, alors on a $\sum_n f_n \in \mathcal{L}^1(\mu)$ et 
+\[\int \sum_n f_n d\mu = \sum_n \int f_n d\mu\]
+\end{coro}
+
+\begin{dem}
+\[h_n = \sum_{k\leq n} f_k\]
+\[|h_n| \leq g\ \mu pp, h_n \rightarrow h=\sum f_n\ \mu pp\]
+donc $h\in \mathcal{L}^1(\mu)$ et: \[\int f_n d\mu \rightarrow \int h d\mu = \int \sum_n f_n d\mu\]
+Mais \[\int h_n d\mu = \sum_{k\leq n} \int f_k d\mu \rightarrow \sum_n \int f_n d\mu\]
+D'où le corollaire.
+\end{dem}
+
+\begin{lemme}
+Soit $f\geq 0$ mesurable. Si $\int f d\mu < +\infty$ alors $f(x)<+\infty\ \mu pp$
+\end{lemme}
+
+\begin{dem}
+\begin{eqnarray*}
++\infty \mu(\{f=+\infty\})=\int_{\{f=+\infty\}} +\infty d\mu \\ &=& \int_{\{f=+\infty\}} f d\mu \\ &<& \int f d\mu \\ &<& +\infty
+\end{eqnarray*}
+Donc $\mu(\{f=+\infty\}) = 0$
+\end{dem}
+
+\begin{coro}
+Soit $(f_n)_n$ une suite de fonctions mesurables à valeurs réelles ou complexes. \\
+Si $\sum_n \int |f_n| d\mu < +\infty$ alors
+\begin{enumerate}
+\item $\sum_n f_n(x)$ est absoluement convergente pour $\mu$-presque tout x
+\item \[\sum f_n \in \mathcal{L}^1(\mu)\]
+\item \[\int \sum_n f_n d\mu = \sum_n \int f_n d\mu\]
+\end{enumerate}
+\end{coro}
+
+\section{L'espace $L^p$}
+On remarque bien vite que pour des fonctions égales $\mu$pp, leurs intégrales sont toujours égales.\\
+On appelle $L^1(\mu)$ l'ensemble $\mathcal{L}^1(\mu)$ mais dans lequel on identifie deux fonctions égales $\mu$pp.
+
+$L^1(\mu)$ est un espace vectoriel, il admet une mesure : \[||f||_1=\int |f| d\mu\]
+$f_n \xrightarrow{L_1} f \Leftrightarrow ||f_n-f||_1 \rightarrow 0$ ie $\int |f_n-f| d\mu \rightarrow 0$ 
+
+$\forall 1\leq p < +\infty$ \\
+On définit $L^p(\mu)$ par l'ensemble des fonctions mesurables (à valeurs dans $\mathbb{C}$) tel que $\int |f|^p d\mu <+\infty$ (dans lequel on identifie 2 fonctions égales $\mu$pp).\\
+On a une norme sur $L^p$ tel que \[||f||_p = \left(\int |f|^p d\mu \right)^{\frac{1}{p}}\]
+
+\paragraph{Espace $L^{\infty}(\mu)$ \\}
+C'est l'ensemble des fonctions mesurables $\mu$pp bornées dans lequel on identifie 2 fonctions égales $\mu$pp. \[\exists c<+\infty\ tq\ \mu(\{|f|>c\})=0\]
+On définit \[||f||_{\infty}=\inf \{c|\mu(\{|f|>c\})=0\}\]
+qui est une norme sur $L^{\infty}$ \\
+
+\begin{theo}[Inégalité de Hölder]
+Soient p et q$\geq$1 avec $\frac{1}{p} + \frac{1}{q}=1$ (q est l'exposant conjugué de p). \\
+On a alors $\forall f,g$ mesurables à valeurs réelles ou complexes. \[\int |fg| d\mu < ||f||_p ||g||_q\]
+\end{theo}
+
+\begin{coro}
+Si $f\in L^p(\mu)$ et $g\in L^q(\mu)$ $\left(\frac{1}{p} + \frac{1}{q}=1\right)$ alors fg est intégrable ($\in L^1(\mu)$)
+\end{coro}
+
+\bigskip
+Si $f,g\in L^2(\mu)$ \[<f,g>=\int f\bar{g} d\mu \left(=\int_E f(x)\overline{g(x)} d\mu(x) \right)\]
+
+\paragraph{Propriétés}
+\begin{enumerate}
+\item $f\rightarrow <f,g>$ est linéaire $\forall g$
+\item $<g,f>=<f,g>$
+\item $\forall f$, $<f,f>\geq 0$
+\item $<f,f>=0 \Rightarrow f=0 \mu pp \Rightarrow f=0$ dans $L^2(\mu)$
+\end{enumerate}
+
+La norme associée à ce produit scalaire \[||f||=\sqrt{<f,f>}=\left(\int|f|d\mu\right)^{\frac{1}{2}}\] est la norme de $L^2(\mu)$
+
+\newpage
+\part{Intégrale dépendant d'un paramètre}
+Soit $(E,\mathcal{B},\mu)$ un espace mesuré. Soit Y un ensemble de paramètres. Soit $f:E\times Y \rightarrow \mathbb{C}$ telle que : \[\forall y\in Y, x\rightarrow f(x,y)\] soit $\mu$-intégrable. \\
+On peut donc définir pour tout $y\in Y$ \[F(y)=\int_E f(x,y)d\mu(x)\]
+On dit que c'est une intégrale dépendant du paramètre $y\in Y$
+
+\begin{theo}[de continuité]
+Supposons que Y est un espace métrique. Si 
+\begin{enumerate}
+\item Si pour $\mu$ presque tout x, $y\rightarrow f(x,y)$ est continue au point $y_0\in Y$
+\item $\exists V$ ouvert de Y; $y_0\in V$ et une fonction $g\in L^1(\mu)$ tel que \[\forall y\in V, |f(x,y)|\leq g(x) \mu pp\]
+\end{enumerate}
+alors F est continue au point $y_0$
+\end{theo}
+
+\begin{dem}
+Soit $y_n\rightarrow y_0$ et à partir d'un certain rang $n_0$, $y_n\in V$
+\begin{itemize}
+\item $f(x,y_n) \rightarrow f(x,y_0)$ $\mu$pp
+\item $|f(x,y_n)| \leq g(x)$ $\mu$pp.
+\end{itemize}
+On applique le TCD, on trouve le résultat.
+\end{dem}
+
+\begin{coro}
+Si :
+\begin{enumerate}
+\item Si pour $\mu$ presque tout x, $y\rightarrow f(x,y)$ est continue.
+\item $\forall y\in Y$, $\exists V$ ouvert de Y; $y\in V$ et une fonction $g\in L^1(\mu)$ tel que \[\forall y\in V, |f(x,y)|\leq g(x) \mu pp\]
+\end{enumerate}
+alors F est continue en y
+\end{coro}
+
+\begin{theo}[de dérivabilité]
+Supposons que Y est un espace ouvert de $\mathbb{R}$. Si 
+\begin{enumerate}
+\item Si pour $\mu$ presque tout x, $\frac{\partial f(x,y_0)}{\partial y}$ existe
+\item $\exists V$ ouvert de Y; $y_0\in V$ et une fonction $g\in L^1(\mu)$ tel que \[\forall y\in V, y\neq y_0, \left|\frac{f(x,y)-f(x,y_0)}{y-y_0}\right|\leq g(x) \mu pp\]
+\end{enumerate}
+alors F est dérivable au point $y_0$ et \[F'(y_0)=\int \frac{\partial f}{\partial y} (x,y_0) d\mu(x)\]
+\end{theo}
+
+\begin{dem}
+Montrons que si $h_n \rightarrow 0$, $\frac{F(y_0+h_n)-F(y_0)}{h_n}$ converge vers la limite décrite. \\
+Pour n assez grand, $y_0+h_n\in V$ \[\frac{F(y_0+h_n)-F(y_0)}{h_n}=\int \frac{f(y_0+h_n)-f(y_0)}{h_n} d\mu(x)\]
+\begin{enumerate}
+\item $\frac{f(y_0+h_n)-f(y_0)}{h_n} \xrightarrow{\mu pp} \frac{\partial f}{\partial y} (x,y_0)$
+\item $\left|\frac{f(x,y)-f(x,y_0)}{y-y_0}\right|\leq g(x) \mu pp$
+\end{enumerate}
+Conclusion vient du TCP.
+\end{dem}
+
+\begin{coro}
+\begin{enumerate}
+\item Si pour $\mu$ presque tout x, $\frac{\partial f(x,y)}{\partial y}$ existe
+\item Si $\forall y\in Y$, $\exists V$ ouvert de Y; $y_0\in V$ et une fonction $g\in L^1(\mu)$ tel que \[\forall z\in V, \left|\frac{\partial f}{\partial y} (x,z)\right|\leq g(x) \mu pp\]
+\end{enumerate}
+alors F est dérivable et \[F'(y)=\int \frac{\partial f}{\partial y} (x,y) d\mu(x)\]
+\end{coro}
+
+\newpage
+\part{Mesures ayant une densité}
+Soit (E,$\mathcal{B},\mu$) un espace mesuré.
+\begin{Def}
+Soit $\nu$ une mesure sur (E,$\mathcal{B}$) et $f$ mesurable $\geq$0. On dit que $\nu$ admet la densité $f$ par rapport à $\mu$ ssi : \[\forall B\in \mathcal{B}, \nu(B)=\int_B f d\mu\]
+\end{Def}
+
+\begin{rap}
+On dit qu'une mesure est $\sigma$-finie ssi $\exists(B_n)_n$ de parties mesurables tel que
+\begin{enumerate}
+\item $\forall$n, $\mu(B_n)<+\infty$
+\item $E=\bigcup_n B_n$
+\end{enumerate}
+\end{rap}
+
+\begin{theo}[d'unicité de la densité]
+Supposons $\mu$ $\sigma$-finie.
+\begin{enumerate}
+\item Soient f et g deux fonctions mesurables réelles, intégrables ou positives, alors \[\forall B\in \mathcal{B}, \int_B fd\mu \leq \int_b gd\mu \Leftrightarrow f\leq g\ \mu pp\]
+\item Si $\nu$ admet une densité par rapport à $\mu$ ($\sigma$-finie) alors celle-ci est unique à une égalité $\mu$pp près.
+\end{enumerate}
+\end{theo}
+
+\begin{dem}
+\begin{enumerate}
+\item Supposons \[\forall B \in \mathcal{B}n \int_B fd\mu \leq \int_B gd\mu\]
+Soit $(A_n)_n \subset\mathcal{B}$ tel que $\mu(A_n)<+\infty$ et $A_n \nearrow E=\bigcap_n A_n$
+Soit $C_n=A_n\cap(g\leq n)\cap(f>g)$ \\
+\[C_n \nearrow E\cap(g\leq n)\cap(f>g)=(f>g)\]
+On a \[\int_{C_n} fd\mu \leq \int_{C_n} gd\mu \leq n\mu(C_n) <+\infty\]
+On donc soustraire : \[\int_{C_n} (f-g)d\mu\leq 0\]
+Or, sur $C_n$, f-g>0, donc $\int_{C_n} (f-g)d\mu= 0$ et f-g>0 sur $C_n$. \\
+Donc $\mu(C_n)=0\ \forall n$. \\
+$C_n \xrightarrow[n \to +\infty]{} (f<g)$ donc $\mu(f>g)=\lim \mu(C_n)=0$
+
+\item Si $\nu$ admet pour densité f et g alors \[\forall B \in \mathcal{B}, \int_B fd\mu = \nu(B) = \int_B gd\mu\]
+Donc $f\leq g$ $\mu$pp et $g\leq f$ $\mu$pp
+\end{enumerate}
+\end{dem}
+
+\begin{theo}[de Radon Nikodynn (admis)]
+Supposons $\mu$ $\sigma$-finie. Soit $\nu$ une mesure sur (E,$\mathcal{B}$). On a équivalence entre les deux propositions :
+\begin{enumerate}
+\item $\nu$ admet une densité à $\mu$
+\item $\forall B\in \mathcal{B}, \mu(B)=0\Rightarrow \nu(B)=0$
+\end{enumerate}
+On dit alors que $\nu$ est absolument continue par rapport à $\mu$. On note $\nu<<\mu$
+
+On dit que $\nu$ équivaut à $\mu$ (et on note $\nu \sim \mu$) ssi $\mu<<\nu$ et $\nu<<\mu$.
+\end{theo}
+
+\begin{theo}[d'intégration par rapport à une mesure ayant une densité]
+Si $\nu$ admet la densité f par rapport à $\mu$ alors :
+\begin{enumerate}
+\item $\forall g$ mesurable >0, $\int d\nu = \int gfd\mu$
+\item $\forall g$ mesurable à valeurs réelles ou complexes : g est $\nu$ intégrable $\Leftrightarrow$ gf est $\mu$ intégrable
+\end{enumerate}
+et alors \[\int gd\nu = \int gf d\mu\]
+\end{theo}
+
+\begin{dem}
+A FAIRE
+\end{dem}
+
+\newpage
+\part{Mesures image et théorème de transfert}
+Soient (E,$\mathcal{B},\mu$) un espace mesuré, (F,$\mathcal{C}$) un espace mesurable et $\phi : E\rightarrow F$ mesurable.
+
+\begin{Def}
+On appelle mesure image de $\mu$ par $\phi$ et on note $\mu_{\phi}$ la mesure sur (F,$\mathcal{C}$) définie par : \[\forall C\in \mathcal{C}, \mu_{\phi}(C)=\mu(\phi^{-1}(C))\]
+\end{Def}
+
+On vérifie aisément que $\mu_{\phi}$ est une mesure.
+\begin{itemize}
+\item $\mu(\emptyset)=\mu(\phi^{-1}(\emptyset))=0$
+\item Si $C=\bigcap_n C_n$ disjoints 2 à 2, $\phi^{-1}(C)=\bigcap_n \phi^{-1}(C_n)$ disjoints 2 à 2. \[\mu_{\phi}(C)=\mu(\bigcap_n \phi^{-1}(C_n)) = \sum_n \mu(\phi^{-1}(C_n))=\sum_n \mu_{\phi}(C_n)\]
+\end{itemize}
+
+En théorie des probabilités, on utilise constamment cette notion, avec les notations et définitions suivantes : \\
+Soit $(\Omega,a,\mathbb{P})$ un espace probabilisé. \\
+Soit $(\Upsilon, \mathcal{B})$ un espace mesurable.
+
+Soit $X:\Omega\rightarrow \Upsilon$ une v.a. (ie une appl. mesurable). \\
+La mesure image sur $\mathbb{P}$ par X, $\mathbb{P}_X$, s'appelle la loi de probabilité de X. Elle est définie sur $(\Upsilon, \mathcal{B})$.
+\begin{eqnarray*}
+\forall B\in \mathcal{B}, \mathbb{P}(B)&=&"Probabilité\ que\ X\ appartienne\ à\ B"\\
+&=& \mathbb{P}(X\in B)\\
+&=& \mathbb{P}(\{\omega\in\Omega|X(\omega)\in B\})\\
+&=& \mathbb{P}(X^{-1}(B))
+\end{eqnarray*}
+
+\begin{theo}[de transfert : intégration par rapport à une mesure image]
+Soit $\phi:E\rightarrow F$ mesurable, et $\mu_{\phi}$ la mesure image de $\mu$ par rapport à $\phi$.
+
+Soit $g:F\rightarrow \mathbb{C}$ mesurable.
+\begin{enumerate}
+\item Si g est positive : \[\int_F g d\mu_{\phi}=\int_E g\circ \phi d\mu\]
+\item Si g est quelconque : g est $\mu_{\phi}$èintégrable $\Leftrightarrow$ g$\circ\phi$ est $\mu$-intégrable et alors \[\int_F g d\mu_{\phi}=\int_E g\circ \phi d\mu\]
+\end{enumerate}
+\end{theo}
+
+\newpage
+\part{Espace mesuré produit - Théorème de Fubini}
+Soient $(E_1,\mathcal{B}_1,\mu_1)$,...,$(E_n,\mathcal{B}_n,\mu_n)$ n espaces mesurés.
+\section{Espace mesurable produit}
+\begin{enumerate}
+\item $E=\prod_{i=1}^n E_i = \{(x_1,...,x_n)|x_i\in E_i, i\in\{1,...,n\}\}$
+\item La tribu produit, notée $\mathcal{B}=\bigotimes_{i=1}^n \mathcal{B}_i$ est définie ainsi : \\
+On appelle pavé mesurable toute partie B de E de la forme $B=B_1 \times ... \times B_n,\ B_i \in \mathcal{B}_i$
+
+\bigskip
+On appelle $\varepsilon$ l'ensemble des pavés mesurables.
+\begin{itemize}
+\item $\varepsilon$ est stable par $\cap_f$
+\item $E\in \varepsilon$
+\end{itemize}
+La trbu produit $\mathcal{B}=\bigotimes_{i=1}^n \mathcal{B}_i$ est la tribu engendrée par $\varepsilon$ : \[\mathcal{B}=\sigma(\varepsilon)\]
+
+\item La mesure produit :
+\begin{theo}[admis]
+Il existe sur $(\prod_{i=1}^n E_i,\bigotimes_{i=1}^n \mathcal{B}_i)$ une et une seule mesure $\mu$ qui vérifie : 
+\[\forall B=B_1\times...\times B_n\in \varepsilon, \mu(B)=\mu_1(B_1)\times ... \times \mu_n(B_n)\]
+On dit que $\mu$ est la mesure produit des mesures $\mu_i$ et on a note \[\mu=\bigotimes_{i=1}^n \mu_i\]
+\end{theo}
+\end{enumerate}
+
+\begin{theo}[de Fubini]
+Considérons l'espace produit $(E,\mathbb{B},\mu)=(\prod_{i=1}^n E_i,\bigotimes_{i=1}^n \mathcal{B}_i,\bigotimes_{i=1}^n \mu_i)$. Soit $f:E\rightarrow\mathbb{C}$ mesurable.\begin{enumerate}
+\item Si f est positive : \[\int fd\mu = \int_{E_n}\left[\int_{E_n{n-1}} \left[... \left[\int_{E_1} f(x_1,...,x_n) d\mu_1(x_1) \right]... \right]d\mu_{n-1}(x_{n-1}) \right] d\mu_n(x_n)\]
+et de plus, l'ordre d'untégration n'intervient pas, i.e. on peut remplacer dans la formule i par $\sigma(i)$ où $\sigma$ est n'importe quelle bijection de $\{1,..,n\}$ dans $\{1,...,n\}$
+\item Si f est quelconque, alors la formule et la remarque précédentes sont encore vraies dès que f est $\mu$-intégrable, qui se calcule grace à 1).
+\end{enumerate}
+\end{theo}
+\end{document}

@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{verbatim}
+\usepackage{moreverb}
+\usepackage[top=3cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newtheoremstyle{mes_theoremes}{}{}{}{}{\bfseries}{~:\newline}{\parindent}{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{mes_theoremes}
+
+\newtheorem*{Def}{Définition}
+\newtheorem*{Prop}{Proposition}
+\newtheorem*{dem}{Demonstration}
+\newtheorem*{theo}{Théorème}
+\newtheorem*{rmq}{Remarque}
+\newtheorem*{lem}{Lemme}
+\newtheorem*{coro}{Corollaire}
+
+\newcommand{\Inde}{\perp \! \! \! \perp}
+
+\hypersetup{colorlinks=true, linkcolor=red}
+
+\begin{document}
+
+\setcounter{tocdepth}{4}
+\tableofcontents
+\newpage
+
+\part{Probabilités}
+\input{part1}
+\include{part2}
+\include{part3}
+\include{part4}
+\include{part5}
+
+\end{document}

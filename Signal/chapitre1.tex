@@ -1,0 +1,47 @@
+\section{Signal déterministe}
+\subsection{Définitions}
+Echelon : \[u(t)=\left\{ \begin{array}{l} 1\ si\ t \geq 0 \\ 0 \ sinon \end{array} \right.\]
+Signal rectangulaire : \[Rect_T(t) = \left\{ \begin{array}{l} 1\ si\ |t| \leq T \\ 0 \ sinon \end{array} \right.\]
+Sinus cardinal : \[\mathrm{sinc}(t) = \frac{\sin{\pi t}}{\pi t}\]
+Energie : \[E_x = \int_{-\infty}^{+\infty} |x(t)|^2 dt = \int_{-\infty}^{+\infty} x(t) \overline{x(t)} dt\]
+Puissance : \[P_X = \lim_{T \to +\infty} \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} |x(t)|^2 dt\]
+
+\subsection{Représentation en fréquence des signaux d'énergie finis}
+Transformée de Fourier : \[X(f)=\int_{-\infty}^{+\infty} x(t) e^{-2\pi jft}dt\]
+Si x(t)=$Rect_T (t)$, \[X(f)=2T\mathrm{sinc}(2Tf)\]
+\[\overline{X(f)}=\int_{-\infty}^{+\infty} \overline{x(t)} e^{2\pi jft}dt\]
+
+\subsubsection{Propriétés des transformées}
+\begin{enumerate}
+\item Addition : $\alpha x(t)+\beta y(t) \xrightarrow{TF} \alpha X(f) + \beta X(f) $
+\item Dérivée : $-2\pi jtx(t) \xrightarrow{TF} \frac{dX(f)}{df}$ 
+\item Symétrie de correspondance : $x(t)\xrightarrow{TF} X(f) \Leftrightarrow X(t) \xrightarrow{TF} x(f) $
+\item Identité de Parseval : $\int x(t)y(t) dt = \int X(f)Y(f) df $ \\
+En particulier, $\int x(t)^2 dt = \int X(f)^2 df$ : pas de perte d'énergie.
+\item Convolution : h(t)=x(t)*y(t) = $\int x(\tau)y(t-\tau) d\tau$ \\
+$x(t)*y(t) \xrightarrow{TF} X(f)Y(f)$
+\item Décalage temporel : $x(t-\theta) \xrightarrow{TF} e^{-2\pi jf\theta} X(f)$ et $e^{-2\pi jf_0t} x(t) \xrightarrow{TF} X(f+f_0)$
+\end{enumerate}
+
+\subsection{Représentation fréquentielle de signaux x-périodique et de signaux limités en temps}
+\subsubsection*{Notion de distribution}
+$\delta$(t) : distribution de Dirac. \\
+\[\forall \phi(t), \forall a, \int \delta(t-a) \phi(t) = \phi(a)\]
+
+\subsubsection{Développement de Fourier}
+Développement en série de Fourier d'un signal limité en temps \[x(t)=\sum_{k=-\infty}^{+\infty} X_k e^{2\pi j \frac{k}{T} t}\]
+où T est la période ou la durée du signal, et $X_k$ le coefficient de Fourier, qui vaut :
+\[X_k = \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} x(t) e^{-2\pi j \frac{k}{T} t} dt = \frac{1}{T} X\left( \frac{k}{T} \right) \]
+
+\subsubsection{TF de la Dirac}
+\begin{eqnarray*}
+\delta (t) &\xrightarrow{TF}& 1 \\
+e^{2\pi j \frac{k}{T} t} &\xrightarrow{TF}& \delta \left(f-\frac{k}{T} \right) \\
+\sum_{k=-\infty}^{+\infty} X_k e^{2\pi j \frac{k}{T} t} &\xrightarrow{TF}& \sum_{k=-\infty}^{+\infty} X_k \delta \left( f-\frac{k}{T} \right)
+\end{eqnarray*}
+Donc quand on a un signal de période T, on obtient un spectre en fréquence échantilloné en $\frac{1}{T}$
+
+\subsubsection{Fonction d'inter et d'autocorrélation}
+Fonction d'intercorrélation : \[R_{XY}(t)=x(t)*\overline{y(-t)} = \int x(\tau)\overline{y(\tau -t)} d\tau\]
+Fonction d'autocorrélation : \[R_X (t) = x(t)*\overline{x(-t)}=\int x(\tau)\overline{x(\tau -t)} d\tau\]
+

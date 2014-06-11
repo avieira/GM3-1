@@ -1,0 +1,214 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{verbatim}
+\usepackage{moreverb}
+\usepackage[top=3cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newtheoremstyle{mes_theoremes}{}{}{}{}{\bfseries}{~:\newline}{\parindent}{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{mes_theoremes}
+
+\newtheorem*{Def}{Définition}
+\newtheorem*{Prop}{Proposition}
+\newtheorem*{dem}{Demonstration}
+\newtheorem*{theo}{Théorème}
+\newtheorem*{coro}{Corollaire}
+
+\hypersetup{colorlinks=true, linkcolor=red}
+
+\begin{document}
+\section{Méthodes itératives}
+Pour les méthodes directes, on a théoriquement la solution exacte $\bar{x}$. \\
+Avec les méthodes itératives, on construit $\{x_n\}_{n=1}^{+\infty}$, avec $\lim_{n\rightarrow +\infty} x_n = \bar{x}$.
+
+Ce qui nous intéresse avant tout, c'est
+\begin{enumerate}
+\item convergence de la méthode
+\item Vitesse de convergence
+\item Coût de la méthode
+\end{enumerate}
+
+\subsection{Critère d'arrêt}
+On définit le vecteur résidu :
+\begin{eqnarray*}
+r(x) &=& B-Ax \\
+r(x_k) &=& B-Ax_k = r^{(k)}
+\end{eqnarray*}
+
+Comme on l'a vu dans l'exercice 3.1 : \[\frac{||\bar{x} - x_k||}{||\bar(x)||} \leq cond(A) \frac{||r^{(k)||}}{||B||}\]
+Ainsi, si A est bien conditionné, le critère d'atrêt peut être :  \[ \frac{||r^{(k)}||}{||B||} < \varepsilon \] avec $\varepsilon$ posé (en général, assez petit).
+
+\subsection{Avant-propos sur les méthodes itératives}
+On prend un système qu'on écrit sous la forme Ax=b. \\
+On pose A= M-N, avec $det(M) \neq 0$. Ainsi : \[x^{(k+1)} = M^{-1}N x^k + M^{-1}b\]
+En posant $M^{-1}N=B$ et $c=M^{-1}b$, on a : \begin{equation} x^{(k+1)} = B x^k + c \end{equation}
+
+\begin{Def}
+Soit $\mathcal{M}$ un espace métrique (associé à $\rho$). L'application f : $\mathcal{M} \rightarrow \mathcal{M}$ est contractante si : \[\exists 0<\alpha<1; \forall(x,y)\in \mathcal{M}^2, \rho (f(x),f(y)) < \alpha \rho(x,y)\]
+\end{Def}
+
+\begin{theo}[du point fixe]
+Si $\mathcal{M}$ est complet et f contractante : \[\exists! x^*; f(x^*)=x^*\]
+De plus, si on pose $x_{n+1} = f(x_n)$, alors \[x^* = \lim_{n\rightarrow +\infty} x_n\]
+\end{theo}
+
+\begin{coro}
+Si ||B||<1, la méthode (1) converge.
+\end{coro}
+
+\begin{dem}
+On prend $\rho(x,y) = ||x-y||$. \\
+Soit f(x) = Bx+c.
+\begin{eqnarray*}
+\forall(x,x'), ||f(x)-f(x')|| &=& ||B(x-x')|| \\
+&\leq& ||B|| \ ||x-x'||
+\end{eqnarray*}
+||B||<1 $\Rightarrow$ f contractante $\Rightarrow$ $\exists! x^*=\lim_{n\rightarrow +\infty} x_n$
+\end{dem}
+
+\subsection{Méthode de Jacobi}
+A = L + D + U, L$\in$ LT à diagonale nulle, U$\in$ UT à diagonale nulle, D = diag(A).
+
+On suppose que det(D) $\neq$ 0 (sinon, pivotage).
+\begin{eqnarray*}
+Dx &=& -(L+U)x + b \\
+x&=&-D^{-1}(L+U)x + D^{-1}b \\
+\\
+x_i &=& \sum_{\underset{j\neq i}{j=1}}^n \frac{a_{ij}}{a_{ii}}x_j + \frac{b_i}{a_{ii}}
+\end{eqnarray*} 
+Si on pose $B=-D^{-1}(L+U)$ et $c=D^{-1}b$ on retrouve l'égalité (1). D'où la méthode de Jacobi : 
+\[x_i^{(k+1)} = -\sum_{\underset{j\neq i}{j=1}}^n \frac{a_{ij}}{a_{ii}}\ x_j^{(k)} + \frac{b_i}{a_{ii}}\]
+
+\begin{Def}
+A est à diagonale strictement dominante sil existe 0<$\alpha$<1 tel que \[\sum_{\underset{j\neq i}{j=1}}^n |a_{ij}| \leq \alpha|a_{ii}|\] pour tout i de 1 à n, ou ce qui est équvalent à dire : \[\forall i \in \{1,...,n\}, \sum_{\underset{j\neq i}{j=1}}^n |a_{ij}| < |a_{ii}| \]
+\end{Def}
+
+\begin{theo}
+Si A est à diagonale strictement dominante, la méthode de Jacobi converge.
+\end{theo}
+
+\begin{dem}
+Si B=$-D^{-1}(L+U)$, comme montré dans l'exercice 3.4, ||B||<1. Donc la méthode converge d'après le théorème cité au-dessus.
+\end{dem}
+
+\subsection{Méthode de Gauss-Seidel}
+Dans la méthode de Jacobi \[||\bar{x} - x^{(k+1)}|| \leq ||\bar{x}-x^{(k)}|| \]
+Dans cette méthode, on recalcule entièrement le vecteur $x^k$ à chaque fois. \\
+Au lieu de cela, on peut aussi ne calculer qu'une seule composante, et la réutiliser tout de suite après pour le calcul de la composante suivante.
+
+On a donc la formule suivante :
+\[x_i^{(k+1)} = -\sum_{j=1}^{i-1} \frac{a_{ij}}{a_{ii}}\ x_j^{(k+1)} - \sum_{j=i+1}^n \frac{a_{ij}}{a_{ii}}\ x_j^{(k)}+ \frac{b_i}{a_{ii}}\]
+
+Sous forme matricielle :
+\begin{eqnarray*}
+Dx^{(k+1)}&=&-Lx^{(k+1)} -Ux^{(k)} + b \\
+(D+L)x^{(k+1)}&=&-Ux^{(k)} + b \\
+x^{(k+1)}&=&-(D+L)^{-1}Ux^{(k)} + (D+L)^{-1}b
+\end{eqnarray*}
+En posant $B=-(D+L)^{-1}U$ et $c=(D+L)^{-1}b$, on retrouve (1)
+
+\begin{theo}
+Si A est à diagonale strictement dominante, la méthode de Gauss-Seidel converge.
+\end{theo}
+
+\subsection{Méthode de relaxation}
+La méthode de relaxation permet de faire converger les méthodes itératives que l'on connait déjà. Par exemple, si $x_{GS}^k$ est calculé par la méthode de Gauss-Seidel, la méthode de relaxation associée sera, pour $\omega >0$ : \[x^{k+1} - x^k = \omega (x_{GS}^{k+1} - x_{GS}^k)\]
+
+\begin{theo}
+La méthode de relaxation converge si $0<\omega <2$. On appelle la méthode :
+\begin{itemize}
+\item Sur-relaxation si $\omega >1$
+\item Sous-relaxation si $0<\omega <1$
+\end{itemize}
+\end{theo}
+
+\subsection{Méthode de descente}
+On prend le système Ax=b, avec A symétrique défini positive.
+\begin{theo}
+\begin{eqnarray*}
+\bar{x}\ solution\ de\ Ax=b &\Leftrightarrow& \bar{x}\ minimum\ de\ J(x)=\frac{1}{2}(Ax,x)-(b,x) \\
+&\Leftrightarrow& \bar{x}\ minimum\ de\ E(x)=(Ae(x),e(x))\ avec\ e(x)=x-\bar{x}
+\end{eqnarray*}
+\end{theo}
+
+\begin{dem}
+On pose <<u,v>> = (Au,v). <<.,.>> est un produit scalaire, car A est symétrique définie positive. \\
+Alors <<$x-\bar{x},x-\bar{x}$>> =0 $\Leftrightarrow$ $x=\bar{x}$ $\Leftrightarrow$ e($x$)=0
+
+1 $\Leftrightarrow$ 3 car :
+\begin{eqnarray*}
+e(x)=0 &\Leftrightarrow& E(x)\ atteint\ son\ minimum \\
+&\Leftrightarrow& E(x)=0
+\end{eqnarray*}
+
+2 $\Leftrightarrow$ 3 car :
+\begin{eqnarray*}
+E(x)&=&(A(\bar{x}-x),\bar{x}-x) \\
+&=& (A\bar{x},\bar{x}) -(Ax,\bar{x}) - (A\bar{x},x) + (Ax,x) \\
+&=& (b,\bar{x}) - (x,A\bar{x}) - (b,x) + (Ax,x)\ (b=A\bar{x}\ et\ car\ A\ symétrique) \\
+&=& (b,\bar{x}) - (x,b) - (b,x) + (Ax,x) \\
+&=& 2(\frac{1}{2} (Ax,x)-(b,x)) + (b,\bar{x})
+\end{eqnarray*}
+$\bar{x}$ minimise E($x$) $\Leftrightarrow$ $\bar{x}$ minimise $\frac{1}{2} (Ax,x)-(b,x)$
+\end{dem}
+
+\paragraph{Principe de la méthode \\}
+On cherche E(X)=0.\\
+On veut donc $E(x^{(k)}) \xrightarrow[k \to +\infty]{} 0$ avec $E(x^{(k+1)}) < E(X^{(k)})$ 
+
+On pose $A=V^TDV$. \\
+D a les valeurs propres de A sur la diagonale et est diagonale. \\
+On pose z=e($x$). \[E(x)=(Az,z)=z^TAz=z^TV^TDVz\]
+On pose $\omega=Vz$. \[E(x)=\omega^T D \omega\]
+
+Si on cherche E(x)=k constante : \[\sum_{j=1}^n \lambda_j \omega_j^2 = k\]
+
+On retrouve une équation d'ellipsoïde. Pour n=2, vu que A est définie positive, $\lambda_1 > 0$ et $\lambda_2 >0$, donc on peut poser $\lambda_1 = \frac{1}{c_1^2}$ et $\lambda_2 = \frac{1}{c_2^2}$. Si k>0, on a \[\frac{\omega_1^2}{kc_1^2} + \frac{\omega_2^2}{kc_2^2}=1\] ce qui est bien une équation d'ellipsoïde. La méthode consiste donc à prendre des équations d'ellipsoïdes centrés en $\bar{x}$ qui deviennent de plus en plus petits.
+
+On peut poser $x_{k+1} - x_k = \alpha_k p_k$. Quels $p_k$ doit-on éviter ? \\
+Si on prend un vecteur sur la tangante de l'ellipse, on l'éloigne de la solution. On évite donc de prendre un vecteur de la sorte.
+
+\paragraph{Mise en place \\}
+Supposons qu'on a hoisi $p_k$ en direction de la descente.\\
+Quel est le choix optimal de $\alpha_k$?
+
+On cherche à minimiser J($x^{(k+1)}$) en tant que fonction de $\alpha_k$. \\
+A REPRENDRE
+
+Donc \[\alpha_k = \frac{(r_k,p_k)}{(Ap_k,p_k)}\]
+
+On suppose $(p_k,r_k)\neq 0$ (Sinon, on ne converge jamais)
+\begin{eqnarray*}
+grad(J(x))&=& grad\left(\frac{1}{2}(Ax,x)-(b,x)\right) \\
+&=& grad \left(\frac{1}{2}x^TAx-b^Tx \right) \\
+&=& Ax-b = -r(x)
+\end{eqnarray*}
+
+Notamment, $grad(J(x^k))=-r^k$
+
+\paragraph{Méthode de gradient à paramètre optimal \\}
+$p^k=r^k$ \\
+$X^{k+1}=X^k + \frac{||r^k||^2}{<r^k,Ar^k>}r^k$ \\
+
+Si $cond_2(A)=1$, la méthode de gradient converge en une itération.
+
+\paragraph{Sous-Espace de Krylov}
+
+\begin{eqnarray*}
+\mathfrak{K}_k (r,A)&=&span\{C,Ac,...,A^{k-1}c\} \\
+&=& \{y=\lambda_1 c + ... + \lambda_k A^{k-1}c | (\lambda_1,...,\lambda_k)\in\mathbb{R}^k\}
+\end{eqnarray*}
+
+
+
+\end{document}

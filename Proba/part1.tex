@@ -1,0 +1,82 @@
+\section{Espaces probabilisés dénombrables}
+Soit $\Omega = (\omega_n)_{n \geqslant 1} $ un ensemble dénombrable, et soit $f: \Omega \rightarrow \mathbb{R}^{+} $ une fonction.
+
+\[\lim_{n \rightarrow +\infty}{\sum_{\omega \in F} f(\omega)} = \sup \{ \sum_{\omega \in F} f(\omega) ; F \subset \Omega\ et\ F\ fini \} = \sum_{\omega \in \Omega} f(\omega) \]
+
+\begin{Def}
+On appelle probablité sur \begin{math} \Omega \end{math} une fonction P définie sur \begin{math}\mathcal{P}(\Omega)\end{math} et à valeur dans [0,1] tel que :
+\begin{enumerate}
+\item $P(\Omega)=1$
+\item Pour toute famille dénombrable $\mathcal{A}$ de partie de $ \Omega $ 2 à 2 incompatibles, on a : \[P(\bigcup_{A \in \mathcal{A}} A)=\sum_{A \in \mathcal{A}} P(A) \]
+\end{enumerate}
+\end{Def}
+
+\begin{Prop}
+Soit $\mathbb{P}$ une fonction définie sur $\mathcal{P}(\Omega)$ à valeur dans $\mathbb{R}^{+}$. $\mathbb{P}$ vérifie la $\sigma$-additivité si et seulement si :
+\begin{enumerate}
+\item $P(A \cup B) = P(A) + P(B)$ pour tout A et B incompatibles
+\item Pour toute suite $(A_n)_{n \geqslant 1}$ croissante de parties de $\Omega$, \[\mathbb{P}(\bigcup_{n=1}^{+\infty} A_n) = \lim_{n \rightarrow +\infty} \mathbb{P}(A_n)\]
+\end{enumerate}
+\end{Prop}
+
+\begin{dem}
+$\sigma \Rightarrow$ 1 : évident
+$\sigma \Rightarrow$ 2 : Soit $(A_n)_{n \geqslant 1}$ croissante. Posons $B_{k+1}=A_{k+1} \textbackslash{} A_{k}$
+$\bigcup_{n \geqslant 1} A_n = \bigcup_{n \geqslant 1} B_n$ et les $(A_n)_{n \geqslant 1}$ sont 2 à 2 incompatibles.
+D'après la propriété de $\sigma$-additivité, 
+\begin{eqnarray*}
+P(\bigcup_{n \geqslant 1} A_n) &=& P(\bigcup_{n \geqslant 1} B_n) \\
+&=& \lim_{n \rightarrow +\infty} \sum_{p=0}^{n} P(B_n) \\
+&=& \lim_{n \rightarrow +\infty} P(A_0) + P(A_n) - P(A_0) \\
+&=& \lim_{n \rightarrow +\infty} P(A_n)
+\end{eqnarray*}
+
+1 et 2 $\Rightarrow \sigma$ : Soit $(A_n)_{n \geqslant 1}$ 2 à 2 incomptaibles. Posons $B_n = \bigcup_{k=1}^n A_k$ et $\bigcup_{n \geqslant 1} A_n = \bigcup_{n \geqslant 1} B_n$.
+\begin{eqnarray*}
+P(\bigcup_{n \geqslant 1} A_n) &=& P(\bigcup_{n \geqslant 1} B_n) = \lim_{n \rightarrow +\infty} P(B_n) = \lim_{n \rightarrow +\infty} P(\bigcup_{k=1}^n A_k) \\
+&=& \lim_{n \rightarrow +\infty} \sum_{k=1}^n P(A_k) = \sum_{k=1}^{+\infty} P(A_k)
+\end{eqnarray*}
+\end{dem}
+
+\begin{Def}
+On appelle espace dénombrable probabilisé un couple $(\Omega, \mathbb{P})$ où $\Omega$ est un ensemble dénombrable non vide et $\mathbb{P}$ une mesure de probabilité sur $\Omega$.
+\end{Def}
+
+\begin{Prop}
+Les proproétés 1 à 7 vues dans le cas fini restent vraies. De plus, pour toute famille $\mathcal{A}$ dénombrable d'évènement, on a 
+\[\mathbb{P}(\bigcup_{A \in \mathcal{A}} A) \leqslant \sum_{A \in \mathcal{A}} \mathbb{P}(A)\]
+\end{Prop}
+
+Remarque : La notion de densité discrète se généralise au cas où $\Omega$ est infini dénombrable.
+
+\addcontentsline{toc}{subsubsection}{Lois usuelles sur $\mathbb{N}$} 
+\subsection*{Lois usuelles sur $\mathbb{N}$}
+\paragraph{Loi géométrique}
+Pour tout $p\in]0,1[$, la fonction f définie pour tout $k\in\mathbb{N}^*$ par \[f(k)=(1-p)^{k-1}p\] est une densité de probabilité sur $\mathbb{N}^*$
+On appelle la probabilité sur $\mathbb{N}^*$ associée, la loi géométrique de paramètre p et on la note $\mathfrak{G}(p)$. 
+
+\paragraph{Loi binomiale négative}
+Pour tout $p\in]0,1[$ et $r\in\mathbb{N}^*$, la fonction f définie pour tout $k\in\mathbb{N}^*$ par \[f(k)=\left(\begin{array}{r}k-1 \\ r-1 \end{array}\right)(1-p)^{k-r}p^r\] est une densité de probabilité sur $\mathbb{N}^*$
+On appelle la probabilité sur $\mathbb{N}^*$ associée, la loi binomiale négative de paramètre r et p et on la note $\mathfrak{BN}(r,p)$. 
+
+Remarque : $\mathfrak{BN}(1,p) = \mathfrak{G}(p)$ et f(k)=0 si r>k.
+Ici, on ne s'intéresse pas au 1\ier\ succès mais au r-ième succès.
+
+\paragraph{Loi de Poisson}
+Pour tout $\lambda$>0, la fonction f définie pour tout $k\in\mathbb{N}$ par \[f(k)=e^{-\lambda}\frac{\lambda^k}{k!}\] est une densité de probabilité sur $\mathbb{N}$
+On appelle la probabilité sur $\mathbb{N}$ associée, la loi géométrique de paramètre $\lambda$ et on la note $\mathfrak{P}(\lambda)$. 
+
+\begin{theo}
+Soit $(p_n)_{n \geqslant 1}$ une suite d'éléments de [0,1] tel que \[\lim_{n\rightarrow+\infty} np_n =\lambda\]
+Alors \[\lim_{n\rightarrow+\infty} \left(\begin{array}{r}n \\ k \end{array}\right) p_n^k(1-p_n)^{n-k} = e^{-\lambda}\frac{\lambda^k}{k!}\]
+\end{theo}
+
+\begin{dem}
+$np_n = \lambda u_n$ avec $\lim_{n\rightarrow+\infty} u_n = 1$.
+Soit $k \in \mathbb{N}$ fixé.
+\[\left(\begin{array}{r}n \\ k \end{array}\right) p_n^k(1-p_n)^{n-k} = \frac{n!}{k!(n-k)!} \times \frac{1}{n^k} (\lambda u_n)^k \left(1-\lambda \frac{u_n}{n}\right)^{n-k}\]
+Or, $\left(1-\frac{x}{n}\right)^n \rightarrow e^{x}$ et $\frac{n!}{(n-k)!} \frac{1}{n^k} \rightarrow 1$ d'où le résultat.
+\end{dem}
+
+En pratique, on conviendra que l'approximation d'une binomiale par une loi de Poisson de paramètre np est correcte pour $n \geqslant 50$, $n \leqslant 0,01$ et $np \leqslant 10$. 
+

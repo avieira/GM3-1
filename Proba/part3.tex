@@ -1,0 +1,170 @@
+\section{Notion d'indépendance}
+Soit $(\Omega, \mathcal{F}, \mathbb{P})$ un espace probabilisé.
+
+\begin{Def}\
+\begin{enumerate}
+\item On dit que deux évenements A et B sont indépendants s'ils vérifient $\mathbb{P}(A \cap B) = \mathbb{P}(A) \mathbb{P}(B)$.
+\item Soit $(A_i)_{i\in I}$ une famille quelconque d'évenements. On dit que les $(A_i)_{i\in I}$ sont mutuellement indépendants si pour tout ensemble fini d'indices distincts $\{i_1,...,i_n\} \subset I$, on a \[\mathbb{P}(A_{i_1}\cap ... \cap A_{i_k})=\mathbb{P}(A_{i_1}) ... \mathbb{P}(A_{i_k})\]
+\end{enumerate}
+\end{Def}
+
+Soient $(\Omega_1, \mathcal{F}_1, \mathbb{P}_1)$ et $(\Omega_2, \mathcal{F}_2, \mathbb{P}_2)$ deux espaces probabilisés. Considérons l'espace probabilisable $(\Omega, \mathcal{F})$ où $\Omega = \Omega_1 \times \Omega_2$ et $\mathcal{F}=\mathcal{F}_1 \otimes \mathcal{F}_2$ (produit tensoriel) est la tribu engendrée par les parties de $\Omega$ de la forme $A_1 \times A_2$ avec $A_1 \in \mathcal{F}_1$ et $A_2 \in \mathcal{F}_2$.
+
+\begin{Prop}
+$\exists! \mathbb{P}$ sur $(\Omega,\mathcal{F})=(\Omega_1 \times \Omega_2, \mathcal{F}_1 \otimes \mathcal{F}_2)$ tel que : 
+\[\forall A_1 \in \mathcal{F}_1, \forall A_2 \in \mathcal{F}_2, \mathbb{P}(A_1 \times A_2)=\mathbb{P}_1(A_1) \mathbb{P}_2(A_2)\]
+$\mathbb{P}$ s'appelle le produit tensoriel de $\mathbb{P}_1$ et $\mathbb{P}_2$ et on note $\mathbb{P}=\mathbb{P}_1 \otimes \mathbb{P}_2$.
+\end{Prop}
+
+Soient $(\Omega, \mathcal{A}, \mathbb{P})$ un espace probabilisé. On note X et Y deux variables aléatoires définies sur $(\Omega, \mathcal{A}, \mathbb{P})$ tel que X soit à valeur dans un espace mesurable (E,$\mathcal{E}$) et Y à valeur dans un espace mesurable (F,$\mathcal{F}$).
+
+\begin{Def}
+On dit que X et Y sont indépendantes (et on note X$\Inde$Y) si pour tout $A\in\mathcal{E}$ et tout $B\in\mathcal{F}$ les évenements $\{X\in A\}$ et $\{Y \in B\}$ sont indépendants.\\
+De même, soit $(X_i)_{i\in I}$ une famille de v.a. dans les espaces mesurables $((E_i,\mathcal{E}_i))_{i\in I}$. On dit que les $(X_i)_{i\in I}$ sont indépendantes entre elles si pour toute famille $(B_i)_{i \in I}$ d'éléments de $(\mathcal{E}_i)_{i\in I}$, les éléments $\{X_i \in B_i\}_{i\in I}$ sont mutuellement indépendants.
+\end{Def}
+
+\begin{Prop} \
+\begin{enumerate}
+\item X$\Inde$Y $\Rightarrow$ f(X)$\Inde$g(Y) pour tout f et g mesurables
+\item Si la loi du couple (X,Y) admet une densité, alors \[X\Inde Y \Leftrightarrow f_{(X,Y)}(x,y)=f_X (x) f_Y (y)\]
+\end{enumerate}
+\end{Prop}
+
+\section{Fonction de répartition}
+\subsection{Définition générale}
+\begin{Def} \
+\begin{itemize}
+\item Pour toute mesure de probabilité $\mu$ sur $(\mathbb{R},B_{\mathbb{R}})$, on apelle fonction de répartition de $\mu$, notée $F_{\mu}$, et définie pour tout $x\in \mathbb{R}$ par : \[F_{\mu}(x)=\mu(]-\infty, x])\]
+\item Soit X une v.a. réelle définie sur $(\Omega, \mathcal{F}, \mathbb{P})$. On parlera alors de fonction de répartition de la v.a. X au lieu de la fonction de répartition de la loi $\mu_X$ de X. On notera $F_{\mu} = F_X$ et on aura donc : \[F_X(x) = \mu_X (]-\infty,x])=\mathbb{P}(X \leq x)\]
+\item Plus généralement, si X=$(X_1,...,X_d)$ est un vecteur aléatoire de $\mathbb{R}$, alors la fonction de répartition $F_X$ de X est définie pour tout x=$(x_1,...,x_d)\in \mathbb{R}^d$ par \[F_X(x)=\mathbb{P}(X \leq x) \mathbb{P}(X_1<x_1,...,X_d<x_d)\]
+\end{itemize}
+\end{Def}
+
+\begin{theo}[admis]
+Deux mesures de probabilité sur $(\mathbb{R}, B_{\mathbb{R}})$ sont égales ssi elles ont même fonction de répartition.
+\end{theo}
+
+\begin{Prop}[de la f.d.r]
+Soit X une v.a. définie sur $(\Omega,\mathcal{F},\mathbb{P})$ et soit $F_X$ sa f.d.r.
+\begin{itemize}
+\item $F_X$ est croissante tel que $\lim_{x \to +\infty} F_X(x)=1$ et $\lim_{x \to -\infty} F_X(x)=0$
+\item $F_X$ est "Cadlag" (continue à droite et limité à gauche) et pour tout $\alpha\in\mathbb{R}$ on a : \[F_x(\alpha^{-})=\lim_{\underset{x<\alpha}{x \to \alpha}} F_X(x) = \mathbb{P}(X<\alpha)\]
+\item \[\forall \alpha \in \mathbb{R}, \mathbb{P}(X=\alpha)=F_X(\alpha) - F_X (\alpha^{-})\]
+\end{itemize}
+\end{Prop}
+
+\begin{dem}[de la dernière propriété]
+\begin{eqnarray*}
+F_X(\alpha)-F_X(\alpha^-)&=&\lim_{n\to +\infty} \mathbb{P}(X\leq \alpha) -\mathbb{P}(X \leq \alpha - \frac{1}{n}) \\
+&=& \lim_{n\to +\infty} \mathbb{P}(\alpha - \frac{1}{n} < X\leq \alpha) \\
+&=& \lim_{n\to +\infty} \mathbb{P}(X \in ]\alpha-\frac{1}{n}, \alpha]) \\
+&=& \mathbb{P}(X \in \bigcap_n \alpha-\frac{1}{n}, \alpha]) \\
+&=& \mathbb{P}(X = a)
+\end{eqnarray*}
+\end{dem}
+
+\begin{Prop}
+Soit X une variable aléatoire réelle de densité $f_X$. La f.d.r. $F_X$ de X vérifie :
+\begin{itemize}
+\item $\forall x\in \mathbb{R}, F_X(x)=\int_{-\infty}^x f_X(t)dt$
+\item $F_X$ continue sur $\mathbb{R}$
+\item Si $f_X$ est continue en $x_0 \in \mathbb{R}$ alors $F_X$ est dérivable et $F'(x_0)=f(x_0)$
+\end{itemize}
+\end{Prop}
+
+\begin{Prop}
+On suppose que la f.d.r. $F_X$ de la var X est $\mathcal{C}^1$ par morceaux au sens suivant :
+\begin{itemize}
+\item $F_X$ continue sur $\mathbb{R}$ sauf éventuellement en un nombre fini de points $a_1<a_2<...<a_n$.
+\item Sur chacun des des intervalles $]-\infty,a_1[,]a_n,+\infty[$ et $]a_i, a_{i+1}[$ pour tout $1 \leq i \leq n-1$, la dérivée f de $F_X$ est continue.
+\end{itemize}
+Alors X a pour densité $f$
+\end{Prop}
+
+\subsection{Espérance et variance d'une var}
+\begin{Def}
+Soit X une var définie sur l'espace probabilisé $(\Omega, \mathcal{F}, \mathbb{P})$. On appelle espérance de la v.a. X et on note E(X) l'intégrale (au sens de Lebesgue) \[\int_{\Omega} X(\omega) d\mathbb{P}(\omega)\] lorsque celle-ci est bien définie. \\
+Si E(|X|) est un nombre fini, on dit que la v.a. X est intégrable.
+\end{Def}
+
+\begin{rmq}
+Posons $X^+=\sup(X,0)$ et $X^-=\inf((-X),0)$. ($X^+ \geq 0$ et $X^- \geq 0$ p.s.) \\
+Les intégrales $\int_{\Omega} X^+ d\mathbb{P}$ et $\int_{\Omega} X^- d\mathbb{P}$ ont toujours un sens.
+Comme $X=X^+ + X^-$ on pose \[\int_{\Omega} X d\mathbb{P} = \int_{\Omega} X^+ d\mathbb{P} + \int_{\Omega} X^- d\mathbb{P}\]
+\end{rmq}
+
+\begin{theo}
+\begin{enumerate}
+\item Si $X(\Omega)$ dénombrable, alors : \[E(X) = \sum_{k\in X(\Omega)} k \mathbb{P}(X=k)\] et pour toute fonction g définie sur $X(\Omega)$ à valeur dans $\mathbb{R}$ : 
+\[E(g(X))=\sum_{k\in X(\Omega)} g(k) \mathbb{P}(X=k)\]
+\item Si la loi de X admet une densité $f_X$ alors \[E(X)=\int_{\mathbb{R}} xf_X(x)dx\] et plus généralement, si g est une fonctions mesurable sur $\mathbb{R}$ à valeur dans $\mathbb{R}$ alors : \[E(g(X))=\int_{\mathbb{R}} g(x) f_X(x) dx\]
+\end{enumerate}
+\end{theo}
+
+\begin{Prop}
+Soient X et Y deux v.a.r.
+\begin{enumerate}
+\item $\forall a,b\in \mathbb{R}, E(aX+bY)=aE(X)+bE(Y)$
+\item Si $X\geq 0$ p.s. alors $E(X) \geq 0$
+\item Si $X \geq Y$ p.s. alors $E(X) \geq E(Y)$
+\item $|E(X)| \leq E(|X|)$ et plus généralement, si $\phi$ est une fonction convexe, alors \[\phi(E(X)) \leq E(\phi(X))\] (inégalité de Jensen)
+\end{enumerate}
+\end{Prop}
+
+\begin{theo}[de la convergence dominée de Lebesgue]
+Soit $(X_n)_{n\geq 1}$ une suite de v.a.r. qui converge p.s. vers une v.a.r. X.\\
+S'il existe une v.a. Y intégrable tel que $|X_n| \leq Y$ p.s. $\forall n\geq 1$ alors \[E(X) = \lim_{n \to +\infty} E(X_n)\]
+\end{theo}
+
+\begin{Prop}[Inégalité de Markov]
+Soit X est une v.a.r. définie sur $(\Omega,\mathcal{F},\mathbb{P})$ \\
+Si $X \geq 0$ p.s. alors \[\forall \lambda > 0,  \mathbb{P}(X > \lambda) \leq \frac{E(X)}{\lambda}\]
+\end{Prop}
+
+\begin{dem}
+\[\forall A\in \mathcal{F},\ \mathbb{P}(A)=\int_A d\mathbb{P}=\int 1_A d\mathbb{P}=E(1_A)\]
+\begin{eqnarray*}
+\mathbb{P}(X \leq \lambda) &=& E(1_{\{X \leq \lambda\}}) = \int_{\Omega} 1_{\{X \leq \lambda\}} d\mathbb{P} \\
+&\leq& \int_{\Omega} \frac{X}{\lambda} 1_{\{X \leq \lambda\}} d\mathbb{P}\\
+&\leq& \int_{\Omega} \frac{X}{\lambda} d\mathbb{P} (car\ X\geq 0\ p.s.) \\
+&\leq& \frac{1}{\lambda} \int_{\Omega} X d\mathbb{P} \\
+&\leq& \frac{E(X)}{\lambda}
+\end{eqnarray*}
+\end{dem}
+
+\begin{Def}
+Pour toute v.a.r. X, on appelle variance de X le nombre (s'il existe) \[V(X)=E\left((X-E(X))^2 \right) = E\left(X^2\right) - \left( E(X)\right)^2\]
+\end{Def}
+
+\begin{Prop}[Inégalité de Bienaymé-Tcheychev]
+\[\forall \lambda > 0,  \mathbb{P}(|X-E(X)| > \lambda) \leq \frac{V(X)}{\lambda^2}\]
+\end{Prop}
+
+\begin{dem}
+\begin{eqnarray*}
+\mathbb{P}(|X-E(X)| > \lambda) &=& \mathbb{P}\left((X-E(X))^2 > \lambda^2 \right) \\
+&\leq& \frac{E\left( (X-E(X))^2 \right)}{\lambda^2} \\
+&\leq& \frac{V(X)}{\lambda^2}
+\end{eqnarray*}
+\end{dem}
+
+\begin{Prop}
+\begin{itemize}
+\item $V(X)\geq 0$ (car $E(X)^2 \leq E(X^2)$ )
+\item Si la loi de X dmet une densité $d_x$ alors \[V(X)=\int_{\mathbb{R}} x^2f_X(x) dx - \left(\int_{\mathbb{R}} xf_X(x) dx\right)^2\]
+\item $\forall(a,b)\in\mathbb{R}^2,\ V(aX+b)=a^2V(X)$
+\item Considérons la fonction \begin{eqnarray*} g:\mathbb{R}&\rightarrow&\mathbb{R}^+ \\ a&\mapsto& E((X-a)^2) \end{eqnarray*} alors \[\underset{a\in\mathbb{R}}{\mathrm{argmin}}\ g(a)=E(X)\ et\ \min_{a\in\mathbb{R}} g(a)=V(X)\]
+\item $X\Inde Y \Rightarrow V(X+Y)=V(X)+V(Y)$
+\end{itemize}
+\end{Prop}
+
+\paragraph{Exemples à connaître : \\}
+\begin{itemize}
+\item $X\hookrightarrow \mathcal{B}(p)$ alors E(X)=p et V(X)=p(1-p)
+\item $X\hookrightarrow \mathcal{B}(p,n)$ alors E(X)=np et V(X)=np(1-p)
+\item $X\hookrightarrow \mathcal{G}(p)$ alors E(X)=$\frac{1}{p}$ et V(X)=$\frac{1-p}{p^2}$
+\item $X\hookrightarrow \mathcal{P}(\lambda)$ alors E(X)=V(X)=$\lambda$
+\item $X\hookrightarrow \mathcal{U}(]a,b[)$ alors E(X)=$\frac{a+b}{2}$ et V(X)=$\frac{(b-a)^2}{12}$
+\item $X\hookrightarrow\mathcal{E}(\theta)$ alors E(X)=$\frac{1}{\theta}$ et V(X)=$\frac{1}{\theta^2}$
+\item $X\hookrightarrow \mathcal{N}(\mu,\sigma^2)$ alors E(X)=$\mu$ et V(X)=$\sigma^2$
+\end{itemize}

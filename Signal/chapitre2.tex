@@ -1,0 +1,86 @@
+\section{Signaux à temps discret}
+\subsection*{Introduction}
+Jusqu'à présent, nous n'avions qu des signaux continus. On s'intéresse à présent à des signaux à temps discret.
+\[x_k, k\in\mathbb{Z}, temps\ discret\ TD\]
+
+Par rapport à un signal continu, on peut poser un pas d'échantillonnage T qui nous permettra de discrétiser notre signal.
+\[x_k=x(kT)\]
+$x_k$ sera l'échantillon. On a donc besoin d'un infinité d'échantillon pour retrouver le signal continu.
+
+De même, on peut redéfinir plusieurs notions du cas continu dans le cas discret : \\
+\begin{tabular}{|c|c|}
+\hline
+\begin{bf}Cas continu\end{bf} & \begin{bf}Cas discret \end{bf} \\
+\hline
+$E_x = \int |x(t)|^2 dt$ & $E_x = \sum_{k=-\infty}^{+\infty} |x_k|^2$ \\
+\hline
+$x(t)*y(t)=\int x(\tau)y(t-\tau)d\tau$ & $x_k*y_k=\sum_{m=-\infty}^{+\infty} x_m y_{k-m}$ \\
+\hline
+$u(t)=\left\{ \begin{array}{l} 1\ pour\ t \geq 0\\ 0\ sinon \end{array} \right.$ & $u_k=\left\{ \begin{array}{l} 1\ pour\ k \geq 0\\ 0\ sinon \end{array} \right.$\\
+\hline
+$\delta(t) = \left\{ \begin{array}{l} 1\ si\ t = 0\\ 0\ sinon \end{array} \right.$ & $\delta_k = \left\{ \begin{array}{l} 1\ si\ k= 0\\ 0\ sinon \end{array} \right.$ \\
+\hline
+\end{tabular}
+
+\subsection{Transformée en z, $z \in \mathbb{C}$}
+\{$x_k$\} $\xrightarrow{TZ}$ X(z) = $\underset{|r_1|<|z|<|r_2|}{\sum_{k=-\infty}^{+\infty} x_k z^{-k}}$ : on précise toujours un domaine de convergence au sens du critère de Cauchy.
+
+\begin{bf} Critère de Cauchy :\end{bf} $\sum_{k=0}^{+\infty} u_k$ converge ssi $\lim_{k \rightarrow +\infty} (u_k)^{\frac{1}{k}} <1$
+\[X^+ (z) = \sum_{k=0}^{+\infty} x_k z^{-k}\]
+\begin{eqnarray*}
+\lim_{k \rightarrow +\infty} |u_k z^{-k}|^{\frac{1}{k}}&<&1 \\
+\lim_{k \rightarrow +\infty} |u_k|^{\frac{1}{k}} |z^{-1}| &<& 1 \\
+r_1 |z^{-1}| &<& 1 \\
+r_1 &<& |z|
+\end{eqnarray*}
+
+Si $\sum_{k=-\infty}^{+\infty}$ : bilatérale. Si $\sum_{k=0}^{+\infty}$ : monolatérale.
+
+\subsubsection*{Quelques définitions}
+\begin{itemize}
+\item Un signal $x_k$ est \ul{causal} s'il est nul pour k<0. Dans ce cas, X(z) est monolatéral et la région de convergence est supérieure à $r_1$
+\item Un signal $x_k$ est \ul{anticausal} s'il est nul pour $k\geq0$. Dans ce cas, X(z) est monolatéral et la région de convergence est inférieure à $r_2$
+\item Un signal $x_k$ est \ul{bilateral} s'il est défini non nul pour tout k. Le domaine de convergence est compris entre $r_1$ et $r_2$.
+\end{itemize} 
+
+\begin{bf} Attention ! \end{bf} :
+\begin{eqnarray*}
+a^k u_k &\xrightarrow{TZ}& \frac{1}{1-az^{-1}} pour |z| > |a| \\
+-a^k u_{-k-1} &\xrightarrow{TZ}& \frac{1}{1-az^{-1}} pour |a| > |z|
+\end{eqnarray*}
+
+\subsubsection*{Propriétés}
+\begin{itemize}
+\item $\delta_k \xrightarrow{TZ} 1$
+\item $x_k \xrightarrow{TZ} X(Z)$, on pose $y_k = x_{k-m}$ 
+\[Y(Z) = \sum_{k=-\infty}^{+\infty} y_k z^{-k} \sum_{k} x_{k-m} z^{-k}\]
+On pose l = k-m.
+\[Y(z) = \sum_{l} x_{l} z^{-l-m} = z^{-m} X(z)\]
+\item $x_k * y_k \xrightarrow{TZ} X(z)Y(z)$ \\
+On a vu en TD que $x_k *z^k = z^k X(z)$. On pose $y_k = x_k * h_k$. On a $y_k * z^k = Y(z)$ \\
+\[(x_k * h_k)* z^k = x_k * (h_k * z^k) = x_k * (H(z)z^k) = (x_k * z^k)H(z) = z^k X(z)H(z)\]
+Par identification, $Y(z)=X(z)Y(z)$.
+\item $kx_k \xrightarrow{TZ} -z \frac{dX(z)}{dz}$ \\
+On prend $x_k$ et sa TZ $X(Z)=\sum_k x_k z^{-k}$. On pose $y_k = kx_k$. Ainsi, $Y(z)=\sum_k kx_kz^{-k}$. Or, 
+\[\frac{dX(z)}{dz}=-\sum_k kx_k z^{-k-1} = -z^{-1} Y(z)\]
+D'où le résultat. \\
+On peut même aller jusqu'à la dérivée seconde. 
+\[\frac{d^2 X(z)}{dz^2}=\sum_k k(k+1)x_k z^{-k-2} = -z^{-2} \left(\sum_k k^2 x_k z^{-k} + \sum_k kx_k z^{-k} \right)\]
+Si on pose $w_k=k^2x_k$ on a : 
+\[W(z) = z^2\ \frac{d^2 X(z)}{dz^2} + z\ \frac{dX(z)}{dz}\]
+\end{itemize}
+
+\subsection{Transformée inverse}
+Commençons par un exemple : \[X(z) = \frac{1}{(1-\frac{1}{2} z^{-1})(1-\frac{1}{3} z^{-1})}=\frac{3}{1-\frac{1}{2} z^{-1}} - \frac{2}{1-\frac{1}{3} z^{-1}}\]
+Les pôles sont les valeurs qui annulent le dénominateur. \[p_1 = \frac{1}{2}\ et\ p_2 = \frac{1}{3}\]
+$\frac{3}{1-\frac{1}{2} z^{-1}}$ correspondra au signal $\frac{1}{2}^k u_k$ si $|z| > \frac{1}{2}$ et à $-\frac{1}{2}^k u_{-k-1}$ si $|z| < \frac{1}{2}$. \\
+$\frac{-2}{1-\frac{1}{3} z^{-1}}$ correspondra au signal $\frac{1}{3}^k u_k$ si $|z| > \frac{1}{3}$ et à $-\frac{1}{3}^k u_{-k-1}$ si $|z| < \frac{1}{3}$. \\
+Ainsi, pour avoir un signal causal, on prend $|z| > \frac{1}{2}$ et ainsi, $x_k = 2\left(\frac{1}{2}\right)^k u_k -3\left(\frac{1}{3}\right)^k u_k$ \\
+Pour avoir un signal anticausal, on prend $|z| < \frac{1}{3}$ et ainsi, $x_k = -2\left(\frac{1}{2}\right)^k u_{-k-1} +3 \left(\frac{1}{3}\right)^k u_{-k-1}$ \\
+Pour avoir un signal bilatéral, on prend $\frac{1}{3}<|z| < \frac{1}{2}$ et ainsi, $x_k = -2\left(\frac{1}{2}\right)^k u_{-k-1} -3\left(\frac{1}{3}\right)^k u_k$ \\
+Ainsi, on voit que le nombre de pôle entraîne le nombre de régions de convergence.
+
+\subsection{Transformée de Fourier des signaux à temps discret}
+Pour les signaux discret, on définit la transformée de Fourier par : \[(f)=\sum_{k=-\infty}^{+\infty} x_k e^{-2\pi jkf}\]
+X(f) est une fonction péridoique de fréquence 1. On étudie donc X(f) sur $[-\frac{1}{2}, \frac{1}{2}]$ ou sur $[0,1]$
+On remarque que si le cercle unité appartient à la région de convergence de la tranformée en z, $X(f)={X(z)}|_{z=e^{2\pi jf}}$

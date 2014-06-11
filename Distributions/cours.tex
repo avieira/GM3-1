@@ -1,0 +1,844 @@
+\documentclass{article}
+
+\input{../../preambule}
+
+\hypersetup{colorlinks=true, urlcolor=bleu, linkcolor=red}
+
+%Def = Definition
+%Theo = Théorème
+%Prop = Propriété
+%Coro = Corollaire
+%Lem = Lemme
+
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
+
+\begin{document}
+\tableofcontents
+\newpage
+
+\part{Théorie des distributions}
+\section{L'espace $\mathcal{D}$}
+\subsection{L'ensemble $\mathcal{D}$}
+
+\Def{L'ensemble $\mathcal{D}$}{C'est l'ensemble des fonctions $\phi:\mathbb{R}\rightarrow\mathbb{C}$ qui sont : \begin{itemize}
+\item $\mathcal{C}^{\infty}$
+\item A support compact : \[\forall \phi \in \mathcal{D},\ \exists[a,b],\ \phi(x)=0\ \forall x\not\in[a,b]\]
+\end{itemize}
+Les fonctions de $\mathcal{D}$ s'appellent les "fonctions tests". Elles servent à définir chaque distribution, à faire des calculs avec.
+}
+
+\subsection{La structure topologique sur $\mathcal{D}$}
+\Def{Convergence sur $\mathcal{D}$}{On dit que $\phi_n$ converge vers $\phi$ dans $\mathcal{D}$ et on note \[\phi_n \xrightarrow{\mathcal{D}} \phi\] si et seulement si : \begin{itemize}
+\item $\exists[a,b], \forall n,\ \phi_n=0$ hors de $[a,b]$ et $\phi=0$ hors de $[a,b]$
+\item $\forall k, \phi_n^{(k)}\xrightarrow{CU}\phi^{(k)}$
+\end{itemize}
+C'est une notion de convergence très forte.
+}
+
+Ceci constitue "l'espace $\mathcal{D}$", espace des fonctions tests. C'est un espace vectoriel.
+
+\section{Les distributions}
+\subsection{Definition}
+\Def{Distribution}{On appelle distribution toute forme linéaire continue sur $\mathcal{D}$, ie :
+\begin{eqnarray*}
+T:\mathcal{D}&\rightarrow&\mathbb{C} \\
+\phi &\mapsto& T(\phi)
+\end{eqnarray*}
+que l'on note (T,$\phi$)
+\begin{itemize}
+\item \ul{lineaire} : $(T,\alpha\phi_1 + \phi_2)=\alpha(T,\phi_1) + (T,\phi_2)$
+\item \ul{continue :} Si $\phi_n \xrightarrow{\mathcal{D}} \phi$ alors $(T,\phi_n) \rightarrow (T,\phi)$
+\end{itemize}
+On note $\mathcal{D}$' l'ensemble des distributions.
+}
+
+C'est un espace vectoriel : \[(T_1+\lambda T_2, \phi)=(T_1,\phi)+\lambda(T_2,\phi)\]
+
+\subsection{La structure topologique sur $\mathcal{D}$'}
+\Def{Convergence sur $\mathcal{D}$'}{On dit que "$T_n$ converge vers T au sens des distrubtions" et on note $T_n \xrightarrow{\mathcal{D}'}T$ si et seulement si :
+\[\forall\phi \in \mathcal{D},\ (T_n,\phi)\xrightarrow[n\to +\infty]{}(T,\phi)\]
+}
+On définit ainsi "l'espace $\mathcal{D}$'", espace des distributions.
+
+\subsection{Les grands principes}
+Distribution de Dirac au point a : \begin{eqnarray*}
+\delta_a : \mathcal{D} &\rightarrow& \mathbb{C} \\
+\phi &\mapsto& (\delta_a,\phi)=\phi(a)\\
+\\
+\delta_a^{(n)}:\mathcal{D} &\rightarrow& \mathbb{C} \\
+\phi &\mapsto& (-1)^n\phi^{(n)}(a)\\
+\end{eqnarray*}
+
+La mesure de Radon sur $\mathbb{R}$ :
+$\mu$ mesure sur $(\mathbb{R},\mathcal{B}_{\mathbb{R}})$ tel que $\mu([a,b])<+\infty$, $\forall a\leq b \in \mathbb{R}$
+\[\mu\in\mathcal{D}\mapsto (\mu,\phi)=\int_{\mathbb{R}} \phi d\mu\]
+
+\subsection{Les fonctions localement intégrables : distributions régulières}
+\Def{Espace des fonctions localement intégrables}{Noté $L^1_{loc}$, c'est l'ensemble des fonctions mesurables $f:\mathbb{R}\rightarrow\mathbb{C}$ tel que $\forall a\leq b \in\mathbb{R}$, \[\int_a^b |f(x)|dx <+\infty\] dans lequel on identifie deux fonctions égales presque partout.
+}
+
+Soit $f\in L^1_{loc}$, on peut lui faire correspondre la distribution définie par : 
+\[\phi\in \mathcal{D} \rightarrow \int_{-\infty}^{+\infty} \phi(x) f(x) dx\]
+Notons-la provisioirement $T_f$ : \[(T_f,\phi)=\int_{-\infty}^{+\infty} \phi(x) f(x) dx\] tel que :
+\begin{itemize}
+\item $\phi=0$ hors de [a,b].
+\item $\exists$ C tel que $|\phi|\leq C$ sur [a,b] : \[\int_{-\infty}^{+\infty} |\phi(x) f(x)| dx \leq c\int_{-\infty}^{+\infty} |f(x)| dx < +\infty\]
+\end{itemize}
+
+On vérifie aisément la continuité de $T_F$ sur $\mathcal{D}$. On a alors le théorème :\\
+\indent \Theo{Egalité des distributions}{$\forall f,g \in L^1_{loc}$, \[T_f=T_g \Leftrightarrow f=g\ dans\ L^1_{loc}\]}
+
+Ceci permet d'identifier $f\in L^1_{loc}$ et $T_f$. On notera encore f la distribution $T_f$.
+
+Distributions régulières ?
+
+\section{La dérivation des distributions}
+\subsection{Définition}
+\Def{Dérivée d'une distribution}{Soit T une distribution. On appelle dérivée de T (au sens des distriutions) la distribution T' définie par : 
+\[\forall \phi \in \mathcal{D}, (T',\phi)=-(T,\phi')\]
+}
+
+\begin{rmq}
+Toute distribution est encore dérivable. \[(T^{(k)},\phi)=(-1)^k (T,\phi^{(k)})\]
+\end{rmq}
+
+\Theo{Suites des dérivées}{Si $T_n \xrightarrow{\mathcal{D}'}T$ alors $T_n' \xrightarrow{\mathcal{D}'}T'$}
+
+\begin{dem}
+Soit $\phi \in \mathcal{D}$ 
+\[(T_n',\phi)=-(T_n,\phi') \rightarrow -(T,\phi')=(T',\phi)\]
+\end{dem}
+
+\subsection{Applications aux séries}
+Si $(U_n)_n$ est une suite de distributions, soit $S_n=\sum_{k\leq n} U_k$.\\
+On dit que la série des $U_n$ converge vers S (au sens des distributions) ssi \[S_n \xrightarrow{\mathcal{D}'} S \in \mathcal{D}', \text{i.e. :}\]
+
+\[\forall \phi, \text{la série } \sum_n (U_n,\phi) \text{est convergente et on a } \sum_n (U_n,\phi) = (S,\phi)\]
+
+On écrit $S=\sum_n U_n$ (ou $S\overset{\mathcal{D}'}{=} \sum U_n$)
+
+\Theo{Dérivation des séries}{Si $S=\sum_n U_n$ alors $S'=\sum_n U_n'$}
+
+\begin{dem}
+La somme des dérivées est la dérivée de la somme (facile à démontrer).\\
+D'après le théorème précédent, on a directement \[S_n'=\sum_{k\leq n} U_k' \rightarrow S'\]
+\end{dem}
+
+\subsubsection{Dérivation dans quelques cas particulier}
+Soit $f:\mathbb{R}\rightarrow \mathbb{C}$, constamment dérivable par morceaux, ayant en tout point des limites à droite et à gauche, n'ayant qu'un nombre fini de discontinuité sur tout intervalle borné.\\
+Soient $... <x_i<x_{i+1}<...$ \\
+On suppose que sur $]x_i,x_{i+1}[$, f est $\mathcal{C}^1$
+
+\bigskip
+\Theo{Dérivées généralisées}{Avec les hypothèses et notations précédentes, la dérivée de f au sens des distributions vaut \[f'=\{f\}' + \sum_i \Delta f(x_i)\delta_{x_i}\]
+où $\{f\}'$ est la fonction définie pp égale à la dérivée de f au sens des fonctions, et $\Delta f(x_i)=f(x_i^+)-f(x_i^-)$ (saut de f au point $x_i$)}
+
+\begin{dem}
+Il est clair que $f\in L^1_{loc} \subset \mathcal{D}'$ \\
+Soit $\phi \in \mathcal{D}$
+\begin{eqnarray*}
+(f',\phi) &=& -(f,\phi') \\
+&=& -\int_{-\infty}^{+\infty} f(x) \phi'(x) dx \\
+&=& -\sum_{i\in \mathbb{Z}} \int_{x_i}^{x_{i+1}} f(x) \phi'(x) dx
+\end{eqnarray*}
+Sur $[x_i,x_{i+1}]$, on prolonge f par continuité aux points $x_i$ et $x_{i+1}$ par $f(x_i^+)$ et $f(x_{i+1}^-)$
+\begin{eqnarray*}
+(f',\phi)&=& -\sum_{i\in \mathbb{Z}} \left[f(x)\phi(x)\right]_{x_i}^{x_{i+1}} + \sum_{i\in \mathbb{Z}} \int_{x_i}^{x_{i+1}} \{f\}'(x)\phi(x) dx \\
+&=& \int_{-\infty}^{+\infty} \{f\}'(x) \phi(x) dx - \sum_{i\in \mathbb{Z}} f(x_{i+1}^-) \phi(x_{i+1}) + \sum_{i\in \mathbb{Z}} f(x_i^+) \phi(x_i) \\
+&=& \int_{-\infty}^{+\infty} \{f\}'(x) \phi(x) dx - \sum_{i\in \mathbb{Z}} f(x_i^-) \phi(x_i) + \sum_{i\in \mathbb{Z}} f(x_i^+) \phi(x_i) \\
+&=& (\{f\}',\phi) + \sum_{i\in \mathbb{Z}} (f(x_i^+)-f(x_i^-)) \phi(x_{i+1}) \\
+&=& (\{f\}',\phi) + \sum_{i\in \mathbb{Z}} (\Delta f(x_i) \delta_{x_i}, \phi)
+\end{eqnarray*}
+
+Donc la série $\sum \Delta f(x_i) \delta_{x_i}$ converge et on a : \[f'=\{f\}' + \sum_i \Delta f(x_i)\delta_{x_i}\]
+\end{dem}
+
+\begin{rmq}
+Si au point $x_i$, f n'est pas dérivable, mais est continue, alors $\Delta f(x_i)=0$. Il n'y a donc par de Dirac au point $x_i$. 
+En particulier, si f est $\mathcal{C}^0$, dérivable par morceaux, f'=\{f\}'
+\begin{eqnarray*}
+f(x)=\left\{ \begin{array}{r l c} x &\text{ si }& x<0 \\ -x &\text{ si }& x>0 \end{array} \right. &\Rightarrow& f'(x)=\left\{ \begin{array}{r c l} 1 &\text{ si }& x<0 \\ -1 &\text{ si }& x>0 \end{array} \right. \\
+f(x)=\left\{ \begin{array}{r c l} x &\text{ si }& x<0 \\ 1-x &\text{ si }& x>0 \end{array} \right. &\Rightarrow& f'(x)=\delta(x) + \left\{ \begin{array}{r c l} 1 &\text{ si }& x<0 \\ -1 &\text{ si }& x>0 \end{array} \right.
+\end{eqnarray*}
+\end{rmq}
+
+\subsubsection{Dérivation des fonctions absolument continues}
+Soit $f:\mathbb{R} \rightarrow \mathbb{C}$ \\
+On dit que f est absoluement continue ssi il existe une fonctions $g\in L^1_{loc}$ tel que \[\forall a\leq b, f(b) - f(a) = \int_a^b g(x) dx\]
+On a f absolument continue $\Rightarrow$ f continue, mais cela n'implique pas f dérivable (sauf si g est $\mathcal{C}^0$).
+
+\Theo{Dérivabilité au sens des distributions}{Sous les mêmes hypothèses et les mêmes notations, on a f dérivable (au sens des distributions) et \[f'=g\]}
+
+\Lem{Intégration sur un rectangle}{Soit
+\begin{eqnarray*}
+f : [a,b]^2 &\rightarrow& \mathbb{C} \\
+(x,y) &\mapsto& f(x,y)
+\end{eqnarray*}
+intégrable sur $[a,b]^2$, alors 
+\[\int_a^b \int_a^x f(x,y) dy dx = \int_a^b \int_y^b f(x,y) dx dy = I\]}
+
+\begin{dem}[du lemme]
+\begin{eqnarray*}
+I&=& \int_a^b \int_a^b f(x,y) 1_{\{a\leq y \leq x \leq b\}} dy dx \\
+&=& \int_a^b \int_a^b f(x,y) 1_{\{a\leq y \leq x \leq b\}} dx dy \text{(Théorème de Fubini)} \\
+&=& \int_a^b \int_y^b f(x,y) dx dy
+\end{eqnarray*}
+\end{dem}
+
+\begin{dem}[du théorème]
+Soit $\phi \in \mathcal{D}$. 
+\begin{eqnarray*}
+(f',\phi) &=& -(f,\phi') \\
+&=& -\in_{-\infty}^{+\infty} f(x) \phi'(x) dx 
+\end{eqnarray*}
+
+Soit [a,b] tel que $\phi(x)=0$ pour $x \neq\in [a,b]$. \\
+Par continuité, on a $\phi(a)=\phi(b)=0$.
+\[(f',\phi)=-\int_a^b f(x) \phi'(x)dx\]
+\[f(x) = f(a) + \int_a^x g(y) dy\]
+donc : 
+\begin{eqnarray*}
+(f',\phi) &=& \int_a^b f(a) \phi'(x)dx - \int_a^b \int_a^x g(y) \phi'(x) dy dx \\
+&=& -f(a)\underbrace{\left[ \phi(b)-\phi(a) \right]}_{=0} - \int_a^b \int_y^b g(y) \phi'(x) dx dy \\
+&=& -\int_a^b g(y) \int_y^b \phi'(x) dx dy \\
+&=& -\int_a^b g(y) (\phi(b) -\phi(y)) dy \\
+&=& \int_a^b g(y) \phi(y) dy \\
+&=& \int_{-\infty}^{+\infty} g(y) \phi(y) dy \\
+&=& (g,\phi)
+\end{eqnarray*}
+donc f'=g au sens des distributions.
+\end{dem}
+
+\subsubsection{CNS de convergence}
+\Theo{CNS pour qu'une suite (resp série) de distribution converge : (admis)}
+{Soit $(T_n)_n$ une suite de distributions.
+\begin{eqnarray*}
+(T_n)_n \text{ converge } &\Leftrightarrow& \forall \phi \in \mathcal{D}, (T_n,\phi) \text{ converge } \\
+\sum_n (T_n)_n \text{ converge } &\Leftrightarrow& \forall \phi \in \mathcal{D}, \sum_n (T_n,\phi) \text{ converge } 
+\end{eqnarray*}
+}
+
+\newpage
+\part{Equations différentielles et intégrales - Produit de convolution - Calcul symbolique}
+
+\section{Préliminaires}
+\begin{rap}
+Si $T\in\mathcal{D}'$, T' est définie par \[\forall \phi \in \mathcal{D}, (T',\phi)=-(T,\phi')\]
+\end{rap}
+
+\Theo{Dérivée nulle}{$T'=0 \Leftrightarrow \exists c \in \mathbb{C}; T=c$}
+
+\begin{dem}
+Si T=c, $\forall \phi \in \mathcal{D}$ : \[(T',\phi)=(0,\phi)=0\] donc T'=0
+
+Si T'=0 : \\
+Si $\phi\in\mathcal{D}$ et si $\phi=\psi'$ avec $\psi\in\mathcal{D}$ :
+\[(T,\phi)=(T,\psi')=-(T',\psi)=-(0,\psi)=0\]
+
+\bigskip
+Soit $\phi\in\mathcal{D}$
+Soit $\theta\in\mathcal{D}$ tel que $\int_{-\infty}^{+\infty} \theta(x) dx=1$. \\
+Considérons $\phi(x)-\theta(x)\int_{-\infty}^{+\infty} \phi(u) du = \alpha(x),\ \alpha\in\mathcal{D}$ \\
+Soit $\psi(x)=\int_{-\infty}^x \alpha(u) du$.
+\[\psi'(x)=\alpha(x),\ \mathcal{C}^{\infty}, \text{ donc } \psi \mathcal{C}^{\infty}\]
+Soit [a,b] tel que $\alpha=0$ hors de [a,b]
+
+Si x<a, $\psi(x)=0$
+\begin{eqnarray*}
+\text{Si x>b, } \psi(x)&=& \int_{-\infty}^b \alpha(v) dv = \int_{-\infty}^{+\infty} \alpha(v) dv \\
+&=& \int_{-\infty}^{+\infty} \phi(v) dv - \int_{-\infty}^{+\infty} \theta(v) \int_{-\infty}^{+\infty} \phi(u) du dv \\
+&=& \int_{-\infty}^{+\infty} \phi(v) dv - \underbrace{\int_{-\infty}^{+\infty}\theta(v) dv}_{=1} \int_{-\infty}^{+\infty} \phi(u) du \\
+&=& 0
+\end{eqnarray*}
+
+Donc $\psi$ est nulle hors de [a,b], donc $\psi \in \mathcal{D}$ et $\psi'=\alpha$. $Donc (T,\alpha)=0$
+\begin{eqnarray*}
+\text{Or, } (T, \alpha)&=&(T, \phi-\theta\times\int_{-\infty}^{+\infty} \phi(u) du) \\
+&=& (T,\phi) -\underbrace{(T,\theta)}_{c} \int_{-\infty}^{+\infty} \phi(u) du \\
+&=& (T,\phi)-(c,\phi) \\
+&=& 0
+\\
+&\Leftrightarrow& (T,\phi)=(c,\phi)
+\end{eqnarray*}
+
+i.e T=c
+\end{dem}
+
+\section{Produit de convolution}
+\begin{rap}
+Soient 2 fonctions f et g mesurables. \\
+On dit que f et g sont convolables ssi \[h(u)=\int_{-\infty}^{+\infty} |f(u)|g(x-u)| du < \infty \text{ pour presque tout }x\]
+et alors, on définit $f*g$ comme la fonction définie pp par : \[f*g(x)=\int_{-\infty}^{+\infty} f(u) g(x-u) du\]
+\end{rap}
+
+On a vu que si $f,g\in L^1$, alors $f*g$ existe et $\in L^1$
+
+Cherchons une généralisation de la définition de la convolution aux distributions.
+
+Prenons par exemple $f,g\in L^1\subset L^1_{loc} \subset \mathcal{D}'$
+
+Soit $\phi\in\mathcal{D}$.
+\begin{eqnarray*}
+(f*g,\phi)&=& \int_{-\infty}^{+\infty} f*g(x) \phi(x) dx \\
+&=& \iint_{\mathbb{R}^2} f(u) g(x-u) \phi(x) du dx
+\end{eqnarray*}
+
+Fubini ? $\phi$ est bornée, $\leq$ c.
+\begin{eqnarray*}
+\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} |f(u)||g(x-u)||\phi(x)| du dx &\leq& c \int_{-\infty}^{+\infty} |f(u)| \int_{-\infty}^{+\infty} \subset{|g(x-u)| dx}_{y=x-u} du \\
+&\leq& c \int_{-\infty}^{+\infty} |f(u)| du \int_{-\infty}^{+\infty} |g(y)| dy <\infty
+\end{eqnarray*}
+
+On peut donc inverser l'ordre d'intégration : 
+\begin{eqnarray*}
+(f*g,\phi) &=& \int_{-\infty}^{+\infty} \left[\int_{-\infty}^{+\infty} f(u) \underbrace{g(x-u)}_{v=x-u} \phi(x) dx\right] du \\
+&=& \int_{-\infty}^{+\infty} f(u) \left[ \int_{-\infty}^{+\infty} g(v) \phi(v+u) dv \right] du \\
+&=& \int \int_{\mathbb{R}^2} f(u) g(v) \phi(u+v) du dv (*)
+\end{eqnarray*}
+
+On se retrouve sur $\mathbb{R}^2$. \\
+$\mathcal{D}(\mathbb{R}^2)$ : ensemble des fonctions de $\mathbb{R}^2 \to \mathbb{R}$, $\mathcal{C}^{\infty}$ à support compact. \\
+$\mathcal{D}'(\mathbb{R}^2)$ : ensemble des fonctions linéaires continues sur $\mathcal{D}(\mathbb{R}^2)$
+
+\paragraph{Produit tensoriel de 2 distributions \\}
+Si S et T sont 2 distributions sur $\mathbb{R}$, on définit une distribution sur $\mathbb{R}^2$, $S\otimes T$, par :
+\[\forall \phi \in \mathcal{D}(\mathbb{R}^2), (S\otimes T,\psi)=(S_x,(T_y,\psi(x,y))) = (T_y,(S_x,\psi(x,y)))\]
+
+\paragraph{L'idée : \\}
+Si S et T sont 2 distributions (sur $\mathbb{R}$), on souhaite définir S*T par :
+\[\forall \phi \in \mathcal{D}, (S*T,\phi)=S_x\otimes T_y, \phi(x+y)) = (S_x,(T_y,\phi(x+y)))\]
+
+\paragraph{Problème : \\}
+$\psi(x,y)=\phi(x+y)$ n'est pas à support compact.
+$(T_y, \phi(x+y))$ est bien définie. C'est une fonction qui dépend de $x$ : $\psi(x)=(T_y,\phi(x+y))$ \\
+$\psi$ est $\mathcal{C}^{\infty}$, mais elle n'est en général pas à support borné. D'où le problème.
+
+\bigskip
+Chaque distribution a un domaine de définition qui est propre, et dans lequel $\mathcal{D}$ est inclu. \\
+Il suffit donc que $\psi \in \mathcal{D}(S)$\\
+Il nous faut donc bien redéfinir la notion de support.
+
+\subsection{Support d'une fonction :}
+Soit $f:\mathbb{R}\rightarrow \mathbb{C}$.\\
+Le support de f est l'adhérence de l'ensemble : \[\{x|f(x)\neq 0\}\]
+\begin{eqnarray*}
+y\in \text{Supp}(f) &\Leftrightarrow& \forall \varepsilon>0, \exists x;\ |x-y|<\varepsilon \text{ et } f(x)\neq 0 \\
+y\not\in \text{Supp}(f) &\Leftrightarrow& \exists \varepsilon>0; \forall x,\ |x-y|<\varepsilon \Rightarrow f(x)=0
+\end{eqnarray*}
+
+\subsection{Support d'une distribution}
+Soit $T\in \mathcal{D}'$ \\
+\begin{eqnarray*}
+y\in \text{Supp}(T) &\Leftrightarrow& \forall \varepsilon>0, \exists \phi\in\mathcal{D};\ \text{Supp}(\phi)\subset]y-\varepsilon,y+\varepsilon[ \text{ et } (T,\phi)\neq 0 \\
+y\not\in \text{Supp}(T) &\Leftrightarrow& \exists \varepsilon>0; \forall \phi\in\mathcal{D}, \text{Supp}(\phi)\subset]y-\varepsilon,y+\varepsilon[ \Rightarrow f(x)=0
+\end{eqnarray*}
+
+\Theo{Théorème de prolongement}{Soient $T\in\mathcal{D}'$ et $\psi \mathcal{C}^{\infty}$.\\
+Si Supp(T)$\cap$Supp($\psi$) est bornée alors $(T,\psi)$ est bien défini.}
+
+On note $\varepsilon$' l'ensemble des distributions à support compact. \\
+Si S ou T$\in \varepsilon$' alors S*T est bien défini et S*T=T*S.
+
+\subsection{Element neutre : la dirac}
+\begin{eqnarray*}
+(\delta*T,\phi)&=& (\delta_x,(T_y,\phi(x+y))) \\
+&=& (T_y,\phi(0+y)) \\
+&=&(T,\phi)
+\end{eqnarray*}
+
+D'où $T*\delta=\delta*T=T$.
+
+\subsubsection{Dérivation :}
+$\delta'*T=T'$ \\
+\begin{eqnarray*}
+(T*\delta',\phi)&=& (T_y,(\delta_x',\phi(x+y))) \\
+ &=& (T_y,-(\delta_x, \phi'(x+y)))\\
+ &=& (T_y,-\phi'(y)) \\
+ &=& (T',\phi)
+\end{eqnarray*}
+
+Par généralisation : $\delta^{(k)}*T=T^{(k)}$
+
+D'où les opérateurs différentiels : 
+\[a_nT^{(n)} + ... + a_1 T' + a_0 T = (a_n\delta^{(n)}+...+a_0\delta)*T\]
+
+\Def{Distributions à support borné à gauche}{Notons $\mathcal{D}_g '$ l'ensemble des distributions dont le support est borné à gauche. 
+\[T\in \mathcal{D}_g ' \Leftrightarrow \exists a; \text{Supp}(T)\subset[a,+\infty[\]
+et $\mathcal{D}_+ '$ le sous-ensemble des distributions à support dans $[0,+\infty[$.}
+
+\Theo{Convolution sur $\mathcal{D}_g '$}{La convolution est bien définie sur $\mathcal{D}_g '$ et :
+\[S,T\in\mathcal{D}_g ' \Rightarrow S*T \text{ est bien définie}\]
+* est une loi interne :
+\begin{itemize}
+\item Elle est associative
+\item Elle a un élément neutre
+\item Elle est commutative
+\item Elle est distributive
+\end{itemize}}
+
+On dit que $(\mathcal{D}_g ',+,\cdot,*)$ est une algèbre unitaire, associative et commutative. \\
+Ceci permet de définir le calcul symbolique.
+
+\begin{rmq}
+* n'est pas forcément associative (mais elle l'est par théorème sur $\mathcal{D}_g '$)
+\end{rmq}
+
+\section{Formulaire : Calcul symbolique}
+\Formu{On change de notation :}{
+\begin{itemize}
+\item * se note comme la multiplication 
+\item $\delta$ ne note 1
+\item $\delta$' se note p
+\end{itemize}
+Si T se note F(p), alors $T^{*-1}$ se note $\frac{1}{F(p)}$.\\
+On peut alors appliquer les règles de calcul habituelles.
+}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+$\frac{1}{p-\lambda}$ & $He^{\lambda t}$ \\
+\hline
+$\frac{1}{p^2+\omega^2}$ & $H\frac{\sin(\omega t)}{\omega}$ \\
+\hline
+$\frac{p}{p^2+\omega^2}$ & $H\cos(\omega t)$ \\
+\hline
+$\frac{1}{p^2-\omega^2}$ & $H \frac{\sinh(\omega t)}{\omega}$ \\
+\hline
+$\frac{p}{p^2-\omega^2}$ & $H \cosh(\omega t)$ \\
+\hline
+$\frac{1}{(p-a)(p-b)}$ & $H \frac{e^{bt} - e^{at}}{b-a}$ \\
+\hline
+$\frac{1}{(p-\lambda)^n}$ & $H \frac{t^{n-1}}{(n-1)!} e^{\lambda t}$ \\
+\hline
+$\frac{1}{p^n}$ & $H \frac{t^{n-1}}{(n-1)!}$  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item On transforme l'équation pour qu'elle soit dans $\mathcal{D}_+ '$. On obtient X.
+\item On replace X dans l'équation du début. On factorise par les dérivés de Dirac avec la convoluée.
+\item On résout l'équation égal à Dirac pour trouver l'inverse. 
+\item On revient à l'équation de départ. On peut résoudre le problème.
+\end{itemize}
+
+\bigskip
+Pensez à :
+\[Hf*Hg(t) = H(t)\int_0^t f(u) g(t-u) du\]
+
+\Exemp{Formule de Taylor}{Retrouvez la formule de Taylor avec reste intégral, en dérivant n fois Hf et en applicquant le calcul symbolique}
+\begin{eqnarray*}
+(Hf)^{(n)}&=&f(0)\delta^{(n-1)}+f'(0)\delta^{(n-2)}+...+f^{(n-1)}(0)\delta+Hf^{(n)} \\
+	  &=&\delta^{(n)}*Hf
+\end{eqnarray*}
+\underline{Ecriture symbolique :} \\
+\begin{eqnarray*}
+p^nHf &=& f(0)p^{n-1} + f'(0) p^{n-2} +...+f^{(n-2)}(0)p+f^{(n-1)}(0)+Hf^{(n)} \\
+\Rightarrow Hf &=& f(0) \frac{1}{p} + f'(0) \frac{1}{p^2} + ... + f^{(n-1)}(0) \frac{1}{p^n} + Hf^{(n)} \frac{1}{p^n}
+\end{eqnarray*}
+\underline{Traduction pour $t\geq 0$ : } \\
+$\frac{1}{(p-\lambda)^k} \leftrightarrow H \frac{t^{k-1}}{(k-1)!} e^{\lambda t}$
+\[f(t)=f(0)+f'(0)t+...+f^{(n-1)}(0)\frac{t^{n-1}}{(n-1)!} + \int_0^t f^{n}(u)\frac{(t-u)^{n-1}}{(n-1)!} du\]
+
+\newpage
+\part{Transformation de Fourier}
+
+\section{Rappel : Tranformation de Fourier des fonctions}
+Soit $f\in L^1(\mathbb{R}),\ f:\mathbb{R}\to\mathbb{C}$. \\
+La transformée de Fourier de $f$ est la fonction $\hat{f}$ définie par : \[\forall \nu \in \mathbb{R},\ \hat{f}(\nu)=\int_{-\infty}^{+\infty} f(x)e^{-2i\pi\nu x} dx\]
+
+La transformée de Fourier est l'application : \[f\in L^1 \xrightarrow{\mathcal{F}} \mathcal{F}(f)=\hat{f}\]
+
+\Prop{De la transformée de Fourier}{\begin{itemize}
+\item $\mathcal{F}$ est linéaire : $\forall(\alpha,\beta)\in\mathbb{C}^2,\ \mathcal{F}(\alpha f+\beta g)=\alpha\mathcal{F}(f)+\beta\mathcal{F}(g)$
+\item $\forall f\in L^1$, $\hat{f}$ est continue
+\item Si $f\ \mathcal{C}^k$ et $f',f'',...,f^{(k)} \in L^1$, alors : \[\exists c_k;\ |\hat{f}(\nu)|\leq \frac{c_k}{(1+|\nu|)^k}\]
+\item Si $f$ et $x^kf \in L^1$ alors $\mathcal{F}(f)$ est $\mathcal{C}^k$
+\end{itemize}}
+
+\Lem{Limite à zéro}{Si $f$ et $f'\in L^1$ alors $f(x)\xrightarrow[x\to +\infty]{} 0$}
+\begin{dem}
+Si on prend $f>0$. \[f(x)-f(0) = \int_0^x f'(t) dt\]
+Or, $f'\in L^1$, donc :\[\int_0^x f'(t)dt \xrightarrow[x\to +\infty]{} \int_0^{+\infty} f'(t)dt <+\infty\]
+Donc $\exists l\in \mathbb{C};\ f(x) \xrightarrow[x\to+\infty]{} l$. Montrons que $l=0$
+$|f(x)|\to l.\ \exists a; \forall u\geq a,\ |f(u)| \geq \frac{|l|}{2}$. Donc :
+\[\int_0^{+\infty} |f(u)| du \geq \int_a^{+\infty} |f(u)|du \geq  \int_a^{+\infty} \frac{|l|}{2} du = \frac{|l|}{2} \times \infty\]
+Or, $\int_0^{+\infty} |f(u)| du < \infty$, donc $|l|=0$. \\
+(de même quand $x\to -\infty$)
+\end{dem}
+
+\begin{dem}[de la propriété 1]
+Si $f$ et f$'\in L^1$ :
+\begin{eqnarray*}
+\mathcal{F}(f')(\nu)&=& \int_{-\infty}^{+\infty} f'(x) e^{-2i\pi \nu x} dx \\
+	&=& \left[\underbrace{f(x)}_{\to 0}\underbrace{e^{-2i\pi\nu x}}_{\text{module 1}} \right]_{-\infty}^{+\infty} - \int_{-\infty}^{+\infty} f(x)(-2i\pi\nu)e^{-2i\pi\nu x}dx\\
+	&=& 2i\pi\nu \mathcal{F}(f)(\nu)
+\end{eqnarray*}
+\[|\mathcal{F}(f)(\nu)|\leq \int_{-\infty}^{+\infty} |f(x)| dx = ||f||_1\]
+
+\[|2i\pi\nu||\mathcal{F}(f)(\nu)=|\mathcal{F}(f')(\nu)|\leq ||f'||_1\]
+D'où $(1+|\nu|)|\mathcal{F}(f)(\nu)|\leq \underbrace{||f||_1 + \frac{||f'||_1}{2\pi}}_{=c_1}$ ce qui nous donne : 
+\[|\mathcal{F}(f)(\nu)|\leq \frac{c_1}{1+|\nu|}\]
+Donc vrai pour $k=1$.
+
+Pour k quelconque : $f,f',...,f^{(k)} \in L^1$. Par récurrence, on a :
+\[\mathcal{F}(f^{(k)})(\nu)=(2i\pi\nu)^k\mathcal{F}(f)(\nu)\]
+\[(2\pi)^k|\mathcal{F}(f)(\nu)|\leq (2\pi)^k ||f||_1\]
+\[|2i\pi\nu|^k|\mathcal{F}(f)(\nu)|\leq||f^{(k)}||_1\]
+D'où :
+\[|\mathcal{F}(f)(\nu)|\leq \frac{||f||_1+\frac{||f^{(k)}||_1}{(2\pi)^k}}{1+|\nu|^k}\]
+\end{dem}
+
+\bigskip
+\Formu{}{Si $f$ et $f'\in L^1$ \[\mathcal{F}(f')(\nu)=2i\pi\nu \mathcal{F}(f)(\nu)\]}
+
+\begin{dem}[de la démonstration 2]
+On utilise le théorème de dérivation :
+\begin{itemize}
+\item $\nu \mapsto f(x)e^{-2i\pi\nu x}$ est dérivable
+\item $\frac{\partial}{\partial \nu}(f(x)e^{-2i\pi\nu x}) = -2i\pi x f(x)e^{2i\pi\nu x}$ \\
+Or, $\left| \frac{\partial}{\partial \nu}(f(x)e^{-2i\pi\nu x}) \right| = 2\pi |xf(x)| \in L^1$
+\end{itemize}
+
+\bigskip
+Donc $\mathcal{F}(f)$ est dérivable, et :
+\begin{eqnarray*}
+\mathcal{F}'(f)(\nu)&=& \int_{-\infty}^{+\infty} -2i\pi xf(x) e^{-2i\pi\nu x} dx \\
+	&=& \mathcal{F}(-2i\pi\nu xf)(\nu) \text{ qui est } \mathcal{C}^0
+\end{eqnarray*}
+
+Si $1\leq j\leq k$ : 
+\begin{eqnarray*}
+\int_{-\infty}^{+\infty} |x^j f(x)| dx &=& \int_{-1}^1 |x^jf(x)| dx + \int_{|x|>1} |x^jf(x)| dx \\
+	&\leq& \int_{-1}^{1} |f(x)| dx + \int_{|x|>1|} |x^k f(x)| dx < \infty
+\end{eqnarray*}
+
+donc $x^jf\in L^1\ \forall 1\leq j\leq k$\\
+Le résultat s'ensuit par récurrence.
+\end{dem}
+
+\section{Espace $\mathcal{S}$ de Schwarz}
+C'est l'ensemble des fonctions $\phi : \mathbb{R}\to \mathbb{C}$ vérifiant : 
+\begin{itemize}
+\item $\phi$ est $\mathcal{C}^{\infty}$
+\item $\forall k,\ \phi^{(k)}$ décroit à l'infini plus vite que toute puissance de $\frac{1}{x}$, ie : 
+\[\forall k, \forall l, x^l\phi^{(k)}(x) \xrightarrow[x\to +\infty]{} 0\]
+\end{itemize}
+
+\textbf{Espace topologique : \\}
+$\phi_n \xrightarrow{\mathcal{S}} \phi$ si et seulement si : 
+\[\forall k,l,\ |x^l||\phi_n^{(k)}-\phi^{(k)}| \xrightarrow{CU} 0\]
+
+\textbf{Remarque :} $\mathcal{D} \subset \mathcal{S}$ et $\phi_n \xrightarrow{\mathcal{D}} \phi \Rightarrow \phi_n \xrightarrow{\mathcal{S}} \phi$ 
+
+\Theo{Stabilité par la transformation de Fourier}{L'une des propriété essentielle de $\mathcal{S}$ est qu'il est stable par la transformation de Fourier, ie :
+\begin{eqnarray*}
+\mathcal{F}:\mathcal{S} &\to& \mathcal{S} \\
+	\phi \in \mathcal{S} &\mapsto& \mathcal{F}(\phi) \in \mathcal{S}
+\end{eqnarray*}
+(Résulte des deux résultats précédents)}
+
+\section{Transformée des distributions}
+\subsection{Recherche d'une définition}
+Soit $f\in L^1$ alors $\mathcal{F}(f)(\nu)$ est $\mathcal{C}^0$, bornée, donc $\mathcal{F}(f)(\nu) \in L^1_{loc} \subset \mathcal{D}'$
+Soit $\phi \in \mathcal{D}$.
+\begin{eqnarray*}
+(\mathcal{F}(f),\phi)&=& \int_{-\infty}^{+\infty} \mathcal{F}(f)(\nu)\phi(\nu) d\nu \\
+&=& \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x) e^{-2i\pi\nu x} \phi(\nu) dx d\nu \\
+\text{Par Fubini (on peut le vérifier) :} \\
+&=& \iint_{\mathbb{R}^2} f(x) e^{-2i\pi\nu x} \phi(\nu) d\nu dx \\
+&=& (f,\mathcal{F}(\phi))
+\end{eqnarray*}
+
+D'où : \[\forall f\in L^1, \forall \phi\in\mathcal{D}, (\mathcal{F}(f),\phi)=(f,\mathcal{F}(\phi))\]
+
+On a envie de le définir pour tout $T\in\mathcal{D}'$. On peut montrer que $\phi$ et $\mathcal{F}(\phi) \in \mathcal{D} \Leftrightarrow \phi=0$\\
+Il faut montrer que le domaine de définition de T contient $\mathcal{S}$. Ceci amène aux distributions tempérées. 
+
+\subsection{Espace des distributions tempérées}
+C'est l'espace $\mathcal{S}'$ des formes linéaires continues sur $\mathcal{S}$
+\begin{eqnarray*}
+T : \mathcal{S} &\to& \mathbb{C} \\
+\phi &\mapsto& (T,\phi)
+\end{eqnarray*}
+Linéaire : $(T,\alpha \phi + \beta \psi)=\alpha(T,\phi)+\beta(T,\psi)$ \\
+Continue : $\phi_n \xrightarrow{\mathcal{S}}\phi \Rightarrow (T,\phi_n) \rightarrow (T,\phi)$
+
+Avec la notion de convergence : 
+\[T_n \xrightarrow{\mathcal{S}} T \Leftrightarrow \forall \phi\in \mathcal{S},\ (T_n,\phi)\to (T,\phi)\]
+On a $\mathcal{S}' \subset \mathcal{D}'$ (car $\mathcal{D} \subset \mathcal{S}$)
+
+\subsection{Transformée de Fourier des distributions tempérées}
+Soit $T\in \mathcal{S}'$ alors $\mathcal{F}(T) \in \mathcal{S}'$ et :
+\[\forall \phi \in \mathcal{S}, (\mathcal{F}(T),\phi)=(T,\mathcal{F}(\phi))\]
+
+\section{Propriétés de la TF}
+\subsection{Continuité}
+\Prop{Continuité de la TF}{$\mathcal{F} : \mathcal{S}'\to\mathcal{S}'$ est continue}
+\begin{dem}
+Soit T et $T_n$ deux distributions de $\mathcal{S}'$ tel que $T_n \to T$
+\[\phi\in\mathcal{S},\ (\mathcal{F}(T_n),\phi)=(T_n,\mathcal{F}(\phi)) \to (T,\mathcal{F}(\phi))=(\mathcal{F}(T),\phi)\]
+\end{dem}
+
+\Def{Distribution produit}{Si $T\in\mathcal{D}'$, $\rho : \mathbb{R}\to \mathbb{C}\ \mathcal{C}^{\infty}$, on définit $\rho T$ par : 
+\[\forall \phi \in \mathcal{D}, (\rho T,\phi)=(T,\rho \phi)\]}
+
+\Prop{Transformée de la dérivée}{Si $T\in\mathcal{S}'$, $\mathcal{F}(T')(\nu)=2i\pi\nu\mathcal{F}(T)(\nu)$}
+
+\begin{dem}
+Soit $\phi \in \mathcal{S}$.
+\begin{eqnarray*}
+(\mathcal{F}(T')_{\nu},\phi(\nu))&=&(T_x',\mathcal{F}(\phi)(x)) \\
+	&=&-(T_x,\mathcal{F}'(\phi)(x)) \\
+\text{On a vu que } \mathcal{F}'(\phi)(x)=\mathcal{F}(-2i\pi\nu\phi)(x) \\
+	&=& -(T_x,\mathcal{F}(-2i\pi\nu\phi)(x)) \\
+	&=& (\mathcal{F}(T)_{\nu},\underbrace{2i\pi\nu}_{\mathcal{C}^{\infty}}\phi(\nu)) \\
+	&=& (2i\pi\nu\mathcal{F}(T)_{\nu},\phi(\nu))
+\end{eqnarray*}
+\end{dem}
+
+\subsection{Translation}
+\Def{Translation d'une distribution}{\[(T_{x-a},\phi(x))=(T_x,\phi(x+a))\]}
+\Theo{Transformée d'une distribution translatée}{\[\mathcal{F}(T_{x-a})_{\nu}=e^{-2i\pi\nu a} \mathcal{F}(T_x)_{\nu}\]}
+
+\begin{dem}
+\[(\mathcal{F}(T_{x-a})_{\nu},\phi(\nu)) =(T_{x-a},\mathcal{F}(\phi)(x)) = (T_x,\mathcal{F}(\phi)(x+a)) \]
+\begin{eqnarray*}
+\text{Or, } \mathcal{F}(\phi)(x+a) &=& \int_{-\infty}^{\infty} \phi(x) e^{-2i\pi\nu(x+a)} dx \\
+				   &=& \int_{-\infty}^{\infty} e^{-2i\pi\nu a} \phi(x) e^{-2i\pi\nu x} dx \\
+				   &=& \mathcal{F}[e^{-2i\pi\nu a}\phi](x)
+\end{eqnarray*}
+\begin{eqnarray*}
+\text{D'où : } (\mathcal{F}(T_{x-a})_{\nu}),\phi(\nu))&=& (\mathcal{F}(T)_{\nu},\underbrace{e^{-2i\pi\nu a}}_{\mathcal{C}^{\infty}}\phi(\nu)) \\
+						      &=& (e^{-2i\pi\nu a} \mathcal{F}(T)_{\nu}, \phi(\nu))
+\end{eqnarray*}
+\end{dem}
+
+\subsection{Quelques calculs importants}
+\Theo{$f_{\alpha}$}{Soit $\alpha>0$ et $f_{\alpha}(x)=e^{-\alpha x^2} \in \mathcal{S}$. Alors :
+\[\mathcal{F}(f_{\alpha})(\nu)=\sqrt{\frac{\pi}{\alpha}}e^{-\frac{\pi^2}{\alpha} \nu^2}\]
+En particulier, $\mathcal{F}(f_{\pi})=f_{\pi}$}
+
+\begin{rap}
+$\mathcal{F}(\delta_a)=e^{-2i\pi\nu a}$
+\end{rap}
+(Démonstration assez simple)
+
+\bigskip
+\Theo{Transformée de 1}{\[\mathcal{F}[1]=\delta\]}
+
+\begin{dem}
+\[\mathcal{F}[1']=\mathcal{F}[0]=0=2i\pi\nu \mathcal{F}[1]\]
+Posons $T=\mathcal{F}[1]\in\mathcal{S}'$. On a $\nu T=0$. Ceci équivaut à $\exists x\in\mathbb{C},\ T=c\delta$. Reste à calculer c. \\
+Considérons $\phi=f_{\pi}$. 
+\begin{eqnarray*}
+(\mathcal{F}[1],f_{\pi})&=& (1,\mathcal{F}(f_{\pi})) \\
+		        &=& (1,f_{\pi}) \\
+			&=& (\mathcal{F}(\delta),f_{\pi}) \\
+			&=& (\delta,\mathcal{F}(f_{\pi})) \\
+			&=& (\delta,f_{\pi}) \\
+			&=& f_{\pi}(0) \\
+			&=& 1
+\end{eqnarray*}
+Or, \[(\mathcal{F}(1),f_{\pi})=(c\delta,f_{\pi})=cf_{\pi}(0)=c\]
+D'où $c=1$
+\end{dem}
+
+\subsection{Formule de réciprocité de Fourier}
+On définit $\mathcal{F}^* : \mathcal{S}' \to \mathcal{S}'$ par : 
+\[\mathcal{F}^*(T)_{\nu}=\mathcal{F}(T)_{-\nu}\]
+Si $f\in L^1$, \[\mathcal{F}^*(f)(\nu)=\int_{-\infty}^{+\infty} f(x)e^{2i\pi\nu x} dx = \mathcal{F}(f)(-\nu)\]
+
+Si T est une distribution : \[T_{-x},\phi(x)) = (T_x,\phi(-x))\]
+Et plus généralement : \[\lambda\neq 0, (T_{\lambda x}, \phi(x)) = \frac{1}{|\lambda|} \left(T_x,\phi\left(\frac{x}{\lambda}\right)\right)\]
+
+
+\Theo{Transformée de Fourier inverse}{$\mathcal{F}:\mathcal{S}'\to \mathcal{S}'$ est bijective et $\mathcal{F}^{-1}=\mathcal{F}^*$ ie : 
+\[T=\mathcal{F}^*[\mathcal{F}[T]]=\mathcal{F}[\mathcal{F}^*[T]]\]}
+
+\begin{dem}
+Soit $\phi\in\mathcal{S}$. On pose $\hat{\phi}(x)=\mathcal{F}(\phi)(x) \in \mathcal{S}$ ($\subset L^1$) 
+\begin{eqnarray*}
+\mathcal{F}[\hat{\phi}](a) &=& \int_{-\infty}^{+\infty} \hat{\phi}(\nu) e^{2i\pi\nu a} d\nu \\
+			&=& \int_{-\infty}^{+\infty} e^{2i\pi\nu a} \mathcal{F}[\phi](\nu) d\nu \\
+			&=& \int_{-\infty}^{+\infty} 1\times \mathcal{F}[\phi_{x+a}] (\nu) d\nu \\
+			&=& (1,\mathcal{F}(\phi_{x+a})) \\
+			&=& (\mathcal{F}(1),\phi(x+a)) \\
+			&=& (\delta,\phi(x+a)) \\
+			&=& \phi(a)
+\end{eqnarray*}
+Donc $\mathcal{F}^*[\mathcal{F}[\phi]] = \phi$
+
+\bigskip
+Soit $T\in\mathcal{S}',\ \phi\in \mathcal{S}$
+\begin{eqnarray*}
+(\mathcal{F}^*[\mathcal{F}[T]],\phi) &=& (\mathcal{F}[T],\mathcal{F}^*[\phi]) \\
+				&=& (T,\mathcal{F}[\mathcal{F}^*[\phi]]) \\
+				&=& (T,\phi)
+\end{eqnarray*}
+\end{dem}
+
+\section{Transformée de Fourier et convolution}
+On a vu : $f,g \in L^1 \Rightarrow f*g$ existe $\in L^1$ 
+\[\mathcal{F}(f*g)=\mathcal{F}(f)\mathcal{F}(g)\]
+De même que $f*g$ n'existe pas nécessairement lorsque $f,g\in L^1_{loc}$, S*T n'existe pas nécessairement losque $S,T\in\mathcal{S}'$
+
+\textbf{Problème :} Si S*T existe et $\in\mathcal{S}'$, que dire de $\mathcal{F}(S*T)$ ? On aimerait avoir : 
+\[\mathcal{F}(S*T)=\mathcal{F}(S)\times\mathcal{F}(T)\]
+En général, on ne peut pas définir le produit de deux distributions. On sait le faire, par exemple, lorsque S et T sont des fonctions de $L^1_{loc}$ ou lorsque S ou T est une fonction $\mathcal{C}^{\infty}$. \\
+Par contre, tout marche très bien lorsque S ou T est une distribution à support compact.
+
+\Theo{}{Si S est une distribution à support compact, alors $\mathcal{F}(S)$ est une fonction $\mathcal{C}^{\infty}$ donnée par : 
+\[\mathcal{F}(S)(\nu)=(S_x,e^{-2i\pi\nu x})\]}
+
+\Theo{Transformation de la convolution de distribution}{Si S est une distribution à support compact et $T\in\mathcal{S}'$ alors :
+\begin{enumerate}
+\item S*T$\in\mathcal{S}'$
+\item $\mathcal{F}(S*T)=\underbrace{\mathcal{F}(S)}_{\mathcal{C}^{\infty}}\underbrace{\mathcal{F}(T)}_{\in\mathcal{S}'}$
+\end{enumerate}}
+
+\begin{dem}
+1) admis
+2) \begin{eqnarray*}
+(\mathcal{F}(S*T),\phi(\nu))&=&(S*T,\mathcal{F}(\phi)) \\
+			&=& (S_x,(T_y,\mathcal{F}(\phi(x+y))))
+\end{eqnarray*}
+\begin{eqnarray*}
+\text{Or, } \mathcal{F}(\phi(x+y))&=& \int_{\mathbb{R}} \phi(\nu) e^{-2i\pi\nu(x+y)} d\nu \\
+				&=& \int_{\mathbb{R}} e^{-2i\pi\nu x} \phi(\nu) e^{-2i\pi\nu y} d\nu \\
+				&=& \mathcal{F}\left[e^{2i\pi\nu x} \phi(\nu)  \right] (y)
+\end{eqnarray*}
+\begin{eqnarray*}
+\text{D'où : } (\mathcal{F}(S*T),\phi(\nu))&=&(S_x,(T_y,\mathcal{F}\left[e^{2i\pi\nu x} \phi(\nu)  \right] (y))) \\
+					&=& (S_x,(\mathcal{F}[T]_{\nu},e^{2i\pi\nu x} \phi(\nu))) \\
+					&=& (S_x \otimes \mathcal{F}(T)_{\nu},e^{2i\pi\nu x} \phi(\nu) ) \\
+					&=& (\mathcal{F}[T]_{\nu},(S_x,e^{2i\pi\nu x}) \phi(\nu) ) \\
+					&=& (\mathcal{F}[T]_{\nu},\underbrace{\mathcal{F}[S]_{\nu}}_{\mathcal{C}^{\infty}} \phi(\nu)) \\ 
+					&=& (\mathcal{F}[S]_{\nu} \mathcal{F}[T]_{\nu},\phi(\nu))
+\end{eqnarray*}
+\end{dem}
+
+\newpage
+\part{Distributions périodiques - Série de Fourier}
+\Def{Distribution périodique}{Soit $T\in\mathcal{D}'$. On dit que T est périodique, de période $\tau$, si et seulement si \[T_{x+\tau}=T_x\]
+ie : \[\forall\phi\in\mathcal{D},(T_{x+\tau},\phi(x))=(T_x,\phi(x-\tau))=(T_x,\phi(x))\]}
+
+\Def{Peigne de Dirac}{\[a>0,\Delta_a=\sum_{n\in\mathbb{Z}} \delta_{na}\]}
+
+\Theo{Distribution périodique}{Soit T une distribution périodique de période $\tau$, alors il existe K distribution à support compact ($K\in\varepsilon'$) tel que :
+\[T=K*\Delta_{\tau}\]}
+
+\begin{dem}
+Longue et chiante
+\end{dem}
+
+Soit $T\in\mathcal{D}'$ de période $\tau$. Comme $K\in\epsilon'$ et $\Delta_{\tau}\in\mathcal{S}'$ donc $T\in\mathcal{S}'$. On a : 
+\begin{eqnarray*}
+	\mathcal{F}[T]_{\nu}&=&\mathcal{F}[K*\Delta_{\tau}]_{\nu} \\
+	       		    &=& \hat{K}(\nu)\times \mathcal{F}[\Delta_{\tau}]_{\nu}
+\end{eqnarray*}
+
+$\hat{K}$ est connue (dépend de T). Il reste à calculer $\mathcal{F}[\Delta_{\tau}]$
+
+\Theo{}{\[\mathcal{F}[\Delta_a]=\frac{1}{a} \Delta_{\frac{1}{a}}\]}
+
+\begin{dem}
+	$\delta_a * \delta_b = \delta_{a+b}$, donc $\delta_a * \Delta_a=\Delta_a$.\\
+	Donc \[\mathcal{F}[\delta_a * \Delta_a]=\mathcal{F}[\delta_a]\mathcal{F}[\Delta_a]=e^{-2i\pi\nu a}\mathcal{F}[\Delta_a]=\mathcal{F}[\Delta_a]\]
+	D'où \[\underbrace{(1-e^{-2i\pi\nu a})}_{g(\nu)}\mathcal{F}[\Delta_a]_{\nu}=0\]
+	Or, on peut montrer que si $g(x)\ \mathcal{C}^{\infty}$, avec $g(a)\neq0$, $g'(a)\neq0$ et $g(x)\neq0\ \forall x\neq a$ alors : 
+	\[g(x)T=0 \Leftrightarrow \exists c\in\mathbb{C};\ T=c\delta\]
+	Ici, la fonction $g(\nu)$ a pour racines les nombres $\frac{k}{a},\ k\in\mathbb{Z}$ et $g'\left(\frac{k}{a}\right)\neq 0$
+	On fait le même raisonnement autour de chaque point $\frac{k}{a}$ et on a : 
+	\[g(\nu)T=0 \Leftrightarrow \exists(c_k)_{k\in\mathbb{Z}} T=\sum_{k\in\mathbb{Z}} c_k\delta_{k}{a}\]
+	Donc $\mathcal{F}[\Delta_a]=\sum_{k\in\mathbb{Z}} c_k \delta_{\frac{k}{a}}$
+	\begin{eqnarray*}
+		\mathcal{F}[\Delta_a]_{\nu}&=&\mathcal{F}[\sum_{k\in\mathbb{Z}} \Delta_{ka}]_{\nu}\\
+				&=& \sum_{k\in\mathbb{Z}}\mathcal{F}[\delta_{ka}]_{\nu}\\
+		    &=& \sum_{k\in\mathbb{Z}} e^{-2i\pi\nu ka} \text{ : de période } \frac{1}{a}
+	\end{eqnarray*}
+	Donc $\mathcal{F}[\Delta_a]*\delta_{\frac{1}{a}}=\mathcal{F}[\Delta_a]=\sum c_k \delta_{\frac{k+1}{a}}$\\
+	D'où $\forall k, c_k=c_{k+1}$, donc $\mathcal{F}[\Delta_a]=c\Delta_{\frac{1}{a}}$
+	
+	Pour calculer c, on utilise $f_{\alpha}$ en prenant $\alpha=\pi a^2$.
+	\begin{eqnarray*}
+		\hat{f}_{\pi a^2}(x)&=&\sqrt{\frac{\pi}{\pi a^2}} e^{-\frac{\pi^2}{\pi a^2} x^2} \\ &=& \frac{1}{a} e^{-\frac{\pi}{a^2}x^2}
+	\end{eqnarray*}
+	\[(\mathcal{F}[\Delta_a],f_{\pi a^2})=(\Delta_a,\hat{f}_{\pi a^2})=\sum_{k\in\mathbb{Z}} \frac{1}{a} e^{-\pi k^2}\]
+	\[(c\Delta_{\frac{1}{a}},f_{\pi a^2})=c\underbrace{\sum e^{-\pi a^2}}_{\neq 0}\]
+		D'où $c=\frac{1}{a}$
+\end{dem}
+
+\section{Transformée de Fourier d'une ditribution périodique}
+Soit T de période $\tau$. On a vu que si $\rho$ est $\mathcal{C}^{\infty}$ : \[\rho \delta_a = \rho(a) \delta_a\]
+Donc : 
+\begin{eqnarray*}
+	\mathcal{F}[T]&=&\sum_{k\in\mathbb{Z}} \frac{1}{\tau} \underbrace{\hat{K}(\nu)}_{\mathcal{C}^{\infty}} \delta_{\frac{k}{\tau}}\\
+			     &=&\sum_{k\in\mathbb{Z}} \frac{1}{\tau} \hat{K} \left( \frac{k}{\tau} \right) \delta_{\frac{k}{\tau}}
+\end{eqnarray*}
+
+Posons $c_k=\frac{1}{\tau} \hat{K}\left( \frac{k}{\tau} \right)$ 
+
+\Theo{}{Ces coefficients $c_k$ sont les seuls coefficients $\alpha_k$ tels que $\mathcal{F}[T]=\sum_{k\in\mathbb{Z}} \alpha_k \delta_{\frac{k}{\tau}}$}
+
+Ce sont les coefficient de Fourier de T. Ils ne dépendent pas du $K\in\epsilon'$ choisi dans la décomposition $T=K*\Delta_{\tau}$.
+
+\bigskip
+\textbf{Remarque : } Comme $\mathcal{F}[T]$ est exprimé par des Dirac, on dit que T est à spectre discret.
+
+\begin{dem}
+	$\mathcal{F}[T]=\sum \alpha_k \delta_{\frac{k}{\tau}} = \sum c_k \delta_{\frac{k}{\tau}}$.\\
+	Soit k fixé. Soit $\phi \in \mathcal{D}$ tel que $\phi\left( \frac{k}{\tau} \right)=1$ et $\phi=0$ hors de $\left[\frac{k-\frac{1}{2}}{\tau},\frac{k+\frac{1}{2}}{\tau}\right]$.\\
+	Alors $(\mathcal{F}[T],\phi)=\alpha_k = c_k$
+\end{dem}
+
+\textbf{Remarque : } Si $T=f \in L^1_{loc}$, de période $\tau$ : \\
+On a vu qu'on pouvait prendre $k=f1_{[0,\tau[}$, d'où $\hat{K}(\nu)=\int_0^{\tau} f(x)e^{-2i\pi\nu x} dx$.
+		\[ c_k(f)=\frac{1}{\tau} \hat{K}\left( \frac{k}{\tau} \right) = \frac{1}{\tau} \int_0^{\tau} f(x)e^{-2i\pi \frac{k}{\tau}x}  dx\]
+
+\section{Série de Fourier d'une distribution périodique}
+Soit T de période $\tau$. On a : 
+\[\mathcal{F}[T] = \sum_{k\in\mathbb{Z}} c_k(T) \delta_{frac{k}{\tau}} \]
+
+D'après la formule (linéaire !) de réciprocité : 
+\begin{eqnarray*}
+T&=& \mathcal{F}^* \left( \sum_{k\in\mathbb{Z}} c_k(T) \delta_{frac{k}{\tau}} \right) \\
+	&=& \sum_{k\in\mathbb{Z}} c_k(T) \mathcal{F}^* \left[\delta_{\frac{k}{\tau}}\right]_{\nu} \\
+	&=& \sum_{k\in\mathbb{Z}} c_k(T) e^{-\frac{2i\pi kx}{\tau}} 
+\end{eqnarray*}
+
+\Theo{}{\begin{enumerate}
+		\item Toute distribution périodique est la somme (dans $\mathcal{S}'$ de sa série de Fourier.
+		\item Les $c_k(T)$ sont les seuls coefficients $\alpha_k$ tels que $T=\sum_{k\in\mathbb{Z}} a_k e^{-\frac{2i\pi kx}{\tau}}$ 
+		\end{enumerate}
+	}
+
+\begin{dem}
+	\[\mathcal{F}[T]=\sum \alpha_k \mathcal{F}[e^{-\frac{-2i\pi kx}{\tau}}] = \sum \alpha_k \delta_{\frac{k}{\tau}}\]
+	On a donc $\alpha_k = c_k,\ \forall k\in\mathbb{Z}$
+\end{dem}
+
+\section{Propriétés des coefficients de Fourier}
+\Prop{}{Soit T de période $\tau$. Alors \[c_k(T')=\frac{2i\pi k}{\tau} c_k(T)\]}
+
+\begin{dem}
+	$T=\sum c_k(T) e^{-\frac{-2i\pi kx}{\tau}}$ 
+	\begin{eqnarray*}
+		T'&=& \left( \sum c_k(T) e^{-\frac{-2i\pi kx}{\tau}} \right) ' \\
+		  &=& \sum c_k(T) \left( e^{-\frac{-2i\pi kx}{\tau}} \right) ' \\
+		  &=& \sum c_k(T) \frac{2i\pi k}{\tau} e^{-\frac{-2i\pi kx}{\tau}} \\
+		  &=& \sum c_k(T') e^{-\frac{-2i\pi kx}{\tau}}
+	\end{eqnarray*}
+	Par unicité des coefficients : \[c_k(T')=\frac{2i\pi k}{\tau} c_k(T)\]
+\end{dem}
+
+\Prop{}{Si $\sum_{k\in\mathbb{Z}} |c_k(T)| < \infty$ alors la série $\sum c_k(T) e^{-\frac{-2i\pi kx}{\tau}}$ est normalement convergente donc définit une fonction $\mathcal{C}^0$, et donc T est une fonction $\mathcal{C}^0$ de période $\tau$ (ou égale presque partout à une telle fonction)}
+
+Notons $L^p(\tau)=\{f\in L^p_{loc} \text{ de période } \tau\}$ dans lequel on identifie deux fonctions égales presque partout.
+
+\bigskip
+La "théorique classique" n'utilise que $L^2(\tau)$. On a $L^2(\tau)\subset L^1(\tau)$.\\
+Si $f\in L^1(\tau)$, \[f=\sum_{k\in\mathbb{Z}} c_k(f) e^{-\frac{-2i\pi kx}{\tau}}\] avec \[c_k(f)=\frac{1}{\tau} \int_0^{\tau} f(x) e^{-\frac{-2i\pi kx}{\tau}} dx\]
+\end{document}

@@ -1,0 +1,101 @@
+\section{Systèmes linéaires-Filtres}
+\subsection{Définition d'un SL}
+$x(t)\xrightarrow{S}y(t)$ avec $x(t)$ et $y(t)$ signal de sortie. On a une relation entrée/sortie. \\
+$\forall x(t)$, en supposant connaître S, on sait déterminer la sortie.\\
+$\mathcal{L}\{x(t)\} = y(t)$ : L'opérateur du système appliqué au signal d'entrée donne l'observation.
+
+\paragraph{Ensemble des propriétés :}
+\begin{itemize}
+\item Linéaire : \[\forall \alpha \beta,\ \alpha x_1(t)+\beta x_2(t) \xrightarrow{S} \alpha y_1(t) + \beta y_2 (t)\]
+\item Invariance temporelle (ou par translation) : \[x(t-\theta) \xrightarrow{S} y(t-\theta)\]
+\item Instantané ou sans mémoire $y(t_1)$ ne dépend que de $x(t_1)$, et pas de son passé.
+\end{itemize}
+
+\subsection{Filtre linéaire}
+\begin{Def}
+Un filtre linéaire (FL) est un système linéaire invariant par translation (SLIT)
+\end{Def}
+
+\begin{Def}
+Un FL est un convoluteur.
+\end{Def}
+On note h(t) la fonction qui caractérise le système, appelée réponse impulsionnelle (RI).
+\[y(t)=x(t)*h(t)\]
+
+\begin{Def}
+Les signaux exponentiels sont les signaux propres du SL.
+\end{Def}
+
+On caractériseles FL par leur réponse impulsionnelle. Si on ne connaît pas la RI, on met la Dirac en entrée. Ainsi : \[y(t)=\delta(t)*h(t)=h(t)\]
+
+\begin{Def}
+On pose la réponse en fréquence du filtre : \[H(f)=|H(f)|e^{-j\phi(t)}=\int_{-\infty}^{+\infty} h(t)e^{-2\pi jft} dt\]
+\end{Def}
+
+\subsection{Filtre en parallèle/En série}
+\subsubsection{En série :}
+Filtre équivalent : $h(t)=h_1(t)*h_2(t)$ \\
+Réponse en fréquence : $H(f)=H_1(f)\times H_2(f)$
+
+\subsubsection{En parallèle :}
+Filtre équivalent : $h(t)=h_1(t)+h_2(t)$ \\
+Réponse en fréquence : $H(f)=H_1(f)+H_2(f)$
+
+\subsection{Filtre réalisable physiquement}
+\begin{Def}
+Un FL est réalisable physiquement s'il est stable et causal.
+\end{Def}
+
+\ul{Causal :} La sortie ne peut précéder l'entrée.
+\[y_k=\sum_{m=-\infty}^k x_m h_{k-m}=\sum_{m=0}^{+\infty}h_m x_{k-m}\]
+On a donc $\left\{ \begin{array}{r c l}
+h_k\neq 0 &\text{ pour } k\geq0\\
+h_k=0 &\text{ pour } k<0
+\end{array}
+\right.$
+
+\subsubsection{Stabilité BIBO / EBSB}
+\noindent BIBO : Bounded Input - Bounded Output \\
+EBSB : Entrée Bornée - Sortie Bornée.
+
+\bigskip
+\[M=\sum |x_k| <\infty\]
+\[\sum h_k x_{k-m} < M\sum |h_k|\]
+\begin{theo}
+\[\sum h_k <\infty \Leftrightarrow \{|z|=1\}\in \text{ région de convergence}\]
+\end{theo}
+
+Pour avoir un filtre physiquement réalisable, on doit avoir tous les pôles à l'intérieur du cercle unité. \\
+(Logique, la région de convergence pour les signaux causaux sont à l'extérieur du cercle défini par les pôles, et on doit avoir le cercle unité dans la région de convergence)
+
+\subsection{Filtre Passe-bas / Passe-haut / Passe-bande}
+
+\noindent Voir cours et dessins. \\
+Penser que les filtres sont toujours symétriques par rapport à l'axe des ordonnées. 
+
+\subsection{Filtres RIF / RII}
+On pose : \[H(z)=\frac{\sum_{i=0}^N b_i z^{-i}}{\sum_{k=0}^M a_k z^{-k}} \text{ avec } a_0=1\]
+\subsubsection{RIF : Réponse Impulsionnelle Finie}
+$\underbrace{D(z)}_{\text{Dénominateur}}=1 \Rightarrow \text{Filtre stable}$
+
+Ici, on a : \[y_k = b_0 x_k + \underbrace{b_1 x_{k-1} + ... + b_N x_{k-N}}_{\text{Passé}}\]
+Dans les RIF, la sortie ne dépend que du passé de l'entrée.
+
+\subsubsection{RII : Réponse impulsionnelle infinie :}
+\ul{Premier cas :}\[H(z)=\frac{1}{\sum_{k=0}^M a_k z^{-k}}\]
+\begin{eqnarray*}
+Y(z)\times \sum_{k=0}^M a_k z^{-k} = X(Z) \xrightarrow{TZ^{-1}}& & \sum_{i=0}^M a_i y_{k-i}=x_k \\
+& & y_k = x_k - \sum_{i=1}^M a_i y_{k-i}
+\end{eqnarray*}
+
+Filtre purement récursif : la sortie dépend de son propre passé, et de celui-ci uniquement.
+
+\ul{Deuxieme cas :}
+\begin{eqnarray*} 
+Y(z)\times \sum_{k=0}^M a_k z^{-k} &=& X(Z) \sum_{i=0}^N b_i z^{-i} \\
+\xrightarrow{TZ^{-1}} \sum_{i=0}^M a_i y_{k-i} &=& \sum_{l=0}^N b_l x_{k-l} \\
+y_k = \sum_{l=0}^N b_l x_{k-l} &-& \sum_{i=1}^M a_i y_{k-i}
+\end{eqnarray*}
+
+\noindent $\Rightarrow$ Dépend du passé de l'entrée et de la sortie. \\
+Filtre récursif (mais pas purement).

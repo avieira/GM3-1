@@ -1,0 +1,278 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[12pt]{extsizes}
+\usepackage{lmodern}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{verbatim}
+\usepackage{moreverb}
+\usepackage[top=3cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\lstset{
+ language=fortran,
+ numbers=left,
+ numberstyle=\normalsize,
+ numbersep=10pt,
+ }
+ \usepackage{color}
+ \definecolor{bleu}{rgb}{0.1,0.2,0.4}
+ 
+ \definecolor{or}{rgb}{1,0.8,0.3}
+
+\newtheoremstyle{mes_theoremes}{}{}{}{}{\bfseries}{~:\newline}{\parindent}{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{mes_theoremes}
+
+\newtheorem*{Def}{Définition}
+\newtheorem*{theo}{Théorème}
+
+\hypersetup{colorlinks=true, urlcolor=bleu, linkcolor=red}
+
+
+\author{Alexandre \bsc{Vieira} \& Conrad \bsc{Hillairet}}
+\title{Analyse Numérique, Projet 2.8, \\ Résolution de systèmes d'équations linéaires}
+\date{\today}
+
+\begin{document}	
+\maketitle
+\newpage
+
+\setcounter{tocdepth}{0}
+\tableofcontents
+
+\newpage
+
+\textcolor{or}{\part*{Présentation générale}}
+\addcontentsline{toc}{part}{Présentation générale} 
+Ce projet a pour but d'implémenter différentes méthodes de résolutions de systèmes d'équations linéaires. Ces méthodes sont nombreuses et ont des philosophies différentes. On en compte principalement deux familles : 
+\begin{enumerate}
+\item les méthodes directes, qui cherchent les solutions exactes en un nombre exact d'itérations. Parmi elles, on compte les différentes décompositions QR (avec, par exemple, la méthode de Householder ou de Givens), ou la décomposition de Cholesky pour les matrices symétriques définies positives.
+\item les méthodes itératives, qui à partir d'une suite de vecteur cherche à converger vers la solution exacte, et ce à partir d'un vecteur de départ quelconque. Il existe là encore différentes méthodes, comme la méthode de Jacobi ou de Gauss-Seidel. 
+\end{enumerate}
+
+\bigskip
+Nous avions comme projet d'implémenter une méthode directe et une méthode de relaxation. Notre choix s'est porté sur deux méthodes :
+\begin{enumerate}
+\item la méthode de Gauss.
+\item la méthode de relaxation basée sur la méthode de Gauss-Seidel.
+\end{enumerate}
+
+\bigskip
+La suite développera les différents codes et théorèmes que nous avons cherché à vérifier avec ces deux méthodes. Différents résultats numériques seront présents et commentés.
+\newpage
+
+\textcolor{or}{\part*{Codage des méthodes}}
+\addcontentsline{toc}{part}{Codage des méthodes}
+
+Chaque méthode a été codée en simple et double précision. Cependant, pour les coder, il faut tout d'abord commencer par comprendre comment fonctionne chaque méthode.
+\textcolor{bleu}{\section*{Méthode de Gauss :}} 
+La méthode est simple : on transforme à la fois la matrice et le vecteur de solution pour arriver à une matrice triangulaire supérieure. On utilise enfin une méthode de remontée pour résoudre le système nouvellement créé. Un exemple valant mieux que de longs discours, en voici un : on cherche le système suivant :
+\[\left(\begin{matrix}
+   1 & 2 & 3 \\
+   3 & 2 & 1 \\
+   2 & 3 & 1 \end{matrix}\right)
+\left(\begin{matrix}
+   x\\
+   y\\
+   z
+\end{matrix}\right)
+=
+\left(\begin{matrix}
+   6 \\
+   6 \\
+   6 
+\end{matrix}\right)
+\]
+On réécrit ce système de manière suivante :
+\[\left(\begin{matrix}
+   1 & 2 & 3 :& 6 \\
+   3 & 2 & 1 :& 6\\
+   2 & 3 & 1 :& 6\end{matrix}\right)\]
+On fait ensuite des modifications linéaires entre les lignes de ce tableau, en faisant en sorte de faire apparaître un zéro dans toutes les lignes de la première colonne, sauf la première ligne. Pour cela, on prend le premier élément de chaque ligne qu'on divise par le premier élément de la première ligne, qui sera appelé pivot. Cela nous donne : 
+\[\left(\begin{matrix}
+   1 & 2 & 3 :& 6 \\
+   0 & -4 & -8 :& -12\\
+   0 & -1 & -5 :& -6\end{matrix}\right)\]
+On répète l'opération sur la deuxième colonne, et on essaye donc de mettre un zéro sur la troisième ligne. Cela nous donne :
+\[\left(\begin{matrix}
+   1 & 2 & 3 :& 6 \\
+   0 & -4 & -8 :& -12\\
+   0 & 0 & -3 :& -3\end{matrix}\right)\]
+On obtient donc un système avec une matrice supérieure. La résolution devient simple : on commence par avoir la dernière composante du vecteur, et on remonte à chaque fois pour obtenir les somposantes précédentes. On a donc comme vecteur de solution : 
+\[
+\left(\begin{matrix}
+   x\\
+   y\\
+   z
+\end{matrix}\right)
+=\left(\begin{matrix}
+   1\\
+   1\\
+   1
+\end{matrix}\right)
+\]
+On a donc l'idée de l'algorithme à appliquer. Nos différents codes sont accessibles dans la pièce jointe envoyée avec ce dossier.
+
+\textcolor{bleu}{\section*{Méthode de relaxation :}} 
+Il s'agit là d'une méthode itérative pour résoudre un système de la forme AX=b. Le principe repose sur la décomposition de la matrice A de la façon suivante : \[A=M-N\]
+En posant une certaine itération, on peut montrer qu'on arriver à une suite de la forme : \[MX^{k+1}=NX^k + b\]
+Dans la méthode de relaxation basé sur Gauss-Seidel, on pose les matrices M et N suivantes : \begin{eqnarray*}\omega M&=&D+\omega L\\ \omega N &=& (1-\omega)D-\omega U \end{eqnarray*} avec \[A=D+L+U\]
+L matrice triangulaire inférieure, U matrice triangulaire supérieure, toute deux à diagonale nulle, et D=diag(A)\\
+Ainsi, sous forme matricielle, la méthode de relaxation se présente ainsi :
+\[(D+\omega L)X^{k+1}=[(1-\omega)D-\omega U]X^k +\omega b\]
+Pour calculer chaque composante de la k+1-ème itération, le calcul se fera donc ainsi :
+\[X_i^{k+1}=(1-\omega)X_i^k +\frac{\omega}{a_{ii}}\left[b_i -\sum_{j=1}^{i-1}a_{ij}X_j^{k+1}-\sum_{j=i+1}^n a_{ij}X_j^k\right]\]
+Et on fera ce calcul pour i allant de 1 à n, n étant la taille de la matrice. \\
+On remarque par ailleurs que si $\omega=1$, on retrouve la méthode de Gauss-Seidel.
+
+\bigskip
+Il nous manque une condition d'arrêt des itérations. On utilisera donc la suivante : \\
+En posant $r^k=b-AX^k$ le vecteur de résidu, notre condition sera :
+\[\frac{||r^k||}{||b||}<\varepsilon\]
+$\varepsilon$ étant un réel définissant une tolérance, qu'on prend en général assez petit. \\
+La norme choisi pour notre projet était la norme 2. Chaque code est présent dans le fichier joint envoyé avec le dossier.
+
+\newpage
+\textcolor{or}{\part*{Résultats numériques}}
+\addcontentsline{toc}{part}{Résultats}
+\textcolor{bleu}{\section*{Méthode de Gauss :}} 
+On cherche à vérifier différents théorèmes grâce à quelques exemples numériques. Nous vérifierons : 
+\begin{itemize}
+\item Que le programme marche normalement avec un exemple simple (dLU1)
+\item La condition nécessaire et suffisante pour que la méthode marche, i.e. chaque sous-matrice est inversible (dLU2)
+\item Etudier deux cas limites, i.e. une triangulaire supérieure et une triangulaire inférieure (dLU3 et dLU4)
+\item Tester le programmes avec des matrices mal conditionnées en rajoutant une petite variation sur le vecteur de solution (dLU5.* et dLU6.*)
+\item Tester la différence entre simple et double précision sur un exemple bien choisi (dLU7)
+\end{itemize}
+
+\bigskip
+Voici un tableau récapitulant les résultats. \\
+\begin{tabular}{|p{2,5cm}|c|c|p{2,5cm}|c|}
+\hline
+Fichier de données & Matrice & Vecteur résultat & Solution théorique & Solution du programme \\
+\hline
+ dLU1 & $\left(\begin{matrix}1 & 1 & 1 \\ 1 & 0 & 3\\1 & 2 & 1 \end{matrix}\right)$ & $\left(\begin{matrix} 3\\ 4\\ 4\end{matrix}\right)$ & $\left(\begin{matrix} 1\\ 1\\ 1\end{matrix}\right)$ & $\left(\begin{matrix} 1.0000000\\ 1.0000000\\ 1.0000000\end{matrix}\right)$\\
+\hline
+ dLU2 & $\left(\begin{matrix}1 & 2 & 3 \\ 0 & 2 & 4\\0 & 4 & 8 \end{matrix}\right)$ & $\left(\begin{matrix} 1\\ 1\\ 1\end{matrix}\right)$ & Pas de solution & $\left(\begin{matrix} NaN\\ Infinity\\ -Infinity\end{matrix}\right)$\\
+\hline
+ dLU3 & $\left(\begin{matrix}1 & 1 & 1 \\ 0 & 1 & 2\\0 & 0 & 3 \end{matrix}\right)$ & $\left(\begin{matrix} 3\\ 4\\ 3\end{matrix}\right)$ & $\left(\begin{matrix} 1\\ 1\\ 1\end{matrix}\right)$ & $\left(\begin{matrix} 1.0000000\\ 1.0000000\\ 1.0000000\end{matrix}\right)$\\
+\hline
+ dLU4 & $\left(\begin{matrix}3 & 0 & 0 \\ 2 & 2 & 0\\1 & 1 & 1 \end{matrix}\right)$ & $\left(\begin{matrix} 3\\ 4\\ 3\end{matrix}\right)$ & $\left(\begin{matrix} 1\\ 1\\ 1\end{matrix}\right)$ & $\left(\begin{matrix} 1.0000000\\ 1.0000000\\ 1.0000000\end{matrix}\right)$\\
+\hline
+ dLU5.1 $cond_1(A)=27$ & $\left(\begin{matrix}6 & 3 \\ 3 & 2  \end{matrix}\right)$ & $\left(\begin{matrix} 9\\ 5\end{matrix}\right)$ & $\left(\begin{matrix} 1\\ 1\end{matrix}\right)$ & $\left(\begin{matrix} 1.0000000\\ 1.0000000\end{matrix}\right)$\\
+\hline
+ dLU5.2 $cond_1(A)=27$ & $\left(\begin{matrix}6 & 3 \\ 3 & 2  \end{matrix}\right)$ & $\left(\begin{matrix} 8.98\\ 5.03\end{matrix}\right)$ & Sert juste à tester le conditionnement& $\left(\begin{matrix} 0.56666660\\ 1.8000002\end{matrix}\right)$\\
+\hline
+ dLU6.1 $cond_1(A)=2$ & $\left(\begin{matrix}1 & 1 \\ 1 & -1  \end{matrix}\right)$ & $\left(\begin{matrix} 2\\ 0\end{matrix}\right)$ & $\left(\begin{matrix} 1\\ 1\end{matrix}\right)$ & $\left(\begin{matrix} 1.0000000\\ 1.0000000\end{matrix}\right)$\\
+\hline
+ dLU6.2 $cond_1(A)=2$ & $\left(\begin{matrix}1 & 1 \\ 1 & -1  \end{matrix}\right)$ & $\left(\begin{matrix} 1.98\\ 0.03\end{matrix}\right)$ & Sert juste à tester le conditionnement& $\left(\begin{matrix} 1.0050000\\ 0.97500002\end{matrix}\right)$\\
+\hline
+ dLU7 simple précision & $\left(\begin{matrix}1 & 1 & 0 \\ 1 & 3 & 1\\6 & 3 & 3 \end{matrix}\right)$ & $\left(\begin{matrix} 3\\ 7\\ 9\end{matrix}\right)$ & $\left(\begin{matrix} \frac{2}{3}\\ \frac{7}{3}\\ -\frac{2}{3}\end{matrix}\right)$ & $\left(\begin{matrix} 0.66666675\\ 2.3333333\\ -0.66666669\end{matrix}\right)$\\
+\hline
+ dLU7 double précision & $\left(\begin{matrix}1 & 1 & 0 \\ 1 & 3 & 1\\6 & 3 & 3 \end{matrix}\right)$ & $\left(\begin{matrix} 3\\ 7\\ 9\end{matrix}\right)$ & $\left(\begin{matrix} \frac{2}{3}\\ \frac{7}{3}\\ -\frac{2}{3}\end{matrix}\right)$ & $\left(\begin{matrix} 0.66666666666666652\\ 2.3333333333333335\\ -0.66666666666666663\end{matrix}\right)$\\
+\hline
+\end{tabular}
+
+\newpage
+On remarque les résultats suivants :
+\begin{itemize}
+\item Le programme semble fonctionner, même dans des cas particuliers (et c'est quand même une bonne chose !)
+\item Le cas où le programme ne doit pas trouver de solution donne des résultats incohérents. On vérifie par la même occasion que si une des sous-matrices n'est pas inversible (ici, la matrice entière), on n'obtient pas de solution.
+\item Le conditionnement de la matrice garde une grande influance sur la résolution du système. On voit qu'une légère influance sur le système modifie beaucoup les solutions.
+\end{itemize}
+
+\newpage
+\textcolor{bleu}{\section*{Méthode de relaxation :}}
+Ici, les différentes propriétés que nous chercheront à vérifier sont :
+\begin{itemize}
+\item Si A symétrique définie positive et $0<\omega<2$, la méthode doit converger (drelax1 et drelax2)
+\item Si A symétrique définie positive et $\omega>2$, la méthode diverge (drelax3)
+\item Si A symétrique définie positive et $0<\omega<2$, mais avec un vecteur initial différent, la méthode doit converger quand même (drelax4)
+\item On veut aussi montrer que pour une matrice autre que définie positive, on ne peut pas assurer la convergence (drelax5 et drelax6)
+\end{itemize}
+
+\bigskip
+Voici les différents résultats : 
+
+\bigskip
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Fichier de données & Matrice & Second Membre & Vecteur initial & $\omega$  & Vecteur Résultat\\
+\hline
+ drelax1 & $\left(\begin{matrix} 6 & 3 \\ 3 & 2 \end{matrix}\right)$ & $\left(\begin{matrix} 9\\ 5\end{matrix}\right)$ &   $\left(\begin{matrix} -37\\ 74\end{matrix}\right)$ & 0.7 &  $\left(\begin{matrix} 0.99141359 \\  1.0138178   \end{matrix}\right)$  \\
+\hline
+ drelax2 & $\left(\begin{matrix} 6 & 3 \\ 3 & 2 \end{matrix}\right)$ & $\left(\begin{matrix} 9\\ 5\end{matrix}\right)$ &   $\left(\begin{matrix} -37\\ 74\end{matrix}\right)$ & 1.5 &  $\left(\begin{matrix} 0.99961936 \\ 1.0014930    \end{matrix}\right)$  \\
+\hline
+drelax3 & $\left(\begin{matrix} 6 & 3 \\ 3 & 2 \end{matrix}\right)$ & $\left(\begin{matrix} 9\\ 5\end{matrix}\right)$ &   $\left(\begin{matrix} -37\\ 74\end{matrix}\right)$ & 2.1 &  $\left(\begin{matrix}  537540.63  \\  -702509.31     \end{matrix}\right)$  \\
+\hline
+drelax4 & $\left(\begin{matrix} 6 & 3 \\ 3 & 2 \end{matrix}\right)$ & $\left(\begin{matrix} 9\\ 5\end{matrix}\right)$ &   $\left(\begin{matrix} 3\\ 707\end{matrix}\right)$ & 0.7 &  $\left(\begin{matrix}  0.99180603   \\  1.0131862     \end{matrix}\right)$  \\
+\hline
+drelax5 & $\left(\begin{matrix} 3 & 9 \\ 1 & 2 \end{matrix}\right)$ & $\left(\begin{matrix} 12\\ 3\end{matrix}\right)$ &   $\left(\begin{matrix} -45\\ 218\end{matrix}\right)$ & 0.3 &  $\left(\begin{matrix}  -887871.38 \\   377082.41    \end{matrix}\right)$  \\
+\hline
+drelax6 & $\left(\begin{matrix} 6 & 3 \\ -3 & -2 \end{matrix}\right)$ & $\left(\begin{matrix} 9\\ -5\end{matrix}\right)$ &   $\left(\begin{matrix} -45\\ 28\end{matrix}\right)$ & 1.3 &  $\left(\begin{matrix}  1.0024930  \\   0.99700826    \end{matrix}\right)$  \\
+\hline
+\end{tabular}
+
+On remarque les résultats suivants :
+\begin{itemize}
+\item Encore une fois, la méthode semble fonctionner !
+\item Si la méthode converge, le vecteur initial n'a d'influence que sur la vitesse de convergence (comme pour d'autres méthodes itératives)
+\item Notre $\omega$ doit bien se trouver entre 0 et 2
+\item Il existe quand même des cas où la méthode semble converger quand la matrice n'est pas symétrique définie positive. Cependant, dans ces cas là, rien ne nous assure le résultat de la méthode.
+\end{itemize}
+
+
+\textcolor{bleu}{\section*{Comparaison entre les deux méthodes :}}
+Ces deux méthodes ne s'appliquent évidement pas aux même systèmes. En voici un exemple :
+On prend le système suivant : 
+\[\left(\begin{matrix}
+   1 & 1 & 0 \\
+   1 & 3 & 1 \\
+   6 & 3 & 3 \end{matrix}\right)
+\left(\begin{matrix}
+   x\\
+   y\\
+   z
+\end{matrix}\right)
+=
+\left(\begin{matrix}
+   3 \\
+   7 \\
+   9 
+\end{matrix}\right)
+\]
+
+Avec la méthode de Gauss, nous obtenons un résultat :
+\[
+\left(\begin{matrix}
+   x\\
+   y\\
+   z
+\end{matrix}\right)
+\approx \left(\begin{matrix}
+   0.66666675\\
+   2.3333333\\
+   -0.66666669 
+\end{matrix}\right)
+\]
+
+Avec la méthode de relaxation, la méthode ne converge pas.
+
+\newpage
+\textcolor{or}{\part*{Conclusion générale}}
+\addcontentsline{toc}{part}{Conclusion}
+Ce projet nous aura permis de consolider nos connaissances en Analyse Numérique et de voir de près comment peuvent se mettre en place les différentes méthodes que nous avions vu précédemment. Il nous a également permis de voir comment peuvent s'appliquer ces méthodes sur des cas concrets, et quand les théorèmes sur l'existence ou la convergence d'une méthode ou de l'autre s'appliquent vraiment.
+
+\bigskip
+On remarque surtout que les méthodes itératives peuvent effectuer moins de calculs pour avoir une solution approchée, mais que les méthodes directes ont justement l'avantage d'arriver à la solution exacte, mais avec des calculs beaucoup plus lourds, qui peuvent poser des problèmes d'arrondis sur machines. \\
+Cependant, d'autres méthodes (parfois plus puissantes) restent encore accessibles, et peuvent donner des résultats plus intéressants.
+
+\end{document}
+

@@ -1,0 +1,158 @@
+\section{Espaces probabilisés généraux}
+\begin{Def}
+Soit $\Omega$ un ensemble quelconque non vide.
+Une tribu $\mathfrak{F}$ sur $\Omega$ est un ensemble de parties de $\Omega$ vérifiant :
+\begin{enumerate}
+\item $\Omega \in \mathfrak{F}$
+\item $\mathfrak{F}$ stable par complémentaire
+\item $\mathfrak{F}$ stable par union dénombrable
+\end{enumerate}
+Le couple $(\Omega, \mathfrak{F})$ est appelé espace probabilisable. Un élément de $\mathfrak{F}$ est appelé évenement.
+\end{Def}
+
+\begin{Def}
+On appelle tribu borélienne de $\mathbb{R}^d$ et on note $\mathfrak{B}(\mathbb{R}^d)$ la tribu engendrée par l'ensemble des ouverts de $\mathbb{R}^d$, c'est-à-dire la plus petite tribu qui contient l'ensemble des ouverts de $\mathbb{R}^d$.
+\end{Def}
+
+\begin{Def}
+On appelle mesure de probabilité ou loi de probabilité sur l'espace mesurable (ou probabilisable) $(\Omega, F)$ une application définie sur $\mathcal{F}$ et à valurs dans $\mathbb{R}^+$ tel que :
+\begin{enumerate}
+\item $\mathbb{P}(A) \in [0,1] \forall A \in \mathcal{F}$
+\item $\mathbb{P}(\Omega)=1$
+\item Pour toute famille $\mathcal{A}$ dénombrable d'éléments deux à deux incompatibles de $\mathcal{F}$, on a \[\mathbb{P}(\bigcup_{A \in \mathcal{A}} A) = \sum_{A \in \mathcal{A}} \mathbb{P}(A)\]
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+On appelle densité de probabilité (continue) sur $\mathbb{R}$ (ou sur $\mathbb{R}^d$) une fonction f continue par morceaux à valeurs positives et tel que \[\int_{\mathbb{R}}f(x)dx=1\] (ou $\int_{\mathbb{R}^d}f(x)dx=1$).
+\end{Def}
+
+\begin{theo}
+Si f est une densité de probabilité sur $\mathbb{R}$ (ou $\mathbb{R}^d$) alors il existe une unique mesure de probabilité $\mathbb{P}$ sur ($\mathbb{R}$, $\mathfrak{B}(\mathbb{R})$) (ou sur ($\mathbb{R}^d$, $\mathfrak{B}(\mathbb{R}^d)$) tel que pour tout intervalle ]a,b[ (ou tout cylindre $]a_1,b_1[\times...\times]a_n,b_n[$) on ait : 
+\[\mathbb{P}(]a,b[)=\int_a^b f(x)dx\ ou \  \mathbb{P}(]a_1,b_1[\times...\times]a_n,b_n[)=\int_{a_1}^{b_1}...\int_{a_n}^{b_n} f(x)dx\]
+\end{theo}
+
+\addcontentsline{toc}{subsubsection}{Exemples de lois continues}
+\subsection*{Exemples de lois continues}
+\paragraph{Loi normale $\mathcal{N}$(0,1)}
+X$\hookrightarrow \mathcal{N}(0,1)$ \\
+\begin{eqnarray*}
+f_X(x)&=&\frac{1}{\sqrt{2\pi}} e^{\frac{-x^2}{2}} \\
+F_X(x)&=&\int_{-\infty}^{+\infty} f_X(t)dt \\
+\mathbb{P}(a \leq X \leq b) &=& \int_{a}^{b} f_X(t)dt
+\end{eqnarray*}
+
+\paragraph{Loi normale $\mathcal{N}(\mu,\sigma^2)$}
+X$\hookrightarrow \mathcal{N}(\mu,\sigma^2)$ \\
+\[f_X(x)=\frac{1}{\sqrt{2\pi}\sigma} e^{\frac{-(x-\mu)^2}{2\sigma^2}}\]
+
+\paragraph{Loi exponentielle $\mathcal{E}(\lambda)$}
+X$\hookrightarrow \mathcal{E}(\lambda)$ \\
+\[f_X(x)=\lambda e^{-\lambda x}\ 1_{\mathbb{R}_+^*}(x)\]
+
+\paragraph{Loi uniforme sur l'intervalle ]a,b[}
+X$\hookrightarrow \mathcal{U}(]a,b[)$ \\
+\[f_X(x)=\frac{1}{b-a} \ 1_{]a,b[}(x)\]
+
+\paragraph{Loi uniforme sur un borélien $\mathfrak{B}$ de $\mathbb{R}^2$}
+X$\hookrightarrow \mathcal{U}(B)$ avec $B \in \mathfrak{B}(\mathbb{R}^2)$ fixé\\
+$\forall A \in \mathfrak{B}(\mathbb{R}^2)$, $\mathbb{P}(X\in A)=\frac{\lambda_2 (A \cap B)}{\lambda_2(B)}$
+\[f_X(x)=\frac{1}{\lambda_2(B)} \ 1_{B}(x)\]
+
+Autres lois : Gamma, Bêta, de Student, du $\chi^2$, de Fisher...
+
+\begin{Def}
+On appelle v.a. réelle (ou d-dimensionnelle) à valeur dans un borélien E une application mesurable X définie sur $\Omega$ à valeurs dans E, ie \[\forall A \in \mathfrak{B}(E)\{x \in A\}=X^{-1}(A) \in \mathcal{F}\]
+Si E=$\mathbb{R}$, on dit que X est une v.a. réelle \\
+Si E=$\mathbb{R}^d$, on dit que X est un vecteur aléatoire réel
+\end{Def}
+
+\begin{Prop}
+\begin{enumerate}
+\item La somme et le produit d'un nombre fini de v.a.r. est une v.a.r.
+\item Si $(X_n)_{n \geq 1}$ est une suite de v.a.r. tel que $X_n(\omega) \xrightarrow[n \rightarrow +\infty]{} X(\omega)$ pour tout $\omega \in \Omega$ alors l'application X est une v.a.r
+\end{enumerate}
+\end{Prop}
+
+\begin{Def}
+Soit X une v.a.r. à valeur dans $E\in \mathfrak{B}(\mathbb{R})$. L'application Q définie pour tout $B\in \mathfrak{B}(\mathbb{R})$ par \[Q(B)=\mathbb{P}(X\in B)\] est une mesure de probabilité. On l'appelle loi de probabilité sur E de la v.a. X.
+\end{Def}
+
+\paragraph{Loi exponentielle}\
+Soit $\lambda$>0. On dit qu'une var X suit la loi exponentielle de paramètre $\lambda$>0 si \[\forall 0<a<b, \mathbb{P}(X\in[a,b])=\int_a^b \lambda e^{-\lambda x}\]
+On note alors $X \hookrightarrow \mathcal{E}(\lambda)$
+
+\paragraph{Remarque} : $\mathbb{P}(X\in ]0,+\infty[)=1$ et donc nécessairement, $\mathbb{P}(X\leq 0)=0$.
+
+\begin{Prop}
+Si $X\hookrightarrow \mathcal{E}(\lambda)$ avec $\lambda$ >0, alors $aX \hookrightarrow \mathcal{E}(\frac{\lambda}{a})$, $\forall a>0$.
+En particulier, $\lambda X \hookrightarrow \mathcal{E}(1)$
+\end{Prop}
+
+\begin{dem}
+La fonction de répartition de $\mathcal{E}(\lambda)$ est \[F_X(x) = \left( 1-e^{-\lambda x} \right) 1_{\mathbb{R}_+^*} (x)\]
+Posons Y=aX. \\
+\begin{eqnarray*}
+F_Y(x) &=& \mathbb{P}(Y \leq x) \\
+&=& \mathbb{P} \left( X \leq \frac{x}{a} \right) \\
+&=& F_X \left( \frac{x}{a} \right) \\
+&=& \left( 1-e^{-\frac{\lambda}{a} x} \right) 1_{\mathbb{R}_+^*} (x)
+\end{eqnarray*}
+Il s'agit de la fonction de répartition de la loi $\mathcal{E}(\frac{\lambda}{a})$
+\end{dem}
+
+\begin{Prop}
+Pour rappel, [X]=E(X) (partie entière de X). \\
+Si $X\hookrightarrow \mathcal{E}(\theta)$, alors $[X]+1 \hookrightarrow \mathcal{G}(1-e^{-\theta})$
+\end{Prop}
+
+\begin{dem}
+On pose Z=[X]+1. On a $Z(\Omega)=\mathbb{N}^*$. \\
+Soit $k\in \mathbb{N}^*$.
+\begin{eqnarray*}
+\mathbb{P}(Z=k) &=& \mathbb{P}([X]=k-1) \\
+&=& \mathbb{P}(k-1 \leq X < k) \\
+&=& \int_{k-1}^k \theta e^{-\theta x} dx \\
+&=& \left[ -e^{-\theta x} \right]_{k-1}^k \\
+&=& e^{-(k-1) \theta} - e^{-k \theta} \\
+&=& e^{-\theta (k-1)} \left( 1-e^{- \theta} \right)
+\end{eqnarray*}
+En posant $p=1-e^{-\theta}$, $\mathbb{P}(Z=k) = (1-p)^{k-1} p$. \\
+Donc $[X]+1 \hookrightarrow \mathcal{G}(1-e^{-\theta})$.
+\end{dem}
+
+\begin{Prop}
+De la même manière, on peut montrer que : \\
+Soit $X \hookrightarrow \mathcal{E}(\theta)$ et $(N_n)_{n\geq 0} \in \left( \mathbb{R}_+^* \right)^{\mathbb{N}}$ tel que $N_n \xrightarrow[n \rightarrow +\infty]{} +\infty$.
+\begin{enumerate}
+\item Pour tout $n \geq 0$, $[N_n X] \hookrightarrow \mathcal{G}\left( 1-e^{-\frac{\theta}{N_n}} \right)$ 
+\item $\lim_{n \rightarrow +\infty} \frac{[N_n X]}{N_n} = X$ de façon presque sûr (ie $\mathbb{P} \left( \left\{ \omega \in \Omega | \lim_{n\rightarrow +\infty} \frac{[N_n X](\omega)}{N_n}=X(\omega) \right\} \right) =1$)
+\end{enumerate}
+\end{Prop}
+
+\begin{theo}
+Soit X une v.a. à valeurs dans $\mathbb{R}^+$. Les propriétés suivantes sont équivalentes :
+\begin{enumerate}
+\item X est une v.a. de loi exponentielle
+\item Pour tout réel t>0, $\mathbb{P}(X>t) \neq 0$ et \[\forall s>0, \mathbb{P}(X>t+s | X>t) = P(X>s)\] (Propriété sans mémoire)
+\end{enumerate}
+\end{theo}
+
+\begin{dem}[de la première implication]
+t>0 et s >0 \\
+\begin{eqnarray*}
+\mathbb{P}(X>t+S | X>t) &=& \frac{\mathbb{P}\left( (X>t+s) \cap (X>t) \right)}{\mathbb{P}(X>t)} = \frac{\mathbb{P}(X>t+s)}{\mathbb{P}(X>t)} \\
+&=& \frac{1-F_X(s+t)}{1-F_X(x)} \\
+&=& \frac{e^{-\theta (s+t)}}{e^-{\theta t}}=e^{-\theta s} \\
+&=& 1-F_X(s) \\
+&=& \mathbb{P}(X>s)
+\end{eqnarray*}
+\end{dem}
+
+\begin{theo}
+Soit X une v.a. à valeurs dans $\mathbb{N}^*$. Il t a équivalence entre :
+\begin{enumerate}
+\item X est une v.a. de loi géométrique
+\item $\forall n\in \mathbb{N}$, $\mathbb{P}(X>n) \neq 0$, et : \[\forall k\in \mathbb{N}, \mathbb{P}(X>n+k | X>n) = \mathbb{P}(X>k)\]
+\end{enumerate}
+\end{theo}

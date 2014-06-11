@@ -1,0 +1,148 @@
+\begin{rmq}
+\begin{enumerate}
+	\item Si $X(\Omega)\subset \mathbb{Z}$ alors \[ \forall t\in \mathbb{R}, \phi_X(t)=\sum_{k\in\mathbb{Z}}\mathbb{P}(X=k)e^{itk}\]
+	\item Si la loi de X admet une densité de probabilité $f_X$ sur $\mathbb{R}^d$ ($d\in\mathbb{N}^*$) alors 
+\[\forall t\in \mathbb{R}^d, \phi_X(t) =\int_{\mathbb{R}} e^{i<t,X>} f_X(t) dt\]
+Il s'agit de la transformée de Fourier de $f_X$
+\item Si $X\hookrightarrow \mathcal{N}(0,1)$, alors $\forall t\in \mathbb{R}, \phi_X(t)=e^{-\frac{t^2}{2}}$ \\
+(Réciproque vraie)
+\end{enumerate}
+\end{rmq}
+
+\paragraph{Propriétés : \\}
+\begin{enumerate}
+\item $\forall a,b \in \mathbb{R}$, $\forall t \in \mathbb{R}$, $\phi_{aX+b}(t)=e^{itb}\phi_X(at)$
+\item Si $X(\Omega) \subset \mathbb{R}^d$, alors pour toute matrice A réelle $n\times d$ et tout matrice B réelle $n\times 1$ : 
+\[\phi_{AX+B}(t)=e^{i<t,B>}\phi_X(^tAt),\ \forall t\in \mathbb{R}^d\]
+\item $\phi_X(0)=1$ et $\phi_{-X}(t)=\phi_X(-t)=\overline{\phi_X(t)}$
+\item Si X est une v.a.r. intégrable alors $\phi_X$ est de classe $\mathcal{C}^1$ et : 
+\[\forall t\in \mathbb{R}, \phi_X '(t)=iE(Xe^{itX})\]
+En particulier, si t=0, on obtient $\phi_X '(t)=iE(X)$
+
+\bigskip
+Plus généralement, si X est p-intégrable (ie $E(|X|^p)<\infty$) avec $p\in \mathbb{N}^*$, alors $\phi_X$ est de classe $\mathcal{C}^p$ et pour tout $t\in \mathbb{R}$ 
+\[\phi_X^{(p)} (t)=i^p E(X^p e^{itX})\]
+En particulier, $\phi_X^{(p)}(0)=i^p E(X^p)$ 
+
+\bigskip
+Si $X(\Omega)\subset \mathbb{R}^d$ et si X est d-intégrable, $\phi_X$ est de clsse $\mathcal{C}^{\alpha}$ et pour tout $p=(p_1,...,p_d) \in \mathbb{N}^d;\ p_1+...+p_d\leq \alpha$, on a :
+\[\frac{\partial^{p_1+...+p_d}}{\partial t_1^{p_1}...\partial t_d^{p_d}}\phi_X(0)=i^{p_1+...+p_d} E(X_1^{p_1}...X_d^{p_d})\]
+
+\item Si X et Y sont deux v.a.r. indépendantes : \[\phi_{X+Y}(t) = \phi_X(t)\phi_Y(t)\]
+\end{enumerate}
+
+\begin{theo}
+Deux v.a.r. (ou d-dimensionnelle) ont même loi si et seulement si elles ont même fonction caractéristique.
+\end{theo}
+
+\begin{theo}
+Si X est une v.a. d-dimensionnelle et si \[\int_{\mathbb{R}^d} |\phi_X(t)| dt_1...dt_d <\infty\]
+alors X admet une densité de probabilité $f_X$ continue sur $\mathbb{R}^d$ définie pour tout $x\in \mathbb{R}^d$ par :
+\[f_X(x)=\frac{1}{(2\pi)^d} \int_{\mathbb{R}^d} \phi_X(t) e^{-i<t,X>} dt\]
+\end{theo}
+
+\paragraph{Transformée de Laplace d'une v.a.r. positive : \\}
+Lorsque X est positive p.s., on peut utiliser la transformée de Laplace.
+
+\begin{Def}
+Soit X une v.a.r. positive p.s. On appelle transformée de Laplace de la loi de X la fonction :
+\begin{eqnarray*}
+L_X : \mathbb{R}^+ &\to& ]0,1] \\
+\lambda &\mapsto& E(e^{-\lambda X})
+\end{eqnarray*}
+\end{Def}
+
+\section{Conditionnement d'une variable aléatoire, espérance conditionnelle}
+Soient X et Y deux v.a. réelles définies sur un espace probabilisé $(\Omega, \mathcal{F}, \mathbb{P})$.
+\subsection{Conditionnement d'une v.a. par rapport à une autre}
+\begin{theo}[de Doob]
+Il existe une application :
+\begin{eqnarray*}
+q : \mathcal{B}(\mathbb{R})\times\mathbb{R} &\to& [0,1] \\
+		(B,x) 	 &\mapsto& q(B,x)
+\end{eqnarray*}
+vérifiant : \begin{enumerate}
+\item Pour tout $B\in \mathcal{B}(\mathbb{R})$, l'application $q(B,\bullet)$ est mesurable.
+\item $\forall x\in \mathbb{R}$, l'application $q(\bullet,x)$ est une probabilité sur $(\mathbb{R},\mathcal{B}(\mathbb{R}))$
+\item Pour tout $A\in\mathcal{B}(\mathbb{R}^2)$ on a : 
+\begin{eqnarray*}
+\mu_{(X,Y)}(A) &=& E(1_{A}(X,Y)) \\
+	&=& \iint_{\mathbb{R}^2} 1_A(x,y) q(dy,x) d\mu_X(x) 
+\end{eqnarray*}
+avec $\mu_{(X,Y)}$ et $\mu_X$ les lois de probabilité du vecteur aléatoire (X,Y) et de la variable aléatoire X respectivement.
+\end{enumerate}
+\end{theo}
+
+\begin{Def}
+L'application q est appellée "loi conditionnelle de Y sachant X"
+\end{Def}
+
+\noindent \textbf{Conséquence :} \\
+Pour toute fonction $\mu_{(X,Y)}$-intégrable $f:\mathbb{R}^2 \to \mathbb{R}$ (ie $\iint_{\mathbb{R}^2} |f(x,y)| d\mu_{(X,Y)}(x,y) <\infty$) on a :
+\[E(f(X,Y)) = \iint_{\mathbb{R}^2} f(x,y) q(dy,x) d\mu_X(x)\]
+
+\begin{rmq}
+On montre que q du théorème ci-dessus est unique dans le sens suivant : \\
+Si $\tilde{q}$ est une autre loi conditionnelle de Y sachant X alors il existe un borelien $\mu_X$-négligeable N de $\mathbb{R}$ (ie : $N\in\mathcal{B}(\mathbb{R})$ et $\mu_X(N)=0$) tel que : 
+\[\forall x\in\mathbb{R}\backslash N,\ \forall B\in\mathcal{B}(\mathbb{R}),\ q(B,x)=\tilde{q}(B,x)\]
+\end{rmq}
+
+\begin{Def}
+Pour tout $x\in\mathbb{R}$ on note \[q(\bullet,x)=\mathbb{P}(\bullet|X=x)\]
+et $q(\bullet,x)$ est appelée "loi conditionnelle de Y sachant X".
+\end{Def}
+
+\noindent\textbf{Attention :}
+Pour tout $B\in\mathcal{B}(\mathbb{R})$, $\mathbb{P}(B|X=x)=q(B,\bullet)$ est classe d'équivalence par l'égalité $\mu_X$-p.s. de fonctions mesuablres de $\mathbb{R}$ dans [0,1].
+
+Par conséquent, pour un $x\in\mathbb{R}$ particulier tel que $\mu_X(\{x\})=0$ (ie $\mathbb{P}(X=x)=0$), l'expression $\mathbb{P}(B|X=x)$ n'a pas de sens.
+
+On détermine en général q par identification à l'aide des points 1, 2 et 3 du théorème de Doob. Cependant, il y a au moins 3 cas où l'on a un résultat explcite :
+
+\bigskip
+\textbf{1er cas :} Si $\mu_X$ est discrète alors pour tout $x\in \mathbb{R}$ tel que $\mathbb{P}(X=x)>0$ alors : 
+\[q(B,x)=\mathbb{P}(B|X=x)=\frac{\mathbb{P}(B\cap\{X=x\})}{\mathbb{P}(X=x)}\]
+
+\bigskip
+\textbf{2eme cas :} Si le couple de v.a. (X,Y) admet une densité de probabilité $f_{(X,Y)}$ alors, pour $\mu_X$-presque tout $x\in\mathbb{R}$ tel que $f_X(x)\neq0$ : 
+\[\forall B\in \mathcal{B}(\mathbb{R}), q(B,x)=\int_B \frac{f_{(X,Y)}(x,y)}{f_X(x)}dy\]
+
+\bigskip
+\textbf{3eme cas :} Si les v.a. X et Y sont indépendantes, alors, pour $\mu_X$-presque tout $x\in\mathbb{R}$, on a $q(\bullet,x)=\mu_Y$ \\
+(ie la loi conditionnelle de Y sachant $X=x$ ne dépend pas de $x$)
+
+\subsection{Espérance conditionnelle de Y sachant X}
+On suppose que Y est intégrable. On montre à l'aide du théorème de Radon-Nikodyn qu'il existe une unique classe d'équivalence pour l'égalité $\mathbb{P}$-p.s. de la v.a. Z à valeur dans $\mathbb{R}$ vérifiant : \begin{enumerate}
+\item Z est $\sigma(X)$-mesurable \\ ie : $\forall A \in \mathcal{B}(\mathbb{R}),\ Z^{-1}(A) \in \sigma(X)=X^{-1}(\mathcal{B}(\mathbb{R}))$
+\item $\forall A\in \sigma(X)$ : \[\int_A Zd\mathbb{P}=\int_A Yd\mathbb{P}\]
+\end{enumerate}
+
+\begin{Def}
+La classe d'équivalence de v.a. Z ainsi définie est appelée "espérance conditionnelle de Y sachant X" (ou encore "epsérance conditionnelle de Y sachant la tribu $\sigma(X)$").
+\\ Elle est notée E(Y|X).
+\end{Def}
+
+On détermine E(Y|X) par identification à l'aide de 1 et 2. \\
+D'autre part, on peut vérifier que si q est la loi conditionnelle de Y sachant X, alors l'application : 
+\begin{eqnarray*}
+\Omega &\to& \mathbb{R} \\
+\omega &\mapsto& \int_{\mathbb{R}} y\ q(dy,X(\omega))
+\end{eqnarray*}
+est une version de E(Y|X).
+
+Plus généralement, pour toute application mesurable $f$ tel que $f(Y)$ soit intégrable $\omega \mapsto \int_{\mathbb{R}} f(y)\ q(dy,X(\omega))$ est une version de E(f(Y)|X)
+
+\begin{rmq}
+E(Y|X) est une fonction $\sigma(X)$-mesurable. D'après un (autre) théorème de Doob, il existe une fonction $\phi : \mathbb{R} \to \mathbb{R}$ mesurable tel que : 
+\[E(X|Y)=\phi(X)\]
+$\phi$ est notée $\phi(x)=E(Y|X=x)$ mais il faut faire attention au fait que $\phi$ n'est définie que modulo l'égalité $\mu_X$-ps.  \\
+On a alors pour tout $h:\mathbb{R}\to \mathbb{R}$ mesurable : 
+\[E(h(Y)|X=x) = \int_{\mathbb{R}} h(y)\ q(dy,x)\]
+pour $\mu_X$-presque tout $x\in\mathbb{R}$
+\end{rmq}
+
+\begin{rmq}
+Pour tout $B\in \mathcal{B}(\mathbb{R})$ :
+\[E(1_B(Y)|X=x) = q(B,x) = \mathbb{P}(Y\in B|X=x)\]
+pour $\mu_X$-presque tout $x\in\mathbb{R}$
+\end{rmq}
